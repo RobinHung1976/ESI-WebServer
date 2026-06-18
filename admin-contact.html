@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>洽詢記錄管理｜ESI Taiwan</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* ── Brand logo inline ── */
+    .brand-logo{display:inline-flex;align-items:center;text-decoration:none;gap:0}
+    .brand-esi-mark{display:inline-flex;align-items:flex-start;position:relative;line-height:1}
+    .brand-esi-es{font-family:'Arial Black','Arial',sans-serif;font-size:2.6rem;font-weight:900;font-style:normal;color:#fff;letter-spacing:.02em;line-height:1;text-shadow:0 0 18px rgba(255,255,255,.35)}
+    .brand-esi-i-wrap{position:relative;display:inline-flex;align-items:flex-start}
+    .brand-esi-i{font-family:'Arial Black','Arial',sans-serif;font-size:2.6rem;font-weight:900;font-style:normal;color:#fff;line-height:1;letter-spacing:.02em;text-shadow:0 0 18px rgba(255,255,255,.35)}
+    .brand-esi-dot{position:absolute;top:-.28em;left:50%;transform:translateX(-50%);width:.52em;height:.52em;border-radius:50%;background:radial-gradient(circle at 38% 35%,#ff5555,#cc1111);box-shadow:0 2px 10px rgba(200,0,0,.7)}
+    .brand-divider{width:1.5px;height:44px;background:linear-gradient(to bottom,transparent,rgba(0,229,255,.6),transparent);margin:0 14px}
+    .brand-wordmark{display:flex;flex-direction:column;line-height:1;gap:2px}
+    .brand-sub{font-family:'Noto Sans TC',sans-serif;font-size:.68rem;font-weight:500;color:rgba(180,220,255,.9);letter-spacing:.18em;margin-top:3px}
+
+    /* ── Login overlay ── */
+    #loginOverlay{
+      position:fixed;inset:0;
+      background:linear-gradient(135deg,#000c22 0%,#002266 100%);
+      display:flex;align-items:center;justify-content:center;
+      z-index:999;
+    }
+    .login-box{
+      background:#fff;border-radius:20px;
+      padding:44px 40px;width:100%;max-width:400px;
+      box-shadow:0 24px 80px rgba(0,0,0,.5);
+      text-align:center;
+    }
+    .login-box h2{margin:0 0 8px;color:#0052cc;font-size:1.5rem}
+    .login-box p{color:#5a6678;font-size:.9rem;margin:0 0 28px}
+    .login-box input{
+      width:100%;box-sizing:border-box;
+      padding:12px 16px;border:1.5px solid #c8d8f0;
+      border-radius:10px;font-size:1rem;font-family:inherit;
+      outline:none;transition:border-color .2s;
+    }
+    .login-box input:focus{border-color:#0052cc;box-shadow:0 0 0 3px rgba(0,82,204,.12)}
+    .login-box button{
+      width:100%;margin-top:16px;
+      padding:13px;border:none;border-radius:10px;
+      background:linear-gradient(135deg,#0052cc,#00b4d8);
+      color:#fff;font-size:1rem;font-weight:700;
+      cursor:pointer;transition:opacity .2s;
+    }
+    .login-box button:hover{opacity:.88}
+    #loginError{color:#cc2200;font-size:.85rem;margin-top:10px;min-height:1.2em}
+
+    /* ── Admin layout ── */
+    body{padding-top:var(--nav-h)}
+    .admin-wrap{max-width:1100px;margin:0 auto;padding:40px 20px}
+
+    /* stats row */
+    .stat-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
+    .stat-card{
+      background:#fff;border-radius:14px;padding:20px 22px;
+      border:1px solid var(--border);box-shadow:var(--shadow);
+      text-align:center;
+    }
+    .stat-card .num{font-size:2rem;font-weight:900;color:var(--primary);line-height:1}
+    .stat-card .lbl{font-size:.82rem;color:var(--muted);margin-top:4px}
+
+    /* toolbar */
+    .admin-toolbar{
+      display:flex;align-items:center;justify-content:space-between;
+      flex-wrap:wrap;gap:12px;margin-bottom:20px;
+    }
+    .filter-chips{display:flex;flex-wrap:wrap;gap:8px}
+    .chip{padding:6px 16px;border-radius:99px;border:1.5px solid var(--border);
+          background:var(--surface);color:var(--muted);
+          font-size:.82rem;font-weight:600;cursor:pointer;
+          transition:all .2s;font-family:inherit}
+    .chip.active,.chip:hover{background:var(--primary);border-color:var(--primary);color:#fff}
+
+    /* table */
+    .enq-table{width:100%;border-collapse:collapse;font-size:.9rem}
+    .enq-table th{
+      background:var(--primary);color:#fff;
+      padding:12px 14px;text-align:left;font-weight:700;
+      font-size:.82rem;letter-spacing:.04em;
+    }
+    .enq-table th:first-child{border-radius:10px 0 0 0}
+    .enq-table th:last-child{border-radius:0 10px 0 0}
+    .enq-table td{
+      padding:12px 14px;border-bottom:1px solid var(--border);
+      vertical-align:top;color:var(--text);
+    }
+    .enq-table tr:last-child td{border-bottom:none}
+    .enq-table tr:nth-child(even) td{background:rgba(0,82,204,.03)}
+    .enq-table tr:hover td{background:rgba(0,82,204,.06)}
+
+    /* type badge */
+    .type-badge{
+      display:inline-block;padding:2px 10px;border-radius:99px;
+      font-size:.72rem;font-weight:700;white-space:nowrap;
+      background:rgba(0,82,204,.10);color:var(--primary);
+    }
+
+    /* message expand */
+    .msg-short{cursor:pointer;color:var(--muted)}
+    .msg-full{display:none;margin-top:6px;color:var(--text);white-space:pre-wrap;line-height:1.6}
+    .msg-toggle{font-size:.75rem;color:var(--primary);cursor:pointer;margin-top:4px;display:inline-block}
+
+    /* del button */
+    .del-btn{
+      padding:5px 12px;border-radius:7px;border:1.5px solid rgba(200,50,30,.3);
+      background:rgba(200,50,30,.07);color:#c03010;
+      font-size:.78rem;font-weight:700;cursor:pointer;
+      transition:all .2s;white-space:nowrap;
+    }
+    .del-btn:hover{background:rgba(200,50,30,.18);border-color:rgba(200,50,30,.6)}
+
+    /* empty / loading */
+    .table-msg{text-align:center;padding:48px 0;color:var(--muted);font-size:.95rem}
+
+    /* api bar */
+    .api-bar{
+      display:flex;align-items:center;gap:8px;font-size:.78rem;
+      margin-bottom:20px;padding:8px 14px;border-radius:8px;
+      background:var(--surface);border:1px solid var(--border);
+    }
+    .api-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;background:#ccc;transition:background .3s}
+    .api-dot.ok{background:#0a5c30}
+    .api-dot.err{background:#c03010}
+    .api-dot.loading{background:#f5a623;animation:blink .8s infinite}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+    @media(max-width:900px){
+      .stat-cards{grid-template-columns:repeat(2,1fr)}
+      .enq-table{font-size:.78rem}
+      .enq-table th:nth-child(3),
+      .enq-table td:nth-child(3){display:none}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── LOGIN OVERLAY ── -->
+<div id="loginOverlay">
+  <div class="login-box">
+    <h2>🔐 管理員登入</h2>
+    <p>請輸入管理員帳號與密碼</p>
+    <input type="email" id="adminEmail" placeholder="管理員 Email" autocomplete="username" style="margin-bottom:10px"/>
+    <input type="password" id="adminKeyInput" placeholder="密碼" autocomplete="current-password"/>
+    <button id="loginBtn">登入</button>
+    <div id="loginError"></div>
+    <p style="margin-top:12px;font-size:.85rem;text-align:center"><a href="#" onclick="showForgot(event)" style="color:#8899aa">忘記密碼？</a></p>
+    <div id="forgotForm" style="display:none;margin-top:16px;border-top:1px solid #e0e8f0;padding-top:16px">
+      <p style="font-size:.88rem;color:#5a6678;margin-bottom:10px">輸入管理員 Email，發送重置連結</p>
+      <input type="email" id="forgotEmail" placeholder="管理員 Email" style="width:100%;box-sizing:border-box;padding:10px 14px;border:1.5px solid #c8d8f0;border-radius:10px;font-size:.95rem;font-family:inherit;outline:none;margin-bottom:8px"/>
+      <button onclick="sendForgot()" style="width:100%;padding:11px;border:none;border-radius:10px;background:linear-gradient(135deg,#0052cc,#00b4d8);color:#fff;font-size:.95rem;font-weight:700;cursor:pointer">發送重置連結</button>
+      <div id="forgotMsg" style="font-size:.85rem;margin-top:8px;min-height:1.2em"></div>
+      <p style="margin-top:8px;font-size:.85rem;text-align:center"><a href="#" onclick="showForgot(event,false)" style="color:#8899aa">← 返回登入</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- ── HEADER ── -->
+<header class="site-header" id="siteHeader">
+  <div class="container nav-wrap">
+    <a class="brand-logo" href="index.html">
+      <span class="brand-esi-mark">
+        <span class="brand-esi-es">ES</span>
+        <span class="brand-esi-i-wrap">
+          <span class="brand-esi-i">I</span>
+          <span class="brand-esi-dot"></span>
+        </span>
+      </span>
+      <span class="brand-divider"></span>
+      <span class="brand-wordmark">
+        <span style="font-family:'Noto Sans TC',sans-serif;font-size:1.15rem;font-weight:700;color:#fff;letter-spacing:.06em;line-height:1.2">易通科技</span>
+        <span class="brand-sub">Expert System IVR (Asia) Co., Ltd.</span>
+      </span>
+    </a>
+    <ul class="main-nav" style="gap:0">
+      <li id="navRepair"><a href="admin-repair.html" style="color:rgba(255,255,255,.75);font-size:.9rem">🛠️ 報修管理</a></li>
+      <li id="navNews"><a href="admin-news.html" style="color:rgba(255,255,255,.75);font-size:.9rem">📰 文章審核</a></li>
+      <li id="navAdminUsers" style="display:none"><a href="admin-users.html" style="color:rgba(255,255,255,.75);font-size:.9rem">👑 管理員管理</a></li>
+      <li><a href="index.html" style="color:rgba(255,255,255,.75);font-size:.9rem">← 回到網站</a></li>
+    </ul>
+  </div>
+</header>
+
+<!-- ── 權限不足畫面 ── -->
+<div id="deniedScreen" class="admin-wrap" style="display:none;text-align:center;padding:80px 20px">
+  <div style="font-size:3.5rem;margin-bottom:16px">🚫</div>
+  <h2 style="color:#c03010;margin-bottom:8px">權限不足</h2>
+  <p style="color:var(--muted)">您的帳號沒有「洽詢管理」模組的存取權限，請聯絡超級管理員協助開通。</p>
+</div>
+
+<!-- ── MAIN ── -->
+<main class="admin-wrap" id="mainContent" style="display:none">
+  <div style="margin-bottom:28px">
+    <span class="eyebrow">Admin Panel</span>
+    <h1 style="font-size:clamp(1.6rem,3vw,2.2rem);margin:10px 0 6px">洽詢記錄管理</h1>
+    <p style="color:var(--muted)">來自官網聯絡表單的所有洽詢記錄</p>
+  </div>
+
+  <!-- stats -->
+  <div class="stat-cards" id="statCards">
+    <div class="stat-card"><div class="num" id="statTotal">—</div><div class="lbl">總洽詢數</div></div>
+    <div class="stat-card"><div class="num" id="statToday">—</div><div class="lbl">今日新增</div></div>
+    <div class="stat-card"><div class="num" id="statWeek">—</div><div class="lbl">本週新增</div></div>
+    <div class="stat-card"><div class="num" id="statUnread">—</div><div class="lbl">本月新增</div></div>
+  </div>
+
+  <div class="api-bar" style="display:flex;justify-content:space-between;align-items:center">
+    <div style="display:flex;align-items:center;gap:8px">
+      <span class="api-dot loading" id="apiDot"></span>
+      <span id="apiStatus">載入中…</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <div id="adminBadge" style="display:none;align-items:center;gap:10px;background:linear-gradient(135deg,#0052cc,#00b4d8);color:#fff;padding:8px 18px;border-radius:99px;font-size:.9rem;font-weight:700;box-shadow:0 4px 12px rgba(0,82,204,.3)">
+        <span style="font-size:1.1rem">👤</span>
+        <span id="adminBadgeName"></span>
+      </div>
+      <button id="logoutBtn" onclick="adminLogout()" style="display:none;padding:8px 18px;border-radius:99px;border:1.5px solid #e0e8f0;background:#fff;color:var(--muted);font-family:inherit;font-size:.85rem;cursor:pointer">登出</button>
+    </div>
+  </div>
+
+  <div class="admin-toolbar">
+    <div class="filter-chips" id="filterChips">
+      <button class="chip active" data-type="all">全部</button>
+      <button class="chip" data-type="整合通訊">整合通訊</button>
+      <button class="chip" data-type="錄音系統">錄音系統</button>
+      <button class="chip" data-type="Call Center｜IVR">Call Center｜IVR</button>
+      <button class="chip" data-type="會議設備">會議設備</button>
+      <button class="chip" data-type="Gateway｜SBC">Gateway｜SBC</button>
+      <button class="chip" data-type="IP Phone｜Teams Phone">IP Phone｜Teams Phone</button>
+      <button class="chip" data-type="其他">其他</button>
+    </div>
+    <button class="chip" onclick="load(currentType)" style="border-color:var(--accent);color:var(--accent)">🔄 重新整理</button>
+  </div>
+
+  <div style="overflow-x:auto;border-radius:12px;border:1px solid var(--border);box-shadow:var(--shadow)">
+    <table class="enq-table">
+      <thead>
+        <tr>
+          <th style="width:140px">時間</th>
+          <th style="width:90px">姓名</th>
+          <th style="width:130px">公司</th>
+          <th style="width:170px">Email</th>
+          <th style="width:110px">電話</th>
+          <th style="width:80px">需求</th>
+          <th>說明內容</th>
+          <th style="width:60px">操作</th>
+        </tr>
+      </thead>
+      <tbody id="enqBody">
+        <tr><td colspan="8" class="table-msg">載入中…</td></tr>
+      </tbody>
+    </table>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div><div class="brand-footer">ESI Taiwan</div><p>後台管理介面 — 僅限授權人員使用</p></div>
+    <div></div>
+    <div><h4>聯絡資訊</h4><ul class="footer-links"><li>電話：02-77283528</li><li>Email：sales@esi-asia.com.tw</li></ul></div>
+  </div>
+  <hr class="footer-divider">
+  <div class="copyright container">© 2026 Expert System IVR (Asia) Co., Ltd. All Rights Reserved.</div>
+</footer>
+
+<script src="site.js"></script>
+<script>
+(function(){
+  const API = '/api';
+  let adminKey = '';
+  window.currentType = 'all';
+  let currentType = window.currentType;
+  let allRows = [];
+
+  /* ── LOGIN ── */
+  const overlay   = document.getElementById('loginOverlay');
+  const keyInput  = document.getElementById('adminKeyInput');
+  const emailInput= document.getElementById('adminEmail');
+  const loginBtn  = document.getElementById('loginBtn');
+  const loginErr  = document.getElementById('loginError');
+
+  // restore session
+  const savedAdmin = sessionStorage.getItem('esi_admin');
+  if (savedAdmin) {
+    const _a = JSON.parse(savedAdmin);
+    adminKey = _a.session_token || 'ESI@admin2026';
+    overlay.style.display = 'none';
+    document.getElementById('adminBadge').style.display='flex';
+    document.getElementById('logoutBtn').style.display='block';
+    document.getElementById('adminBadgeName').textContent=(_a.name||_a.email);
+    if (applyRoleUI(_a)) {
+      setTimeout(function(){ load('all'); }, 0);
+    }
+  }
+
+  // 依角色與權限顯示/隱藏功能
+  function applyRoleUI(admin){
+    const isSuper = admin.role === 'super';
+    const perms = admin.permissions || [];
+    const hasContact = isSuper || perms.includes('contact');
+    const hasRepair  = isSuper || perms.includes('repair');
+    const hasNews    = isSuper || perms.includes('news');
+
+    const navAdminUsers = document.getElementById('navAdminUsers');
+    if (navAdminUsers) navAdminUsers.style.display = isSuper ? '' : 'none';
+    const navRepair = document.getElementById('navRepair');
+    if (navRepair) navRepair.style.display = hasRepair ? '' : 'none';
+    const navNews = document.getElementById('navNews');
+    if (navNews) navNews.style.display = hasNews ? '' : 'none';
+
+    // 本頁（洽詢管理）需要 contact 權限，沒有則顯示拒絕畫面
+    if (!hasContact) {
+      document.getElementById('deniedScreen').style.display = 'block';
+      document.getElementById('mainContent').style.display = 'none';
+      return false;
+    }
+    document.getElementById('deniedScreen').style.display = 'none';
+    document.getElementById('mainContent').style.display = 'block';
+    return true;
+  }
+
+  async function tryLogin(){
+    const email = emailInput.value.trim();
+    const pass  = keyInput.value.trim();
+    if (!email || !pass){ loginErr.textContent = '請輸入帳號與密碼'; return; }
+    loginBtn.textContent = '驗證中…';
+    loginBtn.disabled = true;
+    try {
+      const r = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password: pass })
+      });
+      const d = await r.json();
+      if (!r.ok) {
+        loginErr.textContent = d.error || '登入失敗';
+        loginBtn.textContent = '登入';
+        loginBtn.disabled = false;
+        return;
+      }
+      adminKey = d.session_token;
+      sessionStorage.setItem('esi_admin', JSON.stringify({...d.admin, session_token: d.session_token}));
+      overlay.style.display = 'none';
+      document.getElementById('adminBadge').style.display='flex';
+      document.getElementById('logoutBtn').style.display='block';
+      document.getElementById('adminBadgeName').textContent=(d.admin.name||d.admin.email);
+      if (applyRoleUI(d.admin)) {
+        load('all');
+      }
+    } catch(e){
+      loginErr.textContent = '連線失敗，請確認 API 服務正常';
+      loginBtn.textContent = '登入';
+      loginBtn.disabled = false;
+    }
+  }
+
+  loginBtn.addEventListener('click', tryLogin);
+  keyInput.addEventListener('keydown', e => { if(e.key==='Enter') tryLogin(); });
+  emailInput.addEventListener('keydown', e => { if(e.key==='Enter') keyInput.focus(); });
+
+  /* ── LOAD ── */
+  window.load = async function(type){
+    currentType = window.currentType = type;
+    setStatus('loading','載入中…');
+    try {
+      const q = type && type!=='all' ? `?type=${encodeURIComponent(type)}` : '';
+      const r = await fetch(API + '/enquiries' + q, {
+        headers: { 'x-session-token': adminKey }
+      });
+      const data = await r.json();
+      if (!r.ok || !Array.isArray(data)) {
+        setStatus('err', data.error || '載入失敗');
+        renderRows([]);
+        return;
+      }
+      allRows = data;
+      renderRows(data);
+      renderStats(data, true);
+      setStatus('ok', `共 ${data.length} 筆，資料來源由 ESI 提供`);
+    } catch(e){
+      setStatus('err','載入失敗：'+e.message);
+    }
+  };
+
+  /* ── RENDER ROWS ── */
+  function renderRows(rows){
+    const tbody = document.getElementById('enqBody');
+    if(!rows.length){
+      tbody.innerHTML = '<tr><td colspan="8" class="table-msg">目前沒有洽詢記錄</td></tr>';
+      return;
+    }
+    tbody.innerHTML = rows.map(r => {
+      const dt = new Date(r.created_at);
+      const dateStr = dt.toLocaleDateString('zh-TW') + ' ' + dt.toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'});
+      const msgShort = esc(r.message.slice(0,30)) + (r.message.length>30?'…':'');
+      return `<tr>
+        <td style="font-size:.8rem;color:var(--muted);white-space:nowrap">${dateStr}</td>
+        <td><strong>${esc(r.name)}</strong></td>
+        <td style="color:var(--muted)">${esc(r.company||'—')}</td>
+        <td><a href="mailto:${esc(r.email)}" style="color:var(--primary)">${esc(r.email)}</a></td>
+        <td style="color:var(--muted)">${esc(r.phone||'—')}</td>
+        <td><span class="type-badge">${esc(r.type||'其他')}</span></td>
+        <td>
+          <div class="msg-short" onclick="toggleMsg(this)">${msgShort}</div>
+          <div class="msg-full">${esc(r.message)}</div>
+          ${r.message.length>30?`<span class="msg-toggle" onclick="toggleMsg(this.previousElementSibling.previousElementSibling)">展開 ▾</span>`:''}
+        </td>
+        <td><button class="del-btn" onclick="delRow(${r.id},this)">刪除</button></td>
+      </tr>`;
+    }).join('');
+  }
+
+  /* ── STATS ── */
+  function renderStats(rows, filtered){
+    const now   = new Date();
+    const today = now.toDateString();
+    const weekAgo  = new Date(now - 7*864e5);
+    const monthAgo = new Date(now - 30*864e5);
+    // use allRows for total when filtered
+    document.getElementById('statTotal').textContent  = filtered ? allRows.length : rows.length;
+    document.getElementById('statToday').textContent  = rows.filter(r=>new Date(r.created_at).toDateString()===today).length;
+    document.getElementById('statWeek').textContent   = rows.filter(r=>new Date(r.created_at)>=weekAgo).length;
+    document.getElementById('statUnread').textContent = rows.filter(r=>new Date(r.created_at)>=monthAgo).length;
+  }
+
+  /* ── DELETE ── */
+  window.delRow = async function(id, btn){
+    if(!confirm('確定刪除這筆洽詢記錄？')) return;
+    btn.disabled = true;
+    btn.textContent = '…';
+    try {
+      await fetch(API + '/enquiries/' + id, {
+        method:'DELETE',
+        headers:{ 'x-session-token': adminKey }
+      });
+      load(currentType);
+    } catch(e){
+      alert('刪除失敗：'+e.message);
+      btn.disabled = false;
+      btn.textContent = '刪除';
+    }
+  };
+
+  /* ── TOGGLE MSG ── */
+  window.toggleMsg = function(shortEl){
+    const full   = shortEl.nextElementSibling;
+    const toggle = full.nextElementSibling;
+    const open   = full.style.display === 'block';
+    full.style.display   = open ? 'none' : 'block';
+    shortEl.style.display= open ? '' : 'none';
+    if(toggle) toggle.textContent = open ? '展開 ▾' : '收合 ▴';
+  };
+
+  /* ── FILTER CHIPS ── */
+  document.getElementById('filterChips').addEventListener('click', e=>{
+    const c = e.target.closest('.chip');
+    if(!c) return;
+    document.querySelectorAll('#filterChips .chip').forEach(x=>x.classList.remove('active'));
+    c.classList.add('active');
+    load(c.dataset.type);
+  });
+
+  /* ── STATUS ── */
+  window.adminLogout = async function(){
+    if(!confirm('確定要登出？')) return;
+    try {
+      await fetch('/api/admin/logout', {
+        method:'POST',
+        headers:{'x-session-token': adminKey}
+      });
+    } catch(e){}
+    sessionStorage.removeItem('esi_admin');
+    location.reload();
+  };
+  window.showForgot = function(e, show=true){
+    e && e.preventDefault();
+    document.getElementById('forgotForm').style.display = show ? 'block' : 'none';
+  };
+  window.sendForgot = async function(){
+    const email = document.getElementById('forgotEmail').value.trim();
+    const msg   = document.getElementById('forgotMsg');
+    if (!email){ msg.style.color='#cc2200'; msg.textContent='請輸入 Email'; return; }
+    const btn = document.querySelector('#forgotForm button');
+    btn.disabled=true; btn.textContent='發送中…';
+    try {
+      await fetch('/api/admin/forgot-password',{
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({email})
+      });
+      msg.style.color='#1a7a1a';
+      msg.textContent='✅ 若此 Email 存在，重置連結已發送，請檢查信箱';
+    } catch(e){
+      msg.style.color='#cc2200'; msg.textContent='連線失敗';
+    }
+    btn.disabled=false; btn.textContent='發送重置連結';
+  };
+  function setStatus(state, msg){
+    const dot = document.getElementById('apiDot');
+    dot.className = 'api-dot ' + state;
+    document.getElementById('apiStatus').textContent = msg;
+  }
+
+  function esc(s){
+    return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+})();
+</script>
+</body>
+</html>

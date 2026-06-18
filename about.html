@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-i18n="about.meta.title">關於我們｜ESI Taiwan</title>
+  <meta name="description" content="ESI 的公司介紹、服務內容與專案能力。" data-i18n-attr="content:about.meta.desc" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── Brand logo inline ── */
+    .brand-logo{display:inline-flex;align-items:center;text-decoration:none;gap:0}
+    .brand-esi-mark{display:inline-flex;align-items:flex-start;position:relative;line-height:1}
+    .brand-esi-es{font-family:'Arial Black','Arial',sans-serif;font-size:2.6rem;font-weight:900;font-style:normal;color:#fff;letter-spacing:.02em;line-height:1;text-shadow:0 0 18px rgba(255,255,255,.35)}
+    .brand-esi-i-wrap{position:relative;display:inline-flex;align-items:flex-start}
+    .brand-esi-i{font-family:'Arial Black','Arial',sans-serif;font-size:2.6rem;font-weight:900;font-style:normal;color:#fff;line-height:1;letter-spacing:.02em;text-shadow:0 0 18px rgba(255,255,255,.35)}
+    .brand-esi-dot{position:absolute;top:-.28em;left:50%;transform:translateX(-50%);width:.52em;height:.52em;border-radius:50%;background:radial-gradient(circle at 38% 35%,#ff5555,#cc1111);box-shadow:0 2px 10px rgba(200,0,0,.7)}
+    .brand-divider{width:1.5px;height:44px;background:linear-gradient(to bottom,transparent,rgba(0,229,255,.6),transparent);margin:0 14px}
+    .brand-wordmark{display:flex;flex-direction:column;line-height:1;gap:2px}
+    .brand-sub{font-family:'Noto Sans TC',sans-serif;font-size:.68rem;font-weight:500;color:rgba(180,220,255,.9);letter-spacing:.18em;margin-top:3px}
+  </style>
+</head>
+<body>
+
+<header class="site-header" id="siteHeader">
+  <div class="container nav-wrap">
+    <a class="brand-logo" href="index.html">
+      <span class="brand-esi-mark">
+        <span class="brand-esi-es">ES</span>
+        <span class="brand-esi-i-wrap">
+          <span class="brand-esi-i">I</span>
+          <span class="brand-esi-dot"></span>
+        </span>
+      </span>
+      <span class="brand-divider"></span>
+      <span class="brand-wordmark">
+        <span style="font-family:'Noto Sans TC',sans-serif;font-size:1.15rem;font-weight:700;color:#fff;letter-spacing:.06em;line-height:1.2;text-shadow:0 0 12px rgba(255,255,255,.25)">易通科技</span>
+        <span class="brand-sub">Expert System IVR (Asia) Co., Ltd.</span>
+      </span>
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="選單" data-i18n-attr="aria-label:common.nav.menuAria"><span></span><span></span><span></span></button>
+    <ul class="main-nav" id="mainNav">
+      <li><a href="index.html" data-i18n="common.nav.home">首頁</a></li>
+      <li class="has-mega">
+        <button><span data-i18n="common.nav.products">產品方案</span><svg class="nav-arrow" viewBox="0 0 14 14" fill="none"><path d="M2 4.5L7 9.5L12 4.5" stroke="rgba(255,255,255,.8)" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="mega-menu">
+          <div class="mega-col"><h4 data-i18n="common.mega.uc">整合通訊</h4><a href="products.html#uc">Microsoft Teams Phone</a><a href="products.html#uc">Zoom Phone</a><a href="products.html#uc">Deltapath FreSIP</a></div>
+          <div class="mega-col"><h4 data-i18n="common.mega.recording">錄音系統</h4><a href="products.html#recording">VL2000</a><a href="products.html#recording" data-i18n="common.product.huadingEuls">華鼎 EULS</a><a href="products.html#recording" data-i18n="common.product.huadingTcr">華鼎 TCR 2000</a><a href="products.html#recording">QMS</a></div>
+          <div class="mega-col"><h4 data-i18n="common.mega.callcenter">Call Center｜IVR</h4><a href="products.html#callcenter">EICC</a></div>
+          <div class="mega-col"><h4 data-i18n="common.mega.meeting">會議設備</h4><a href="products.html#meeting-room" data-i18n="common.mega.video">視訊設備</a><a href="products.html#meeting-room" data-i18n="common.mega.headset">耳機和揚聲器</a><a href="products.html#meeting-room" data-i18n="common.mega.wireless">無線投影</a><a href="https://esi-asia.com/esi-tik-for-neat-pad-neat-frame/" target="_blank">ESI-TIK Booking System</a></div>
+          <div class="mega-col"><h4 data-i18n="common.mega.gateway">Gateway｜SBC</h4><a href="products.html#gateway">AudioCodes</a><a href="products.html#gateway">Ribbon</a></div>
+          <div class="mega-col"><h4 data-i18n="common.mega.ipphone">IP Phone｜Teams Phone</h4><a href="products.html#ipphone">AudioCodes</a><a href="products.html#ipphone">Snom</a></div>
+        </div>
+      </li>
+      <li><a href="about.html" class="active" data-i18n="common.nav.about">關於我們</a></li>
+      <li><a href="news.html" data-i18n="common.nav.news">最新消息</a></li>
+      <li><a href="community.html" data-i18n="common.nav.community">交流天地</a></li>
+      <li><a href="support.html" data-i18n="common.nav.support">技術支援</a></li>
+      <li><a href="contact.html" class="nav-cta" data-i18n="common.nav.contact">立即洽詢</a></li>
+    </ul>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow" style="color:var(--accent2);background:rgba(245,166,35,.15)">About Us</span>
+    <h1 data-i18n="about.hero.title">關於我們</h1>
+    <p class="lead" data-i18n="about.hero.lead">ESI 致力於提供企業整合通訊、視訊協作、客服中心與會議室整合服務，協助客戶提升溝通品質與營運效率。</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container" style="display:grid;grid-template-columns:1fr 1.4fr;gap:48px;align-items:center">
+    <div class="reveal-left">
+      <h2 data-i18n="about.intro.title">關於 ESI 易通科技</h2>
+      <p style="color:var(--muted);margin-bottom:16px" data-i18n="about.intro.p1">ESI 易通科技（Expert System IVR (Asia) Co., Ltd.）是企業通訊整合與協作解決方案專家，專注於 UC 整合通訊、行動分機、客服中心、錄音系統與會議室整合方案，致力為企業用戶提供從規劃、建置到維運的一站式服務。</p>
+      <p style="color:var(--muted);margin-bottom:16px" data-i18n="about.intro.p2">我們支援 On-Prem、On-Cloud 與 Hybrid 混合架構，協助企業整合既有 PBX、SIP Trunk、Gateway 與雲端平台，打造彈性、穩定且可擴充的通訊環境。</p>
+      <p style="color:var(--muted)" data-i18n="about.intro.p3">作為 Microsoft Gold Communications Partner 與 AudioCodes 認證代理商，ESI 擁有豐富的 Microsoft Teams Phone、Zoom Phone、Deltapath frSIP 等平台整合實績，服務涵蓋電信業者、系統整合商與各產業企業用戶。</p>
+    </div>
+    <aside class="reveal-right" style="display:flex;align-items:center;justify-content:center">
+      <img src="assets/ucc-diagram.png" alt="ESI UC&C 整合通訊平台架構圖" style="width:100%;max-width:560px"/>
+    </aside>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-heading reveal">
+      <span class="eyebrow">Our Services</span>
+      <h2 data-i18n="about.services.title">我們的專業服務</h2>
+    </div>
+    <div class="cards three-cols stagger">
+      <article class="card">
+        <div style="font-size:2rem;margin-bottom:12px">📞</div>
+        <h3 data-i18n="about.services.s1.title">整合通訊解決方案</h3>
+        <p data-i18n="about.services.s1.desc">提供 Microsoft Teams Phone、Zoom Phone、Deltapath frSIP 等 UC 平台整合，支援 On-Prem、Cloud 與 Hybrid 架構。</p>
+      </article>
+      <article class="card">
+        <div style="font-size:2rem;margin-bottom:12px">🎧</div>
+        <h3 data-i18n="about.services.s2.title">客服中心系統</h3>
+        <p data-i18n="about.services.s2.desc">建置高效率、可管理的現代客服平台，整合 IVR、ACD、錄音、CRM 與報表中心，提升客服品質。</p>
+      </article>
+      <article class="card">
+        <div style="font-size:2rem;margin-bottom:12px">🖥️</div>
+        <h3 data-i18n="about.services.s3.title">會議室整合方案</h3>
+        <p data-i18n="about.services.s3.desc">從小型到大型會議室，提供 Microsoft Teams Rooms、Zoom Rooms 設備規劃、建置與維運服務。</p>
+      </article>
+      <article class="card">
+        <div style="font-size:2rem;margin-bottom:12px">🔀</div>
+        <h3 data-i18n="about.services.s4.title">Gateway 與 SBC</h3>
+        <p data-i18n="about.services.s4.desc">AudioCodes、Ribbon 等品牌 SBC/Gateway 建置，串接 PBX、PSTN 與雲端平台，確保通話品質與安全。</p>
+      </article>
+      <article class="card">
+        <div style="font-size:2rem;margin-bottom:12px">🎙️</div>
+        <h3 data-i18n="common.mega.recording">錄音系統</h3>
+        <p data-i18n="about.services.s5.desc">支援類比、數位、IP 錄音多種模式，滿足金融、電信、政府等產業的法遵與稽核需求。</p>
+      </article>
+      <article class="card">
+        <div style="font-size:2rem;margin-bottom:12px">🛠️</div>
+        <h3 data-i18n="about.services.s6.title">系統整合與維運支援</h3>
+        <p data-i18n="about.services.s6.desc">提供規劃設計、系統整合、教育訓練與維護支援，從導入到上線提供完整專案服務。</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="clients">
+  <div class="container">
+    <div class="section-heading reveal">
+      <span class="eyebrow">Our Clients</span>
+      <h2 data-i18n="about.clients.title">知名客戶</h2>
+      <p data-i18n="about.clients.desc">感謝眾多知名企業選擇 ESI，攜手打造高效率的整合通訊環境</p>
+    </div>
+    <div class="client-grid stagger">
+      <div class="client-card" onclick="window.open('assets/clients/頂尖國際學校.pdf','_blank')" style="cursor:pointer">
+        <span style="font-size:1rem;font-weight:800;color:var(--primary);text-align:center;line-height:1.5" data-i18n="about.clients.c1">頂尖國際學校</span>
+      </div>
+      <div class="client-card" onclick="window.open('assets/clients/知名電子集團01.pdf','_blank')" style="cursor:pointer">
+        <span style="font-size:1rem;font-weight:800;color:var(--primary);text-align:center;line-height:1.5" data-i18n="about.clients.c2">知名電子集團（一）</span>
+      </div>
+      <div class="client-card" onclick="window.open('assets/clients/知名電子集團02.pdf','_blank')" style="cursor:pointer">
+        <span style="font-size:1rem;font-weight:800;color:var(--primary);text-align:center;line-height:1.5" data-i18n="about.clients.c3">知名電子集團（二）</span>
+      </div>
+      <div class="client-card" onclick="window.open('assets/clients/全球烈酒生產集團.pdf','_blank')" style="cursor:pointer">
+        <span style="font-size:1rem;font-weight:800;color:var(--primary);text-align:center;line-height:1.5" data-i18n="about.clients.c4">全球烈酒生產集團</span>
+      </div>
+      <div class="client-card" onclick="window.open('assets/clients/大型傢俱和居家生活集團.pdf','_blank')" style="cursor:pointer">
+        <span style="font-size:1rem;font-weight:800;color:var(--primary);text-align:center;line-height:1.5" data-i18n="about.clients.c5">大型傢俱和居家生活集團</span>
+      </div>
+      <div class="client-card" onclick="window.open('assets/clients/全球嬰兒用品領導製造商.pdf','_blank')" style="cursor:pointer">
+        <span style="font-size:1rem;font-weight:800;color:var(--primary);text-align:center;line-height:1.5" data-i18n="about.clients.c6">全球嬰兒用品領導製造商</span>
+      </div>
+      <div class="client-card" onclick="window.open('assets/clients/世界級統包工程集團的台灣全資子公司.pdf','_blank')" style="cursor:pointer">
+        <span style="font-size:1rem;font-weight:800;color:var(--primary);text-align:center;line-height:1.5" data-i18n="about.clients.c7">世界級統包工程集團</span>
+      </div>
+      <div class="client-card" onclick="window.open('assets/clients/全球IT技術領導者同步矽谷總公司啟用微軟Teams電話系統.pdf','_blank')" style="cursor:pointer">
+        <span style="font-size:1rem;font-weight:800;color:var(--primary);text-align:center;line-height:1.5" data-i18n="about.clients.c8">全球 IT 技術領導者</span>
+      </div>
+      <div class="client-card" onclick="window.open('assets/clients/知名外商.pdf','_blank')" style="cursor:pointer">
+        <span style="font-size:1rem;font-weight:800;color:var(--primary);text-align:center;line-height:1.5" data-i18n="about.clients.c9">知名外商</span>
+      </div>
+      <div class="client-card" onclick="window.open('assets/clients/國內紡織大廠.pdf','_blank')" style="cursor:pointer">
+        <span style="font-size:1rem;font-weight:800;color:var(--primary);text-align:center;line-height:1.5" data-i18n="about.clients.c10">國內紡織大廠</span>
+      </div>
+      <div class="client-card" onclick="window.open('assets/clients/國內知名投信.pdf','_blank')" style="cursor:pointer">
+        <span style="font-size:1rem;font-weight:800;color:var(--primary);text-align:center;line-height:1.5" data-i18n="about.clients.c11">國內知名投信</span>
+      </div>
+      <div class="client-card" onclick="window.open('assets/clients/金融證券業邁向電話系統轉型的關鍵一步.pdf','_blank')" style="cursor:pointer">
+        <span style="font-size:1rem;font-weight:800;color:var(--primary);text-align:center;line-height:1.5" data-i18n="about.clients.c12">金融證券業</span>
+      </div>
+      <div class="client-card" onclick="openClientCase('assets/clients/國內大型專業半導體上市公司啟用微軟Teams會議室雲地整合功能.png','國內大型專業半導體上市公司')" style="cursor:pointer">
+        <span style="font-size:1rem;font-weight:800;color:var(--primary);text-align:center;line-height:1.5" data-i18n="about.clients.c13">國內大型專業半導體上市公司</span>
+      </div>
+      <div class="client-card" onclick="openClientCase('assets/clients/日本大型跨國公司全球工業自動化主要供應商導入微軟Teams電話系統.png','日本大型跨國公司')" style="cursor:pointer">
+        <span style="font-size:1rem;font-weight:800;color:var(--primary);text-align:center;line-height:1.5" data-i18n="about.clients.c14">日本大型跨國公司</span>
+      </div>
+      <div class="client-card" onclick="openClientCase('assets/clients/台灣 IC 設計領導廠商啟用微軟Teams phone與skype for business on-prem並存.png','台灣 IC 設計領導廠商')" style="cursor:pointer">
+        <span style="font-size:1rem;font-weight:800;color:var(--primary);text-align:center;line-height:1.5" data-i18n="about.clients.c15">台灣 IC 設計領導廠商</span>
+      </div>
+      <div class="client-card" onclick="openClientCase('assets/clients/竹科半導體公司全球導入 Teams Phone 系統建立高彈性不受地點限制的通話服務.png','竹科半導體公司')" style="cursor:pointer">
+        <span style="font-size:1rem;font-weight:800;color:var(--primary);text-align:center;line-height:1.5" data-i18n="about.clients.c16">竹科半導體公司</span>
+      </div>
+      <div class="client-card" onclick="openClientCase('assets/clients/國內鋼鐵業龍頭引進 Deltapath frSIP.png','國內鋼鐵業龍頭')" style="cursor:pointer">
+        <span style="font-size:1rem;font-weight:800;color:var(--primary);text-align:center;line-height:1.5" data-i18n="about.clients.c17">國內鋼鐵業龍頭</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 客戶案例 Modal -->
+<div id="clientModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9999;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#fff;border-radius:16px;max-width:900px;width:100%;max-height:90vh;overflow-y:auto;position:relative">
+    <button onclick="closeClientCase()" style="position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:50%;border:none;background:#f0f4fa;cursor:pointer;font-size:1.2rem;z-index:1">x</button>
+    <img id="clientCaseImg" src="" alt="" style="width:100%;border-radius:16px 16px 0 0;display:block"/>
+    <div style="padding:16px 20px"><p id="clientCaseTitle" style="font-size:.95rem;color:#333;font-weight:600;margin:0"></p></div>
+  </div>
+</div>
+<script>
+  window.openClientCase=function(img,title){document.getElementById("clientCaseImg").src=img;document.getElementById("clientCaseTitle").textContent=title;document.getElementById("clientModal").style.display="flex";document.body.style.overflow="hidden";};
+  window.closeClientCase=function(){document.getElementById("clientModal").style.display="none";document.body.style.overflow="";};
+  document.getElementById("clientModal").addEventListener("click",function(e){if(e.target===this)closeClientCase();});
+</script>
+
+<style>
+  .client-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+  }
+  .client-card{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:80px;
+    padding:16px;
+    background:#fff;
+    border:1px solid rgba(11,61,145,.08);
+    border-radius:14px;
+    box-shadow:0 2px 10px rgba(11,61,145,.05);
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .client-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 10px 26px rgba(11,61,145,.12);
+  }
+  .client-logo{
+    max-width:100%;
+    max-height:64px;
+    object-fit:contain;
+    filter:grayscale(100%);
+    opacity:.78;
+    transition:filter .25s ease, opacity .25s ease;
+  }
+  .client-card:hover .client-logo{filter:grayscale(0);opacity:1;}
+  .client-name{
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
+    font-size:1.15rem;
+    color:var(--primary);
+    text-align:center;
+  }
+  @media(max-width:900px){
+    .client-grid{grid-template-columns:repeat(2,1fr);}
+  }
+</style>
+
+<section class="section">
+  <div class="container">
+    <div class="section-heading reveal">
+      <span class="eyebrow">Process</span>
+      <h2 data-i18n="about.process.title">專案流程</h2>
+    </div>
+    <style>
+      .process-flow { display:flex; flex-direction:column; gap:0; }
+      .process-row { display:flex; align-items:center; justify-content:center; gap:0; flex-wrap:nowrap; }
+      .process-row-reverse { flex-direction:row-reverse; }
+      .process-step {
+        flex:1; max-width:200px; background:#fff; border:2px solid #c8d8f0;
+        border-radius:14px; padding:18px 14px; text-align:center;
+        box-shadow:0 4px 16px rgba(0,82,204,.08); position:relative;
+        transition:transform .2s, box-shadow .2s;
+      }
+      .process-step:hover { transform:translateY(-4px); box-shadow:0 8px 24px rgba(0,82,204,.15); }
+      .process-step .step-num {
+        width:36px; height:36px; border-radius:50%;
+        background:linear-gradient(135deg,#0052cc,#00b4d8);
+        color:#fff; font-weight:900; font-size:.9rem;
+        display:flex; align-items:center; justify-content:center;
+        margin:0 auto 10px;
+      }
+      .process-step h3 { font-size:.95rem; color:#1a2a4a; margin-bottom:6px; }
+      .process-step p { font-size:.78rem; color:var(--muted); line-height:1.5; margin:0; }
+      .process-arrow {
+        width:40px; flex-shrink:0; display:flex; align-items:center; justify-content:center;
+        color:#0052cc; font-size:1.4rem; font-weight:900;
+      }
+      .process-connector {
+        display:flex; align-items:center; justify-content:center;
+        height:40px; position:relative;
+      }
+      .process-connector::before {
+        content:''; position:absolute; right:calc(50% + 80px);
+        width:2px; height:100%; background:linear-gradient(to bottom,#0052cc,#00b4d8);
+      }
+      .process-connector::after {
+        content:'▼'; position:absolute; right:calc(50% + 74px);
+        bottom:-4px; color:#00b4d8; font-size:1rem;
+      }
+      .process-connector-left::before { right:auto; left:calc(50% + 80px); }
+      .process-connector-left::after { right:auto; left:calc(50% + 74px); }
+      @media(max-width:768px){
+        .process-row { flex-direction:column !important; align-items:center; }
+        .process-arrow { transform:rotate(90deg); }
+        .process-step { max-width:100%; width:100%; }
+      }
+    </style>
+    <div class="process-flow">
+      <!-- 第一排：01→02→03→04 -->
+      <div class="process-row">
+        <div class="process-step">
+          <div class="step-num">01</div>
+          <h3 data-i18n="about.process.s1.title">需求訪談</h3>
+          <p data-i18n="about.process.s1.desc">了解客戶現況與需求，確認導入目標與範圍</p>
+        </div>
+        <div class="process-arrow">→</div>
+        <div class="process-step">
+          <div class="step-num">02</div>
+          <h3 data-i18n="about.process.s2.title">現況盤點</h3>
+          <p data-i18n="about.process.s2.desc">評估現有環境與設備，分析整合可行性</p>
+        </div>
+        <div class="process-arrow">→</div>
+        <div class="process-step">
+          <div class="step-num">03</div>
+          <h3 data-i18n="about.process.s3.title">架構設計</h3>
+          <p data-i18n="about.process.s3.desc">系統化方案規劃，提供設備清單與建置時程</p>
+        </div>
+        <div class="process-arrow">→</div>
+        <div class="process-step">
+          <div class="step-num">04</div>
+          <h3 data-i18n="about.process.s4.title">設備建置</h3>
+          <p data-i18n="about.process.s4.desc">進行設備安裝、系統設定與整合作業</p>
+        </div>
+      </div>
+      <!-- 向下箭頭：04右側對齊 05右側 -->
+      <div style="display:flex;justify-content:flex-end;height:40px;align-items:center">
+        <div style="width:calc(25% - 10px);display:flex;justify-content:center;align-items:center">
+          <span style="color:#0052cc;font-size:1.6rem;font-weight:900">↓</span>
+        </div>
+      </div>
+      <!-- 第二排：08←07←06←05 -->
+      <div class="process-row">
+        <div class="process-step">
+          <div class="step-num">08</div>
+          <h3 data-i18n="about.process.s8.title">教育訓練</h3>
+          <p data-i18n="about.process.s8.desc">提供系統操作與使用訓練，確保人員熟練使用</p>
+        </div>
+        <div class="process-arrow">←</div>
+        <div class="process-step">
+          <div class="step-num">07</div>
+          <h3 data-i18n="about.process.s7.title">上線導入</h3>
+          <p data-i18n="about.process.s7.desc">正式上線與平穩移轉，確保業務不中斷</p>
+        </div>
+        <div class="process-arrow">←</div>
+        <div class="process-step">
+          <div class="step-num">06</div>
+          <h3 data-i18n="about.process.s6.title">維護支援</h3>
+          <p data-i18n="about.process.s6.desc">提供即時技術支援與系統持續優化服務</p>
+        </div>
+        <div class="process-arrow">←</div>
+        <div class="process-step">
+          <div class="step-num">05</div>
+          <h3 data-i18n="about.process.s5.title">測試驗收</h3>
+          <p data-i18n="about.process.s5.desc">執行功能測試、壓力測試與客戶驗收確認</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-heading reveal">
+      <span class="eyebrow">Partners</span>
+      <h2 data-i18n="about.partners.title">策略合作夥伴</h2>
+      <p data-i18n="about.partners.desc">ESI 與全球頂尖通訊品牌建立長期合作關係，提供原廠認證的專業服務</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:700px;margin:0 auto">
+      <article class="card" style="display:flex;align-items:center;gap:16px;padding:16px 20px">
+        <img src="assets/partners/microsoft.png" alt="Microsoft" style="height:44px;width:140px;object-fit:contain;flex-shrink:0"/>
+        <div style="font-size:.85rem;color:var(--muted);background:#f0f4ff;padding:5px 14px;border-radius:99px">Gold Communications Partner</div>
+      </article>
+      <article class="card" style="display:flex;align-items:center;gap:16px;padding:16px 20px">
+        <img src="assets/partners/audiocodes.png" alt="AudioCodes" style="height:44px;width:140px;object-fit:contain;flex-shrink:0"/>
+        <div style="font-size:.85rem;color:var(--muted);background:#fff3f0;padding:5px 14px;border-radius:99px" data-i18n="about.partners.tag2">認證代理商</div>
+      </article>
+      <article class="card" style="display:flex;align-items:center;gap:16px;padding:16px 20px">
+        <img src="assets/partners/zoom.png" alt="Zoom" style="height:44px;width:140px;object-fit:contain;flex-shrink:0"/>
+        <div style="font-size:.85rem;color:var(--muted);background:#f0f8ff;padding:5px 14px;border-radius:99px" data-i18n="about.partners.tag3">解決方案合作夥伴</div>
+      </article>
+      <article class="card" style="display:flex;align-items:center;gap:16px;padding:16px 20px">
+        <img src="assets/partners/deltapath.png" alt="Deltapath" style="height:44px;width:140px;object-fit:contain;flex-shrink:0"/>
+        <div style="font-size:.85rem;color:var(--muted);background:#f0fff4;padding:5px 14px;border-radius:99px" data-i18n="about.partners.tag4">授權合作夥伴</div>
+      </article>
+    </div>
+  </div>
+</section>
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div><div class="brand-footer">ESI Taiwan</div><p data-i18n="common.footer.tagline">整合通訊、視訊協作、客服中心與企業顧問服務。</p></div>
+    <div><h4 data-i18n="common.footer.quicklinks">快速連結</h4><ul class="footer-links"><li><a href="index.html" data-i18n="common.nav.home">首頁</a></li><li><a href="about.html" data-i18n="common.nav.about">關於我們</a></li><li><a href="products.html" data-i18n="common.nav.products">產品方案</a></li><li><a href="news.html" data-i18n="common.nav.news">最新消息</a></li><li><a href="community.html" data-i18n="common.nav.community">交流天地</a></li><li><a href="support.html" data-i18n="common.nav.support">技術支援</a></li><li><a href="contact.html" data-i18n="common.nav.contact">聯絡我們</a></li></ul></div>
+    <div><h4 data-i18n="common.footer.contactInfo">聯絡資訊</h4><ul class="footer-links"><li data-i18n="common.footer.phone">電話：02-77283528</li><li data-i18n="common.footer.email">Email：sales@esi-asia.com.tw</li><li data-i18n="common.footer.address">地址：新北市242新莊區新北大道三段5號18樓之2</li></ul></div>
+  </div>
+  <hr class="footer-divider">
+  <div class="copyright container">© 2026 Expert System IVR (Asia) Co., Ltd. All Rights Reserved.</div>
+</footer>
+<script>
+  window.ESI_I18N = { en: {
+    'about.meta.title': 'About Us | ESI Taiwan',
+    'about.meta.desc': "An overview of ESI's company background, services, and project capabilities.",
+
+    'about.hero.title': 'About Us',
+    'about.hero.lead': 'ESI is dedicated to providing enterprises with unified communications, video collaboration, contact center, and meeting room integration services, helping customers improve communication quality and operational efficiency.',
+
+    'about.intro.title': 'About ESI',
+    'about.intro.p1': 'ESI (Expert System IVR (Asia) Co., Ltd.) specializes in enterprise communication integration and collaboration solutions, focusing on UC unified communications, mobile extensions, contact centers, call recording, and meeting room integration — delivering one-stop service from planning through deployment to ongoing operations.',
+    'about.intro.p2': 'We support On-Prem, On-Cloud, and Hybrid architectures, helping enterprises integrate existing PBX, SIP trunks, gateways, and cloud platforms to build a flexible, stable, and scalable communication environment.',
+    'about.intro.p3': 'As a Microsoft Gold Communications Partner and a certified AudioCodes reseller, ESI has an extensive track record integrating platforms such as Microsoft Teams Phone, Zoom Phone, and Deltapath frSIP, serving telecom carriers, system integrators, and enterprise customers across industries.',
+
+    'about.services.title': 'Our Professional Services',
+    'about.services.s1.title': 'Unified Communications Solutions',
+    'about.services.s1.desc': 'Integration of UC platforms such as Microsoft Teams Phone, Zoom Phone, and Deltapath frSIP, supporting On-Prem, Cloud, and Hybrid architectures.',
+    'about.services.s2.title': 'Contact Center Systems',
+    'about.services.s2.desc': 'Building efficient, manageable modern contact center platforms that integrate IVR, ACD, call recording, CRM, and reporting to improve service quality.',
+    'about.services.s3.title': 'Meeting Room Integration',
+    'about.services.s3.desc': 'From small to large meeting rooms, providing Microsoft Teams Rooms and Zoom Rooms equipment planning, deployment, and operations services.',
+    'about.services.s4.title': 'Gateway & SBC',
+    'about.services.s4.desc': 'Deploying SBC/gateways from brands such as AudioCodes and Ribbon, connecting PBX, PSTN, and cloud platforms to ensure call quality and security.',
+    'about.services.s5.desc': 'Supporting analog, digital, and IP recording modes to meet compliance and audit requirements across finance, telecom, and government sectors.',
+    'about.services.s6.title': 'System Integration & Operations Support',
+    'about.services.s6.desc': 'Providing planning, system integration, training, and maintenance support — full project service from deployment through go-live.',
+
+    'about.clients.title': 'Our Clients',
+    'about.clients.desc': "Thank you to the many leading enterprises who chose ESI to build an efficient unified communications environment together.",
+    'about.clients.c1': 'Top International School',
+    'about.clients.c2': 'Renowned Electronics Group (I)',
+    'about.clients.c3': 'Renowned Electronics Group (II)',
+    'about.clients.c4': 'Global Spirits Manufacturing Group',
+    'about.clients.c5': 'Major Furniture & Home Living Group',
+    'about.clients.c6': 'Leading Global Baby Products Manufacturer',
+    'about.clients.c7': 'World-Class EPC Engineering Group',
+    'about.clients.c8': 'Global IT Technology Leader',
+    'about.clients.c9': 'Renowned Foreign Enterprise',
+    'about.clients.c10': 'Major Domestic Textile Manufacturer',
+    'about.clients.c11': 'Renowned Domestic Asset Management Firm',
+    'about.clients.c12': 'Financial Securities Industry',
+    'about.clients.c13': 'Major Listed Semiconductor Company',
+    'about.clients.c14': 'Major Japanese Multinational Corporation',
+    'about.clients.c15': 'Leading Taiwan IC Design Company',
+    'about.clients.c16': 'Hsinchu Science Park Semiconductor Company',
+    'about.clients.c17': 'Leading Domestic Steel Company',
+
+    'about.process.title': 'Project Process',
+    'about.process.s1.title': 'Requirements Interview',
+    'about.process.s1.desc': "Understand the customer's current state and needs; confirm deployment goals and scope",
+    'about.process.s2.title': 'Current State Assessment',
+    'about.process.s2.desc': 'Evaluate the existing environment and equipment; analyze integration feasibility',
+    'about.process.s3.title': 'Architecture Design',
+    'about.process.s3.desc': 'Systematic solution planning with an equipment list and deployment timeline',
+    'about.process.s4.title': 'Equipment Deployment',
+    'about.process.s4.desc': 'Equipment installation, system configuration, and integration work',
+    'about.process.s5.title': 'Testing & Acceptance',
+    'about.process.s5.desc': 'Functional testing, stress testing, and customer acceptance confirmation',
+    'about.process.s6.title': 'Maintenance & Support',
+    'about.process.s6.desc': 'Real-time technical support and ongoing system optimization services',
+    'about.process.s7.title': 'Go-Live',
+    'about.process.s7.desc': 'Official go-live with a smooth transition, ensuring uninterrupted business operations',
+    'about.process.s8.title': 'Training',
+    'about.process.s8.desc': 'System operation and usage training to ensure staff proficiency',
+
+    'about.partners.title': 'Strategic Partners',
+    'about.partners.desc': 'ESI maintains long-term partnerships with leading global communications brands, providing OEM-certified professional services.',
+    'about.partners.tag2': 'Certified Reseller',
+    'about.partners.tag3': 'Solution Partner',
+    'about.partners.tag4': 'Authorized Partner'
+  }};
+</script>
+<script src="i18n.js"></script>
+<script src="site.js"></script>
+</body>
+</html>

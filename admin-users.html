@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>管理員管理｜ESI Taiwan 後台</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* ── Brand logo inline ── */
+    .brand-logo{display:inline-flex;align-items:center;text-decoration:none;gap:0}
+    .brand-esi-mark{display:inline-flex;align-items:flex-start;position:relative;line-height:1}
+    .brand-esi-es{font-family:'Arial Black','Arial',sans-serif;font-size:2.6rem;font-weight:900;color:#fff;letter-spacing:.02em;line-height:1;text-shadow:0 0 18px rgba(255,255,255,.35)}
+    .brand-esi-i-wrap{position:relative;display:inline-flex;align-items:flex-start}
+    .brand-esi-i{font-family:'Arial Black','Arial',sans-serif;font-size:2.6rem;font-weight:900;color:#fff;line-height:1;letter-spacing:.02em;text-shadow:0 0 18px rgba(255,255,255,.35)}
+    .brand-esi-dot{position:absolute;top:-.28em;left:50%;transform:translateX(-50%);width:.52em;height:.52em;border-radius:50%;background:radial-gradient(circle at 38% 35%,#ff5555,#cc1111);box-shadow:0 2px 10px rgba(200,0,0,.7)}
+    .brand-divider{width:1.5px;height:44px;background:linear-gradient(to bottom,transparent,rgba(0,229,255,.6),transparent);margin:0 14px}
+    .brand-wordmark{display:flex;flex-direction:column;line-height:1;gap:2px}
+    .brand-sub{font-family:'Noto Sans TC',sans-serif;font-size:.68rem;font-weight:500;color:rgba(180,220,255,.9);letter-spacing:.18em;margin-top:3px}
+
+    body{padding-top:var(--nav-h)}
+
+    /* login */
+    #loginOverlay{position:fixed;inset:0;background:linear-gradient(135deg,#000c22,#002266);display:flex;align-items:center;justify-content:center;z-index:999}
+    .login-box{background:#fff;border-radius:20px;padding:44px 40px;width:100%;max-width:400px;box-shadow:0 24px 80px rgba(0,0,0,.5);text-align:center}
+    .login-box h2{margin:0 0 8px;color:#0052cc}
+    .login-box p{color:#5a6678;font-size:.9rem;margin:0 0 28px}
+    .login-box input{width:100%;box-sizing:border-box;padding:12px 16px;border:1.5px solid #c8d8f0;border-radius:10px;font-size:1rem;font-family:inherit;outline:none;transition:border-color .2s}
+    .login-box input:focus{border-color:#0052cc;box-shadow:0 0 0 3px rgba(0,82,204,.12)}
+    .login-box button{width:100%;margin-top:16px;padding:13px;border:none;border-radius:10px;background:linear-gradient(135deg,#0052cc,#00b4d8);color:#fff;font-size:1rem;font-weight:700;cursor:pointer}
+    #loginError{color:#cc2200;font-size:.85rem;margin-top:10px;min-height:1.2em}
+
+    .admin-wrap{max-width:1100px;margin:0 auto;padding:40px 20px}
+
+    .api-bar{display:flex;align-items:center;gap:8px;font-size:.78rem;margin-bottom:20px;padding:8px 14px;border-radius:8px;background:var(--surface);border:1px solid var(--border)}
+    .api-dot{width:8px;height:8px;border-radius:50%;background:#ccc;flex-shrink:0;transition:background .3s}
+    .api-dot.ok{background:#0a5c30}
+    .api-dot.err{background:#c03010}
+    .api-dot.loading{background:#f5a623;animation:blink .8s infinite}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+    /* 拒絕存取畫面 */
+    #deniedScreen{display:none;text-align:center;padding:80px 20px}
+    #deniedScreen .icon{font-size:3.5rem;margin-bottom:16px}
+    #deniedScreen h2{color:#c03010;margin-bottom:8px}
+    #deniedScreen p{color:var(--muted)}
+
+    /* 新增管理員表單 */
+    .add-admin-card{background:#fff;border-radius:16px;padding:32px;border:1px solid var(--border);box-shadow:var(--shadow);margin-bottom:32px}
+    .add-admin-card h3{margin:0 0 20px;color:#0052cc}
+    .add-admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+    .add-admin-grid input{width:100%;box-sizing:border-box;padding:10px 14px;border:1.5px solid #c8d8f0;border-radius:10px;font-size:.95rem;font-family:inherit}
+
+    .role-switch{display:flex;gap:10px;margin-bottom:16px}
+    .role-opt{flex:1;padding:12px;border:1.5px solid var(--border);border-radius:10px;text-align:center;cursor:pointer;font-size:.88rem;font-weight:700;color:var(--muted);transition:all .2s}
+    .role-opt.active{border-color:#0052cc;background:rgba(0,82,204,.08);color:#0052cc}
+    .role-opt small{display:block;font-weight:400;font-size:.75rem;margin-top:2px;color:var(--muted)}
+
+    .module-checks{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+    .module-chip{display:flex;align-items:center;gap:6px;padding:8px 16px;border:1.5px solid var(--border);border-radius:99px;cursor:pointer;font-size:.85rem;font-weight:600;color:var(--muted);transition:all .2s}
+    .module-chip.checked{border-color:#0052cc;background:rgba(0,82,204,.08);color:#0052cc}
+    .module-chip input{display:none}
+
+    /* 管理員列表 */
+    .table-wrap{overflow-x:auto;border-radius:12px;border:1px solid var(--border);box-shadow:var(--shadow)}
+    .data-table{width:100%;border-collapse:collapse;font-size:.88rem}
+    .data-table th{background:var(--primary);color:#fff;padding:12px 14px;text-align:left;font-weight:700;font-size:.8rem;letter-spacing:.04em}
+    .data-table th:first-child{border-radius:10px 0 0 0}
+    .data-table th:last-child{border-radius:0 10px 0 0}
+    .data-table td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:middle}
+    .data-table tr:last-child td{border-bottom:none}
+    .data-table tr:nth-child(even) td{background:rgba(0,82,204,.03)}
+
+    .role-badge{display:inline-block;padding:3px 10px;border-radius:99px;font-size:.72rem;font-weight:700}
+    .role-badge.super{background:rgba(123,47,247,.12);color:#7b2ff7}
+    .role-badge.normal{background:rgba(0,82,204,.10);color:#0052cc}
+    .status-badge{display:inline-block;padding:3px 10px;border-radius:99px;font-size:.72rem;font-weight:700}
+    .status-badge.active{background:rgba(0,100,40,.10);color:#005c28}
+    .status-badge.inactive{background:rgba(200,50,30,.10);color:#c03010}
+
+    .module-tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:.7rem;font-weight:600;background:rgba(0,82,204,.08);color:#0052cc;margin-right:4px;margin-bottom:2px}
+
+    .action-btn{padding:5px 12px;border-radius:7px;border:none;font-size:.78rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;margin-right:4px}
+    .action-btn.edit{background:rgba(0,82,204,.10);color:#0052cc;border:1.5px solid rgba(0,82,204,.25)}
+    .action-btn.disable{background:rgba(200,50,30,.10);color:#c03010;border:1.5px solid rgba(200,50,30,.3)}
+    .action-btn.enable{background:rgba(0,100,40,.12);color:#005c28;border:1.5px solid rgba(0,100,40,.3)}
+
+    /* 編輯權限 modal */
+    #permModal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:998;padding:20px}
+    #permModal.open{display:flex}
+    .perm-box{background:#fff;border-radius:16px;padding:28px;width:100%;max-width:420px}
+    .perm-box h3{margin:0 0 6px}
+    .perm-box .sub{color:var(--muted);font-size:.85rem;margin-bottom:18px}
+    .perm-actions{display:flex;gap:8px;margin-top:20px;justify-content:flex-end}
+  </style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginOverlay">
+  <div class="login-box">
+    <h2>🔐 管理員管理</h2>
+    <p>請輸入超級管理員帳號與密碼</p>
+    <input type="email" id="adminEmail" placeholder="管理員 Email" autocomplete="username" style="margin-bottom:10px"/>
+    <input type="password" id="adminKeyInput" placeholder="密碼" autocomplete="current-password"/>
+    <button id="loginBtn">登入</button>
+    <div id="loginError"></div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="site-header" id="siteHeader">
+  <div class="container nav-wrap">
+    <a class="brand-logo" href="index.html">
+      <span class="brand-esi-mark">
+        <span class="brand-esi-es">ES</span>
+        <span class="brand-esi-i-wrap">
+          <span class="brand-esi-i">I</span>
+          <span class="brand-esi-dot"></span>
+        </span>
+      </span>
+      <span class="brand-divider"></span>
+      <span class="brand-wordmark">
+        <span style="font-family:'Noto Sans TC',sans-serif;font-size:1.15rem;font-weight:700;color:#fff;letter-spacing:.06em;line-height:1.2">易通科技</span>
+        <span class="brand-sub">Expert System IVR (Asia) Co., Ltd.</span>
+      </span>
+    </a>
+    <ul class="main-nav" style="gap:0">
+      <li><a href="admin-contact.html" style="color:rgba(255,255,255,.75);font-size:.9rem">洽詢管理</a></li>
+      <li><a href="admin-repair.html" style="color:rgba(255,255,255,.75);font-size:.9rem">報修管理</a></li>
+      <li><a href="admin-news.html" style="color:rgba(255,255,255,.75);font-size:.9rem">文章審核</a></li>
+      <li><a href="index.html" style="color:rgba(255,255,255,.75);font-size:.9rem">← 回網站</a></li>
+    </ul>
+  </div>
+</header>
+
+<main class="admin-wrap">
+  <div style="margin-bottom:24px;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px">
+    <div>
+      <span class="eyebrow">Admin — User Management</span>
+      <h1 style="font-size:clamp(1.6rem,3vw,2.2rem);margin:10px 0 6px">👑 管理員管理</h1>
+      <p style="color:var(--muted)">新增管理員帳號、設定模組權限、停用 / 啟用帳號（僅超級管理員可使用）</p>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <div id="adminBadge" style="display:none;align-items:center;gap:10px;background:linear-gradient(135deg,#0052cc,#00b4d8);color:#fff;padding:8px 18px;border-radius:99px;font-size:.9rem;font-weight:700;box-shadow:0 4px 12px rgba(0,82,204,.3)">
+        <span style="font-size:1.1rem">👑</span>
+        <span id="adminBadgeName"></span>
+      </div>
+      <button id="logoutBtn" onclick="adminLogout()" style="display:none;padding:8px 18px;border-radius:99px;border:1.5px solid #e0e8f0;background:#fff;color:var(--muted);font-family:inherit;font-size:.85rem;cursor:pointer">登出</button>
+    </div>
+  </div>
+
+  <!-- 拒絕存取（一般管理員誤入此頁）-->
+  <div id="deniedScreen">
+    <div class="icon">🚫</div>
+    <h2>權限不足</h2>
+    <p>此頁面僅供超級管理員使用，請聯絡超級管理員協助處理。</p>
+  </div>
+
+  <!-- 主內容（登入且為 super 才顯示）-->
+  <div id="mainContent" style="display:none">
+    <div class="api-bar">
+      <span class="api-dot loading" id="apiDot"></span>
+      <span id="apiStatus">載入中…</span>
+    </div>
+
+    <!-- 新增管理員 -->
+    <div class="add-admin-card">
+      <h3>➕ 新增管理員帳號</h3>
+      <div class="add-admin-grid">
+        <input id="newAdminName"  type="text"     placeholder="姓名"/>
+        <input id="newAdminEmail" type="email"    placeholder="Email"/>
+        <input id="newAdminPass"  type="password" placeholder="密碼"/>
+      </div>
+
+      <p style="font-size:.85rem;font-weight:700;margin-bottom:8px">角色</p>
+      <div class="role-switch" id="roleSwitch">
+        <div class="role-opt active" data-role="normal">一般管理員<small>僅能存取勾選的模組</small></div>
+        <div class="role-opt" data-role="super">超級管理員<small>自動擁有全部模組權限</small></div>
+      </div>
+
+      <div id="permSection">
+        <p style="font-size:.85rem;font-weight:700;margin-bottom:8px">可存取模組</p>
+        <div class="module-checks" id="newAdminModules">
+          <label class="module-chip" data-module="contact"><input type="checkbox" value="contact"/>洽詢管理</label>
+          <label class="module-chip" data-module="repair"><input type="checkbox" value="repair"/>報修管理</label>
+          <label class="module-chip" data-module="news"><input type="checkbox" value="news"/>文章審核</label>
+        </div>
+      </div>
+
+      <button onclick="addAdmin()" style="padding:11px 32px;background:linear-gradient(135deg,#0052cc,#00b4d8);color:#fff;border:none;border-radius:10px;font-size:.95rem;font-weight:700;cursor:pointer">新增管理員</button>
+      <span id="addAdminMsg" style="margin-left:12px;font-size:.85rem"></span>
+    </div>
+
+    <!-- 管理員列表 -->
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <h3 style="margin:0">管理員列表</h3>
+      <button onclick="loadAdmins()" style="padding:8px 16px;border-radius:99px;border:1.5px solid var(--accent);background:var(--surface);color:var(--accent);font-family:inherit;font-size:.85rem;font-weight:600;cursor:pointer">🔄 重新整理</button>
+    </div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>姓名</th>
+            <th>Email</th>
+            <th>角色</th>
+            <th>可存取模組</th>
+            <th>狀態</th>
+            <th>建立時間</th>
+            <th style="width:160px">操作</th>
+          </tr>
+        </thead>
+        <tbody id="adminsBody">
+          <tr><td colspan="7" style="text-align:center;padding:32px;color:var(--muted)">載入中…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<!-- 編輯權限 Modal -->
+<div id="permModal">
+  <div class="perm-box">
+    <h3>設定模組權限</h3>
+    <p class="sub" id="permModalName"></p>
+    <div class="module-checks" id="editModules">
+      <label class="module-chip" data-module="contact"><input type="checkbox" value="contact"/>洽詢管理</label>
+      <label class="module-chip" data-module="repair"><input type="checkbox" value="repair"/>報修管理</label>
+      <label class="module-chip" data-module="news"><input type="checkbox" value="news"/>文章審核</label>
+    </div>
+    <div class="perm-actions">
+      <button onclick="closePermModal()" style="padding:9px 20px;border-radius:8px;border:1.5px solid var(--border);background:#fff;color:var(--text);font-family:inherit;font-size:.88rem;cursor:pointer">取消</button>
+      <button onclick="savePermissions()" style="padding:9px 20px;border-radius:8px;border:none;background:linear-gradient(135deg,#0052cc,#00b4d8);color:#fff;font-family:inherit;font-size:.88rem;font-weight:700;cursor:pointer">儲存</button>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div><div class="brand-footer">ESI Taiwan</div><p>後台管理介面 — 僅限授權人員使用</p></div>
+    <div></div>
+    <div><h4>聯絡資訊</h4><ul class="footer-links"><li>電話：02-77283528</li><li>Email：sales@esi-asia.com.tw</li></ul></div>
+  </div>
+  <hr class="footer-divider">
+  <div class="copyright container">© 2026 Expert System IVR (Asia) Co., Ltd. All Rights Reserved.</div>
+</footer>
+
+<script src="site.js"></script>
+<script>
+(function(){
+  const API = '/api';
+  let adminKey = '';
+  let editingAdminId = null;
+
+  /* ── LOGIN ── */
+  async function tryLogin(){
+    const email = document.getElementById('adminEmail').value.trim();
+    const pass  = document.getElementById('adminKeyInput').value.trim();
+    if (!email||!pass){ document.getElementById('loginError').textContent='請輸入帳號與密碼'; return; }
+    const btn = document.getElementById('loginBtn');
+    btn.textContent = '驗證中…'; btn.disabled = true;
+    try {
+      const r = await fetch(API+'/admin/login',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({email, password:pass})
+      });
+      const d = await r.json();
+      if(!r.ok){
+        document.getElementById('loginError').textContent=d.error||'登入失敗';
+        btn.textContent='登入'; btn.disabled=false; return;
+      }
+      adminKey = d.session_token;
+      sessionStorage.setItem('esi_admin', JSON.stringify({...d.admin, session_token: d.session_token}));
+      enterPage(d.admin);
+    } catch(e){
+      document.getElementById('loginError').textContent='連線失敗';
+      btn.textContent='登入'; btn.disabled=false;
+    }
+  }
+  document.getElementById('loginBtn').addEventListener('click', tryLogin);
+  document.getElementById('adminKeyInput').addEventListener('keydown', e=>{ if(e.key==='Enter') tryLogin(); });
+  document.getElementById('adminEmail').addEventListener('keydown', e=>{ if(e.key==='Enter') document.getElementById('adminKeyInput').focus(); });
+
+  // restore session：移至檔案最末端執行，確保 loadAdmins 等函式已定義完成（避免 ReferenceError）
+
+  function enterPage(admin){
+    document.getElementById('loginOverlay').style.display='none';
+    document.getElementById('adminBadge').style.display='flex';
+    document.getElementById('logoutBtn').style.display='block';
+    document.getElementById('adminBadgeName').textContent=(admin.name||admin.email);
+    if (admin.role !== 'super') {
+      document.getElementById('deniedScreen').style.display='block';
+      document.getElementById('mainContent').style.display='none';
+      return;
+    }
+    document.getElementById('deniedScreen').style.display='none';
+    document.getElementById('mainContent').style.display='block';
+    loadAdmins();
+  }
+
+  window.adminLogout = async function(){
+    if(!confirm('確定要登出？')) return;
+    try { await fetch('/api/admin/logout',{method:'POST',headers:{'x-session-token':adminKey}}); } catch(e){}
+    sessionStorage.removeItem('esi_admin');
+    location.reload();
+  };
+
+  function setStatus(state, msg){
+    const dot = document.getElementById('apiDot');
+    if (dot) dot.className = 'api-dot ' + state;
+    const s = document.getElementById('apiStatus');
+    if (s) s.textContent = msg;
+  }
+
+  function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+  /* ── 角色切換（新增表單）── */
+  document.getElementById('roleSwitch').addEventListener('click', e=>{
+    const opt = e.target.closest('.role-opt');
+    if(!opt) return;
+    document.querySelectorAll('#roleSwitch .role-opt').forEach(o=>o.classList.remove('active'));
+    opt.classList.add('active');
+    document.getElementById('permSection').style.display = opt.dataset.role === 'super' ? 'none' : 'block';
+  });
+
+  /* ── 模組勾選 chip 互動（新增表單 + 編輯 modal 共用樣式）── */
+  function bindModuleChips(containerId){
+    document.querySelectorAll('#'+containerId+' .module-chip').forEach(chip=>{
+      chip.addEventListener('click', e=>{
+        e.preventDefault();
+        const input = chip.querySelector('input');
+        input.checked = !input.checked;
+        chip.classList.toggle('checked', input.checked);
+      });
+    });
+  }
+  bindModuleChips('newAdminModules');
+  bindModuleChips('editModules');
+
+  function getCheckedModules(containerId){
+    return Array.from(document.querySelectorAll('#'+containerId+' input:checked')).map(i=>i.value);
+  }
+
+  /* ── 新增管理員 ── */
+  window.addAdmin = async function(){
+    const name  = document.getElementById('newAdminName').value.trim();
+    const email = document.getElementById('newAdminEmail').value.trim();
+    const pass  = document.getElementById('newAdminPass').value.trim();
+    const role  = document.querySelector('#roleSwitch .role-opt.active').dataset.role;
+    const permissions = getCheckedModules('newAdminModules');
+    const msg = document.getElementById('addAdminMsg');
+    if(!name||!email||!pass){ msg.style.color='#cc2200'; msg.textContent='請填寫所有欄位'; return; }
+    if(role==='normal' && permissions.length===0){
+      msg.style.color='#cc2200'; msg.textContent='請至少勾選一個模組權限'; return;
+    }
+    try{
+      const r = await fetch(API+'/admin/users',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','x-session-token':adminKey},
+        body:JSON.stringify({name,email,password:pass,role,permissions})
+      });
+      const d = await r.json();
+      if(!r.ok){ msg.style.color='#cc2200'; msg.textContent='新增失敗：'+(d.error||'未知錯誤'); return; }
+      msg.style.color='#1a7a1a'; msg.textContent='✅ 管理員 '+name+' 已新增';
+      document.getElementById('newAdminName').value='';
+      document.getElementById('newAdminEmail').value='';
+      document.getElementById('newAdminPass').value='';
+      document.querySelectorAll('#newAdminModules input').forEach(i=>{ i.checked=false; i.closest('.module-chip').classList.remove('checked'); });
+      document.querySelector('#roleSwitch .role-opt[data-role="normal"]').click();
+      loadAdmins();
+    }catch(e){ msg.style.color='#cc2200'; msg.textContent='連線失敗'; }
+  };
+
+  /* ── 載入管理員列表 ── */
+  window.loadAdmins = async function(){
+    setStatus('loading','載入中…');
+    try {
+      const r = await fetch(API+'/admin/users?full=1',{headers:{'x-session-token':adminKey}});
+      const data = await r.json();
+      if(!r.ok){ setStatus('err', data.error||'載入失敗'); return; }
+      renderAdmins(data);
+      setStatus('ok', `共 ${data.length} 位管理員`);
+    } catch(e){
+      setStatus('err','載入失敗：'+e.message);
+    }
+  };
+
+  const MODULE_NAMES = { contact:'洽詢管理', repair:'報修管理', news:'文章審核' };
+
+  function renderAdmins(rows){
+    const tbody = document.getElementById('adminsBody');
+    if(!rows.length){ tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--muted)">沒有管理員資料</td></tr>'; return; }
+    tbody.innerHTML = rows.map(a=>{
+      const dt = new Date(a.created_at).toLocaleDateString('zh-TW');
+      const moduleTags = a.role==='super'
+        ? '<span style="color:var(--muted);font-size:.8rem">全部模組（超級管理員）</span>'
+        : (a.permissions.length ? a.permissions.map(m=>'<span class="module-tag">'+(MODULE_NAMES[m]||m)+'</span>').join('') : '<span style="color:var(--muted);font-size:.8rem">尚未設定</span>');
+      const statusActions = a.is_active
+        ? '<button class="action-btn disable" onclick="toggleStatus('+a.id+',false,\''+esc(a.name)+'\')">停用</button>'
+        : '<button class="action-btn enable" onclick="toggleStatus('+a.id+',true,\''+esc(a.name)+'\')">啟用</button>';
+      const editBtn = a.role==='super'
+        ? ''
+        : '<button class="action-btn edit" onclick="openPermModal('+a.id+',\''+esc(a.name)+'\','+JSON.stringify(a.permissions).replace(/"/g,'&quot;')+')">設定權限</button>';
+      return `<tr>
+        <td><strong>${esc(a.name)}</strong></td>
+        <td>${esc(a.email)}</td>
+        <td><span class="role-badge ${a.role}">${a.role==='super'?'超級管理員':'一般管理員'}</span></td>
+        <td>${moduleTags}</td>
+        <td><span class="status-badge ${a.is_active?'active':'inactive'}">${a.is_active?'啟用中':'已停用'}</span></td>
+        <td style="font-size:.82rem;color:var(--muted)">${dt}</td>
+        <td style="white-space:nowrap">${editBtn}${statusActions}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  /* ── 停用 / 啟用 ── */
+  window.toggleStatus = async function(id, newStatus, name){
+    const label = newStatus ? '啟用' : '停用';
+    const warn = newStatus ? '' : '（停用後該帳號會立即被強制登出）';
+    if(!confirm(`確定要${label}管理員「${name}」？${warn}`)) return;
+    try{
+      const r = await fetch(API+'/admin/users/'+id+'/status',{
+        method:'PATCH',
+        headers:{'Content-Type':'application/json','x-session-token':adminKey},
+        body:JSON.stringify({is_active:newStatus})
+      });
+      const d = await r.json();
+      if(!r.ok){ alert('操作失敗：'+(d.error||'未知錯誤')); return; }
+      loadAdmins();
+    }catch(e){ alert('連線失敗'); }
+  };
+
+  /* ── 編輯權限 Modal ── */
+  window.openPermModal = function(id, name, permissions){
+    editingAdminId = id;
+    document.getElementById('permModalName').textContent = name + ' 的可存取模組';
+    document.querySelectorAll('#editModules input').forEach(i=>{
+      const checked = permissions.includes(i.value);
+      i.checked = checked;
+      i.closest('.module-chip').classList.toggle('checked', checked);
+    });
+    document.getElementById('permModal').classList.add('open');
+  };
+
+  window.closePermModal = function(){
+    document.getElementById('permModal').classList.remove('open');
+    editingAdminId = null;
+  };
+
+  window.savePermissions = async function(){
+    if(!editingAdminId) return;
+    const permissions = getCheckedModules('editModules');
+    try{
+      const r = await fetch(API+'/admin/users/'+editingAdminId+'/permissions',{
+        method:'PUT',
+        headers:{'Content-Type':'application/json','x-session-token':adminKey},
+        body:JSON.stringify({permissions})
+      });
+      const d = await r.json();
+      if(!r.ok){ alert('儲存失敗：'+(d.error||'未知錯誤')); return; }
+      closePermModal();
+      loadAdmins();
+    }catch(e){ alert('連線失敗'); }
+  };
+
+  // restore session：放在所有函式定義之後執行，避免呼叫到尚未賦值的 window.loadAdmins 等函式
+  const savedAdmin = sessionStorage.getItem('esi_admin');
+  if (savedAdmin) {
+    const a = JSON.parse(savedAdmin);
+    adminKey = a.session_token || '';
+    enterPage(a);
+  }
+})();
+</script>
+</body>
+</html>

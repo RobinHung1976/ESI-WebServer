@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-i18n="news.meta.title">最新消息｜ESI Taiwan</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── Brand logo inline ── */
+    .brand-logo{display:inline-flex;align-items:center;text-decoration:none;gap:0}
+    .brand-esi-mark{display:inline-flex;align-items:flex-start;position:relative;line-height:1}
+    .brand-esi-es{font-family:'Arial Black','Arial',sans-serif;font-size:2.6rem;font-weight:900;font-style:normal;color:#fff;letter-spacing:.02em;line-height:1;text-shadow:0 0 18px rgba(255,255,255,.35)}
+    .brand-esi-i-wrap{position:relative;display:inline-flex;align-items:flex-start}
+    .brand-esi-i{font-family:'Arial Black','Arial',sans-serif;font-size:2.6rem;font-weight:900;font-style:normal;color:#fff;line-height:1;letter-spacing:.02em;text-shadow:0 0 18px rgba(255,255,255,.35)}
+    .brand-esi-dot{position:absolute;top:-.28em;left:50%;transform:translateX(-50%);width:.52em;height:.52em;border-radius:50%;background:radial-gradient(circle at 38% 35%,#ff5555,#cc1111);box-shadow:0 2px 10px rgba(200,0,0,.7)}
+    .brand-divider{width:1.5px;height:44px;background:linear-gradient(to bottom,transparent,rgba(0,229,255,.6),transparent);margin:0 14px}
+    .brand-wordmark{display:flex;flex-direction:column;line-height:1;gap:2px}
+    .brand-sub{font-family:'Noto Sans TC',sans-serif;font-size:.68rem;font-weight:500;color:rgba(180,220,255,.9);letter-spacing:.18em;margin-top:3px}
+  </style>
+  <style>
+    .brand-pill{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.72rem;font-weight:700}
+    .pill-blue  {background:rgba(11,61,145,.09);color:#0b3d91}
+    .pill-green {background:rgba(10,92,48,.10);color:#0a5c30}
+    .pill-purple{background:rgba(90,79,199,.10);color:#5a4fc7}
+    .pill-gray  {background:rgba(90,100,120,.10);color:#3a4455}
+
+    .news-toolbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px}
+    .filter-chips{display:flex;flex-wrap:wrap;gap:8px}
+    .chip{padding:6px 16px;border-radius:99px;border:1.5px solid var(--border);background:var(--surface);color:var(--muted);font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+    .chip.active,.chip:hover{background:var(--primary);border-color:var(--primary);color:#fff}
+
+    .btn-add{display:flex;align-items:center;gap:7px;padding:9px 18px;border-radius:8px;border:1.5px solid var(--primary);background:var(--surface);color:var(--primary);font-weight:700;font-size:.88rem;cursor:pointer;transition:all .2s;font-family:inherit}
+    .btn-add:hover{background:var(--primary);color:#fff}
+
+    .news-item{position:relative}
+
+
+    .db-badge{display:inline-flex;align-items:center;gap:4px;font-size:.72rem;color:#0a5c30;font-weight:700;margin-left:8px}
+
+    /* modal */
+    .modal-overlay{position:fixed;inset:0;background:rgba(7,15,36,.55);backdrop-filter:blur(4px);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .25s}
+    .modal-overlay.open{opacity:1;pointer-events:all}
+    .modal{background:var(--surface);border-radius:18px;padding:36px;width:100%;max-width:600px;box-shadow:0 24px 80px rgba(7,15,36,.35);transform:translateY(16px);transition:transform .25s}
+    .modal-overlay.open .modal{transform:translateY(0)}
+    .modal h3{margin-bottom:22px;font-size:1.2rem}
+    .modal label{display:flex;flex-direction:column;gap:6px;font-size:.85rem;font-weight:600;color:var(--muted);margin-bottom:14px}
+    .modal input,.modal select,.modal textarea{font-family:inherit;font-size:.95rem;padding:10px 14px;border:1.5px solid var(--border);border-radius:9px;background:var(--bg);color:var(--text);outline:none;transition:border-color .2s}
+    .modal input:focus,.modal select:focus,.modal textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(13,74,164,.1)}
+    .modal-actions{display:flex;gap:12px;justify-content:flex-end;margin-top:8px}
+    .btn-cancel{padding:10px 22px;border-radius:8px;border:1.5px solid var(--border);background:none;color:var(--muted);font-weight:700;font-size:.9rem;cursor:pointer;font-family:inherit}
+
+    .api-bar{display:flex;align-items:center;gap:8px;font-size:.78rem;margin-bottom:16px;padding:8px 14px;border-radius:8px;background:var(--surface);border:1px solid var(--border)}
+    .api-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;background:#ccc;transition:background .3s}
+    .api-dot.ok{background:#0a5c30}
+    .api-dot.err{background:#c03010}
+    .api-dot.loading{background:#f5a623;animation:blink .8s infinite}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+  </style>
+</head>
+<body>
+
+<header class="site-header" id="siteHeader">
+  <div class="container nav-wrap">
+    <a class="brand-logo" href="index.html">
+      <span class="brand-esi-mark">
+        <span class="brand-esi-es">ES</span>
+        <span class="brand-esi-i-wrap">
+          <span class="brand-esi-i">I</span>
+          <span class="brand-esi-dot"></span>
+        </span>
+      </span>
+      <span class="brand-divider"></span>
+      <span class="brand-wordmark">
+        <span style="font-family:'Noto Sans TC',sans-serif;font-size:1.15rem;font-weight:700;color:#fff;letter-spacing:.06em;line-height:1.2;text-shadow:0 0 12px rgba(255,255,255,.25)">易通科技</span>
+        <span class="brand-sub">Expert System IVR (Asia) Co., Ltd.</span>
+      </span>
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="選單" data-i18n-attr="aria-label:common.nav.menuAria"><span></span><span></span><span></span></button>
+    <ul class="main-nav" id="mainNav">
+      <li><a href="index.html" data-i18n="common.nav.home">首頁</a></li>
+      <li class="has-mega">
+        <button><span data-i18n="common.nav.products">產品方案</span> <svg class="nav-arrow" viewBox="0 0 14 14" fill="none"><path d="M2 4.5L7 9.5L12 4.5" stroke="rgba(255,255,255,.8)" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="mega-menu">
+          <div class="mega-col"><h4 data-i18n="common.mega.uc">整合通訊</h4><a href="products.html#uc">Microsoft Teams Phone</a><a href="products.html#uc">Zoom Phone</a><a href="products.html#uc">Deltapath FreSIP</a></div>
+          <div class="mega-col"><h4 data-i18n="common.mega.recording">錄音系統</h4><a href="products.html#recording">VL2000</a><a href="products.html#recording" data-i18n="common.product.huadingEuls">華鼎 EULS</a><a href="products.html#recording" data-i18n="common.product.huadingTcr">華鼎 TCR 2000</a><a href="products.html#recording">QMS</a></div>
+          <div class="mega-col"><h4 data-i18n="common.mega.callcenter">Call Center｜IVR</h4><a href="products.html#callcenter">EICC</a></div>
+          <div class="mega-col"><h4 data-i18n="common.mega.meeting">會議設備</h4><a href="products.html#meeting-room" data-i18n="common.mega.video">視訊設備</a><a href="products.html#meeting-room" data-i18n="common.mega.headset">耳機和揚聲器</a><a href="products.html#meeting-room" data-i18n="common.mega.wireless">無線投影</a><a href="https://esi-asia.com/esi-tik-for-neat-pad-neat-frame/" target="_blank">ESI-TIK Booking System</a></div>
+          <div class="mega-col"><h4 data-i18n="common.mega.gateway">Gateway｜SBC</h4><a href="products.html#gateway">AudioCodes</a><a href="products.html#gateway">Ribbon</a></div>
+          <div class="mega-col"><h4 data-i18n="common.mega.ipphone">IP Phone｜Teams Phone</h4><a href="products.html#ipphone">AudioCodes</a><a href="products.html#ipphone">Snom</a></div>
+        </div>
+      </li>
+      <li><a href="about.html" data-i18n="common.nav.about">關於我們</a></li>
+      <li><a href="news.html" class="active" data-i18n="common.nav.news">最新消息</a></li>
+      <li><a href="community.html" data-i18n="common.nav.community">交流天地</a></li>
+      <li><a href="support.html" data-i18n="common.nav.support">技術支援</a></li>
+      <li><a href="contact.html" class="nav-cta" data-i18n="common.nav.contact">立即洽詢</a></li>
+    </ul>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow" style="color:var(--accent2);background:rgba(245,166,35,.15)">Latest News</span>
+    <h1 data-i18n="news.hero.title">最新消息</h1>
+    <p class="lead" data-i18n="news.hero.lead">產品資訊、案例分享、活動通知與技術文章。</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container news-layout">
+    <main>
+      <div class="api-bar">
+        <span class="api-dot loading" id="apiDot"></span>
+        <span id="apiStatus" data-i18n="news.loading">載入中...</span>
+      </div>
+
+      <div class="news-toolbar">
+        <div class="filter-chips" id="filterChips">
+          <button class="chip active" data-brand="all"><span data-i18n="news.filter.all">全部</span></button>
+          <button class="chip" data-brand="整合通訊"><span data-i18n="common.mega.uc">整合通訊</span></button>
+          <button class="chip" data-brand="Call Center｜IVR"><span data-i18n="common.mega.callcenter">Call Center｜IVR</span></button>
+          <button class="chip" data-brand="Gateway｜SBC"><span data-i18n="common.mega.gateway">Gateway｜SBC</span></button>
+          <button class="chip" data-brand="IP Phone｜Teams Phone"><span data-i18n="common.mega.ipphone">IP Phone｜Teams Phone</span></button>
+          <button class="chip" data-brand="會議設備"><span data-i18n="common.mega.meeting">會議設備</span></button>
+          <button class="chip" data-brand="其他"><span data-i18n="news.filter.other">其他</span></button>
+        </div>
+        <button class="btn-add" id="addNewsBtn">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <span data-i18n="news.addBtn">新增消息</span>
+        </button>
+      </div>
+
+      <div id="newsList"></div>
+    </main>
+
+    <aside class="sidebar">
+      <div class="panel">
+        <h3 data-i18n="news.hotTitle">🔥 熱門消息</h3>
+        <div id="hotNewsList" style="margin-top:12px"><div style="color:var(--muted);font-size:.88rem" data-i18n="news.loading">載入中...</div></div>
+      </div>
+      <div class="panel">
+        <h3 data-i18n="news.categoryTitle">消息分類</h3>
+        <ul class="footer-links" style="margin-top:12px" id="brandCounts"></ul>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h3 data-i18n="news.modal.title">✏️ 新增消息</h3>
+    <label><span data-i18n="news.modal.date">日期</span><input type="date" id="fDate"/></label>
+    <label><span data-i18n="news.modal.category">分類</span>
+      <select id="fBrand">
+        <option data-i18n="common.mega.uc">整合通訊</option>
+        <option data-i18n="common.mega.callcenter">Call Center｜IVR</option>
+        <option data-i18n="common.mega.gateway">Gateway｜SBC</option>
+        <option data-i18n="common.mega.ipphone">IP Phone｜Teams Phone</option>
+        <option data-i18n="common.mega.meeting">會議設備</option>
+        <option data-i18n="news.filter.other">其他</option>
+      </select>
+    </label>
+    <label><span data-i18n="news.modal.title2">標題</span><input type="text" id="fTitle" placeholder="請輸入消息標題" data-i18n-placeholder="news.modal.titlePh"/></label>
+    <label><span data-i18n="news.modal.body">內容</span><textarea id="fBody" rows="5" placeholder="請輸入消息內容" data-i18n-placeholder="news.modal.bodyPh"></textarea></label>
+    <label><span data-i18n="news.modal.link">延伸連結（選填）</span><input type="text" id="fLink" placeholder="例：products.html#uc"/></label>
+    <div class="modal-actions">
+      <button class="btn-cancel" id="cancelBtn" data-i18n="common.cta.cancel">取消</button>
+      <button class="btn btn-primary" id="saveBtn" data-i18n="common.cta.save">儲存</button>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div><div class="brand-footer">ESI Taiwan</div><p data-i18n="common.footer.tagline">整合通訊、視訊協作、客服中心與企業顧問服務。</p></div>
+    <div><h4 data-i18n="common.footer.quicklinks">快速連結</h4><ul class="footer-links"><li><a href="index.html" data-i18n="common.nav.home">首頁</a></li><li><a href="about.html" data-i18n="common.nav.about">關於我們</a></li><li><a href="products.html" data-i18n="common.nav.products">產品方案</a></li><li><a href="news.html" data-i18n="common.nav.news">最新消息</a></li><li><a href="community.html" data-i18n="common.nav.community">交流天地</a></li><li><a href="support.html" data-i18n="common.nav.support">技術支援</a></li><li><a href="contact.html" data-i18n="common.nav.contact">聯絡我們</a></li></ul></div>
+    <div><h4 data-i18n="common.footer.contactInfo">聯絡資訊</h4><ul class="footer-links"><li data-i18n="common.footer.phone">電話：02-77283528</li><li data-i18n="common.footer.email">Email：sales@esi-asia.com.tw</li><li data-i18n="common.footer.address">地址：新北市242新莊區新北大道三段5號18樓之2</li></ul></div>
+  </div>
+  <hr class="footer-divider">
+  <div class="copyright container">© 2026 Expert System IVR (Asia) Co., Ltd. All Rights Reserved.</div>
+</footer>
+<script>
+  window.ESI_I18N = { en: {
+    'news.meta.title': 'Latest News | ESI Taiwan',
+    'news.hero.title': 'Latest News',
+    'news.hero.lead': 'Product updates, case studies, event announcements, and technical articles.',
+    'news.loading': 'Loading...',
+    'news.filter.all': 'All',
+    'news.filter.other': 'Other',
+    'news.addBtn': 'Add News',
+    'news.hotTitle': '🔥 Trending News',
+    'news.categoryTitle': 'Categories',
+    'news.modal.title': '✏️ Add News',
+    'news.modal.date': 'Date',
+    'news.modal.category': 'Category',
+    'news.modal.title2': 'Title',
+    'news.modal.titlePh': 'Enter the news title',
+    'news.modal.body': 'Content',
+    'news.modal.bodyPh': 'Enter the news content',
+    'news.modal.link': 'Related Link (optional)'
+  }};
+</script>
+<script src="i18n.js"></script>
+<script src="site.js"></script>
+<script>
+(function(){
+  /* ── API 端點：與網頁同 host，Nginx 反代 /api → port 3100 ── */
+  const API = '/api';
+
+  const PILL = {
+    'AudioCodes':'pill-blue','Microsoft Teams':'pill-blue',
+    'Deltapath':'pill-purple','Enghouse':'pill-green','其他':'pill-gray'
+  };
+
+  let articles = [], currentBrand = 'all';
+
+  /* ── DB 狀態 ── */
+  function setStatus(state, msg){
+    const dot = document.getElementById('apiDot');
+    dot.className = 'api-dot ' + state;
+    document.getElementById('apiStatus').textContent = msg;
+  }
+
+  /* ── fetch wrapper ── */
+  async function api(path, opts){
+    const r = await fetch(API + path, {
+      headers:{'Content-Type':'application/json'},
+      ...opts
+    });
+    if(!r.ok) throw new Error(await r.text());
+    return r.json();
+  }
+
+  /* ── 載入文章 ── */
+  async function load(brand){
+    setStatus('loading','載入中...');
+    try {
+      const q = brand && brand!=='all' ? `?brand=${encodeURIComponent(brand)}` : '';
+      articles = await api('/news'+q);
+      setStatus('ok', `共 ${articles.length} 篇消息，資料來源由 ESI 提供`);
+      render();
+    } catch(e){
+      setStatus('err','資料載入失敗：' + e.message);
+      document.getElementById('newsList').innerHTML =
+        `<div style="color:var(--muted);padding:32px 0;text-align:center">
+           ⚠️ 資料暫時無法載入<br>
+           <small style="font-size:.82rem">請稍後再試，或與 ESI 聯繫</small>
+         </div>`;
+    }
+  }
+
+  /* ── 渲染 ── */
+  function render(){
+    const list = document.getElementById('newsList');
+    if(!articles.length){
+      list.innerHTML='<p style="color:var(--muted);padding:32px 0">目前沒有消息。</p>';
+      renderSidebar(); renderHotNews(articles); return;
+    }
+    list.innerHTML = articles.map(a=>{
+      const pill = PILL[a.brand]||'pill-gray';
+      const d = a.date ? a.date.slice(0,10) : '';
+      return `
+      <article class="news-item reveal visible" data-id="${a.id}" onclick="addView(${a.id})" style="cursor:pointer">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px">
+          <span class="news-date">${esc(d)}</span>
+          <span class="brand-pill ${pill}">${esc(a.brand)}</span>
+          <span class="db-badge">
+            <svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="M2 7.5L5.5 11L12 3" stroke="#0a5c30" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            ESI 提供
+          </span>
+        </div>
+        <h2 style="margin:0 0 12px;font-size:1.15rem">${esc(a.title)}</h2>
+        <p style="color:var(--muted)">${esc(a.body)}</p>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px">
+          ${a.link?`<a class="text-link" href="${esc(a.link)}" target="_blank">了解更多 →</a>`:'<span></span>'}
+          <span style="font-size:.78rem;color:var(--muted)">👁 ${a.views||0} 次觀看</span>
+        </div>
+      </article>`;
+    }).join('');
+    renderSidebar();
+    renderHotNews(articles);
+  }
+
+  function renderSidebar(){
+    const counts={};
+    articles.forEach(a=>{ counts[a.brand]=(counts[a.brand]||0)+1; });
+    document.getElementById('brandCounts').innerHTML =
+      Object.entries(counts).sort((a,b)=>b[1]-a[1]).map(([b,n])=>
+        `<li style="cursor:pointer;padding-left:0" onclick="filterBrand('${b}')">
+           <span style="color:var(--text);font-size:.9rem">${esc(b)}</span>
+           <span style="float:right;font-size:.8rem;color:var(--muted)">${n} 篇</span>
+         </li>`
+      ).join('');
+  }
+
+  function renderHotNews(allArticles) {
+    const hot = allArticles.slice().sort((a,b)=>(b.views||0)-(a.views||0)).slice(0,5);
+    const el = document.getElementById('hotNewsList');
+    if (!hot.length) { el.innerHTML = '<div style="color:var(--muted);font-size:.88rem">尚無消息</div>'; return; }
+    el.innerHTML = hot.map(a =>
+      '<div style="padding:8px 0;border-bottom:1px solid #e8f0fe">'
+      + '<a href="#" onclick="scrollToArticle('+a.id+');return false;" style="font-size:.85rem;font-weight:600;line-height:1.4;color:var(--text);text-decoration:none;display:block">'
+      + esc(a.title.substring(0,30))+(a.title.length>30?'…':'')
+      + '</a>'
+      + '<div style="display:flex;justify-content:space-between;margin-top:3px">'
+      + '<span style="font-size:.75rem;color:var(--muted)">'+(a.date||'').slice(0,10)+'</span>'
+      + '<span style="font-size:.75rem;color:var(--muted)">👁 '+(a.views||0)+'</span>'
+      + '</div>'
+      + '</div>'
+    ).join('');
+  }
+
+  window.scrollToArticle = function(id) {
+    const el = document.querySelector('[data-id="'+id+'"]');
+    if (el) { el.scrollIntoView({behavior:'smooth', block:'center'}); el.style.boxShadow='0 0 0 3px var(--primary)'; setTimeout(()=>el.style.boxShadow='',2000); }
+    addView(id);
+  };
+
+  window.addView = async function(id) {
+    try {
+      await fetch('/api/news/'+id+'/view', { method:'POST' });
+      // 更新本地資料
+      const a = articles.find(x=>x.id===id);
+      if (a) { a.views = (a.views||0)+1; renderHotNews(articles); }
+    } catch(e){}
+  };
+
+  /* ── 篩選 ── */
+  window.filterBrand = function(brand){
+    currentBrand = brand;
+    document.querySelectorAll('.chip').forEach(c=>
+      c.classList.toggle('active', c.dataset.brand===brand)
+    );
+    load(brand);
+  };
+  document.getElementById('filterChips').addEventListener('click', e=>{
+    const c = e.target.closest('.chip');
+    if(c) filterBrand(c.dataset.brand);
+  });
+
+
+
+  /* ── Modal ── */
+  const overlay = document.getElementById('modalOverlay');
+  document.getElementById('addNewsBtn').onclick = ()=>{
+    document.getElementById('fDate').value = new Date().toISOString().slice(0,10);
+    overlay.classList.add('open');
+  };
+  document.getElementById('cancelBtn').onclick = ()=>overlay.classList.remove('open');
+  overlay.onclick = e=>{ if(e.target===overlay) overlay.classList.remove('open'); };
+
+  document.getElementById('saveBtn').onclick = async ()=>{
+    const title = document.getElementById('fTitle').value.trim();
+    const body  = document.getElementById('fBody').value.trim();
+    const date  = document.getElementById('fDate').value;
+    const brand = document.getElementById('fBrand').value;
+    const link  = document.getElementById('fLink').value.trim();
+    if(!title||!body||!date){ alert('請填寫日期、標題與內容'); return; }
+    try {
+      await api('/news',{method:'POST',body:JSON.stringify({date,brand,title,body,link})});
+      overlay.classList.remove('open');
+      ['fTitle','fBody','fLink'].forEach(id=>document.getElementById(id).value='');
+      load(currentBrand);
+    } catch(e){ alert('儲存失敗：'+e.message); }
+  };
+
+  function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+  load('all');
+})();
+</script>
+</body>
+</html>

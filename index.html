@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-i18n="index.meta.title">ESI Taiwan｜整合通訊與企業解決方案</title>
+  <meta name="description" content="ESI Taiwan 提供整合通訊、視訊會議、客服系統與專業顧問服務。" data-i18n-attr="content:index.meta.desc" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── Brand logo inline ── */
+    .brand-logo{display:inline-flex;align-items:center;text-decoration:none;gap:0}
+    .brand-esi-mark{display:inline-flex;align-items:flex-start;position:relative;line-height:1}
+    .brand-esi-es{font-family:'Arial Black','Arial',sans-serif;font-size:2.6rem;font-weight:900;font-style:normal;color:#fff;letter-spacing:.02em;line-height:1;text-shadow:0 0 18px rgba(255,255,255,.35)}
+    .brand-esi-i-wrap{position:relative;display:inline-flex;align-items:flex-start}
+    .brand-esi-i{font-family:'Arial Black','Arial',sans-serif;font-size:2.6rem;font-weight:900;font-style:normal;color:#fff;line-height:1;letter-spacing:.02em;text-shadow:0 0 18px rgba(255,255,255,.35)}
+    .brand-esi-dot{position:absolute;top:-.28em;left:50%;transform:translateX(-50%);width:.52em;height:.52em;border-radius:50%;background:radial-gradient(circle at 38% 35%,#ff5555,#cc1111);box-shadow:0 2px 10px rgba(200,0,0,.7)}
+    .brand-divider{width:1.5px;height:44px;background:linear-gradient(to bottom,transparent,rgba(0,229,255,.6),transparent);margin:0 14px}
+    .brand-wordmark{display:flex;flex-direction:column;line-height:1;gap:2px}
+    .brand-sub{font-family:'Noto Sans TC',sans-serif;font-size:.68rem;font-weight:500;color:rgba(180,220,255,.9);letter-spacing:.18em;margin-top:3px}
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="site-header" id="siteHeader">
+  <div class="container nav-wrap">
+    <a class="brand-logo" href="index.html">
+      <span class="brand-esi-mark">
+        <span class="brand-esi-es">ES</span>
+        <span class="brand-esi-i-wrap">
+          <span class="brand-esi-i">I</span>
+          <span class="brand-esi-dot"></span>
+        </span>
+      </span>
+      <span class="brand-divider"></span>
+      <span class="brand-wordmark">
+        <span style="font-family:'Noto Sans TC',sans-serif;font-size:1.15rem;font-weight:700;color:#fff;letter-spacing:.06em;line-height:1.2;text-shadow:0 0 12px rgba(255,255,255,.25)">易通科技</span>
+        <span class="brand-sub">Expert System IVR (Asia) Co., Ltd.</span>
+      </span>
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="選單" data-i18n-attr="aria-label:common.nav.menuAria">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="main-nav" id="mainNav">
+      <li><a href="index.html" class="active" data-i18n="common.nav.home">首頁</a></li>
+      <li class="has-mega">
+        <button><span data-i18n="common.nav.products">產品方案</span>
+          <svg class="nav-arrow" viewBox="0 0 14 14" fill="none">
+            <path d="M2 4.5L7 9.5L12 4.5" stroke="rgba(255,255,255,.8)" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <div class="mega-menu">
+          <div class="mega-col">
+            <h4 data-i18n="common.mega.uc">整合通訊</h4>
+            <a href="products.html#uc">Microsoft Teams Phone</a>
+            <a href="products.html#uc">Zoom Phone</a>
+            <a href="products.html#uc">Deltapath FreSIP</a>
+            
+          </div>
+          <div class="mega-col">
+            <h4 data-i18n="common.mega.recording">錄音系統</h4>
+            <a href="products.html#recording">VL2000</a>
+            <a href="products.html#recording" data-i18n="common.product.huadingEuls">華鼎 EULS</a>
+            <a href="products.html#recording" data-i18n="common.product.huadingTcr">華鼎 TCR 2000</a>
+            <a href="products.html#recording">QMS</a>
+          </div>
+          <div class="mega-col">
+            <h4 data-i18n="common.mega.callcenter">Call Center｜IVR</h4>
+            <a href="products.html#callcenter">EICC</a>
+          </div>
+          <div class="mega-col">
+            <h4 data-i18n="common.mega.meeting">會議設備</h4>
+            <a href="products.html#meeting-room">MTR</a>
+            <a href="products.html#meeting-room">無線投影</a>
+            <a href="products.html#meeting-room">ESI-TIK Booking System</a>
+          </div>
+          <div class="mega-col">
+            <h4 data-i18n="common.mega.gateway">Gateway｜SBC</h4>
+            <a href="products.html#gateway">AudioCodes</a>
+            <a href="products.html#gateway">Ribbon</a>
+          </div>
+          <div class="mega-col">
+            <h4 data-i18n="common.mega.ipphone">IP Phone｜Teams Phone</h4>
+            <a href="products.html#ipphone">AudioCodes</a>
+            <a href="products.html#ipphone">Snom</a>
+          </div>
+        </div>
+      </li>
+      <li><a href="about.html" data-i18n="common.nav.about">關於我們</a></li>
+      <li><a href="news.html" data-i18n="common.nav.news">最新消息</a></li>
+      <li><a href="community.html" data-i18n="common.nav.community">交流天地</a></li>
+      <li><a href="support.html" data-i18n="common.nav.support">技術支援</a></li>
+      <li><a href="contact.html" class="nav-cta" data-i18n="common.nav.contact">立即洽詢</a></li>
+    </ul>
+  </div>
+</header>
+
+<!-- ── HERO SLIDER ── -->
+<section class="hero-slider" aria-label="首頁輪播" data-i18n-attr="aria-label:index.hero.sectionAria">
+
+  <!-- Slide 1 -->
+  <div class="slide active">
+    <div class="slide-bg"></div>
+    <div class="slide-deco"></div>
+    <div class="container slide-content">
+      <p class="slide-eyebrow">Unified Communication &amp; Collaboration</p>
+      <h1 class="slide-title" data-i18n-html="index.hero1.title">整合通訊<br>打造無縫協作體驗</h1>
+      <p class="slide-desc" data-i18n="index.hero1.desc">ESI Taiwan 協助企業整合 IP PBX、Microsoft Teams、視訊會議與客服中心，打造高效率的數位通訊環境。</p>
+      <div class="slide-actions">
+        <a class="btn btn-primary" href="contact.html" data-i18n="common.nav.contact">立即洽詢</a>
+        <a class="btn btn-secondary" href="products.html" data-i18n="index.hero1.cta2">查看方案</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 2 -->
+  <div class="slide">
+    <div class="slide-bg"></div>
+    <div class="slide-deco"></div>
+    <div class="container slide-content">
+      <p class="slide-eyebrow">Contact Center Solutions</p>
+      <h1 class="slide-title" data-i18n-html="index.hero2.title">客服中心系統<br>提升服務品質</h1>
+      <p class="slide-desc" data-i18n="index.hero2.desc">支援 IVR、ACD、錄音、報表與客服流程整合，從佇列設計到主管儀表板，全方位優化客戶服務效率。</p>
+      <div class="slide-actions">
+        <a class="btn btn-primary" href="products.html#contact-center" data-i18n="index.hero2.cta1">了解客服方案</a>
+        <a class="btn btn-secondary" href="contact.html" data-i18n="index.hero2.cta2">預約諮詢</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 3 -->
+  <div class="slide">
+    <div class="slide-bg"></div>
+    <div class="slide-deco"></div>
+    <div class="container slide-content">
+      <p class="slide-eyebrow">Meeting Room Integration</p>
+      <h1 class="slide-title" data-i18n-html="index.hero3.title">會議設備整合<br>混合辦公新體驗</h1>
+      <p class="slide-desc" data-i18n="index.hero3.desc">導入 MTR、USB 視訊會議設備、無線投影與環控系統，讓每一場遠端會議都像面對面溝通。</p>
+      <div class="slide-actions">
+        <a class="btn btn-primary" href="products.html#meeting-room" data-i18n="index.hero3.cta1">查看會議方案</a>
+        <a class="btn btn-secondary" href="contact.html" data-i18n="common.cta.requestQuote">索取報價</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="slider-arrows">
+    <button class="slider-arrow slider-prev" aria-label="上一張" data-i18n-attr="aria-label:index.hero.prevAria">&#8592;</button>
+    <button class="slider-arrow slider-next" aria-label="下一張" data-i18n-attr="aria-label:index.hero.nextAria">&#8594;</button>
+  </div>
+  <div class="slider-nav" role="tablist">
+    <button class="slider-dot active" aria-label="第 1 張" data-i18n-attr="aria-label:index.hero.dot1"></button>
+    <button class="slider-dot" aria-label="第 2 張" data-i18n-attr="aria-label:index.hero.dot2"></button>
+    <button class="slider-dot" aria-label="第 3 張" data-i18n-attr="aria-label:index.hero.dot3"></button>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ── STATS BAR ── -->
+<div class="stats-bar">
+  <div class="container">
+    <div class="stats-inner">
+      <div class="stat-item">
+        <div class="stat-num"><span data-counter data-target="20" data-suffix="+">20+</span></div>
+        <div class="stat-label" data-i18n="index.stats.label1">企業導入情境</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">24<span style="font-size:1.4rem;opacity:.7">/7</span></div>
+        <div class="stat-label" data-i18n="index.stats.label2">技術支援與維護</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num"><span data-counter data-target="15" data-suffix="+">15+</span></div>
+        <div class="stat-label" data-i18n="index.stats.label3">年產業服務經驗</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">One<span style="font-size:1.4rem;opacity:.8">-stop</span></div>
+        <div class="stat-label" data-i18n="index.stats.label4">規劃建置教育訓練售後</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── ABOUT SECTION ── -->
+<section class="section">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:end;margin-bottom:32px">
+      <div class="reveal-left">
+        <span class="eyebrow">About ESI Taiwan</span>
+        <h2 style="font-size:clamp(1.7rem,3vw,2.5rem);margin:12px 0 18px" data-i18n="index.about.title">整合通訊驅動者</h2>
+        <p style="color:var(--muted);margin-bottom:16px" data-i18n="index.about.p1">ESI 易通科技（Expert System IVR (Asia) Co., Ltd.）是企業通訊整合與協作解決方案專家，專注於 UC 整合通訊、行動分機、客服中心、錄音系統與會議室整合方案，致力為企業用戶提供從規劃、建置到維運的一站式服務。</p>
+        <p style="color:var(--muted);margin-bottom:24px" data-i18n="index.about.p2">作為 Microsoft Gold Communications Partner 與 AudioCodes 認證代理商，ESI 擁有豐富的 Teams Phone、Zoom Phone、Deltapath frSIP 等平台整合實績。</p>
+      </div>
+      <div class="reveal-right">
+        <ul class="check-list">
+          <li>Microsoft Gold Communications Partner</li>
+          <li data-i18n="index.about.li2">AudioCodes 認證代理商</li>
+          <li data-i18n="index.about.li3">On-Prem / Cloud / Hybrid 架構支援</li>
+          <li data-i18n="index.about.li4">從規劃到維運一站式服務</li>
+        </ul>
+        <a class="btn btn-outline" href="about.html" style="margin-top:24px;display:inline-block" data-i18n="common.cta.learnMore">了解更多</a>
+      </div>
+    </div>
+    <!-- 自動輪播圖片（全寬） -->
+    <div id="aboutSlider" style="position:relative;overflow:hidden;border-radius:16px;margin-top:8px">
+      <div id="aboutSlide0" class="about-slide"><img src="assets/core.png" alt="ESI 核心能力" style="width:100%;border-radius:16px"/></div>
+      <div id="aboutSlide1" class="about-slide" style="display:none"><img src="assets/solution.png" alt="ESI 解決方案" style="width:100%;border-radius:16px"/></div>
+    </div>
+    <!-- 指示點 -->
+    <div style="display:flex;justify-content:center;gap:8px;margin-top:12px">
+      <button id="adot0" onclick="goAboutSlide(0)" style="width:10px;height:10px;border-radius:50%;border:none;background:#0052cc;cursor:pointer;padding:0"></button>
+      <button id="adot1" onclick="goAboutSlide(1)" style="width:10px;height:10px;border-radius:50%;border:none;background:#c8d8f0;cursor:pointer;padding:0"></button>
+    </div>
+  </div>
+</section>
+<script>
+(function(){
+  var cur = 0;
+  var total = 2;
+  function goAboutSlide(n){
+    document.getElementById('aboutSlide'+cur).style.display='none';
+    document.getElementById('adot'+cur).style.background='#c8d8f0';
+    cur = n;
+    document.getElementById('aboutSlide'+cur).style.display='block';
+    document.getElementById('adot'+cur).style.background='#0052cc';
+  }
+  window.goAboutSlide = goAboutSlide;
+  setInterval(function(){ goAboutSlide((cur+1)%total); }, 4000);
+})();
+</script>
+
+<!-- ── SOLUTIONS ── -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-heading reveal">
+      <span class="eyebrow">Solutions</span>
+      <h2 data-i18n="index.solutions.title">熱門產品與解決方案</h2>
+      <p data-i18n="index.solutions.desc">從需求分析到上線維運，提供完整生命週期服務</p>
+    </div>
+    <div class="cards three-cols stagger">
+      <article class="card product-card">
+        <div class="tag" style="background:var(--primary)" data-i18n="index.solutions.card1.tag">核心方案</div>
+        <h3 data-i18n="common.mega.uc">整合通訊平台</h3>
+        <p data-i18n="index.solutions.card1.desc">支援 Microsoft Teams Phone、Zoom Phone、Deltapath frSIP，整合企業語音、分機與協作工具，支援 On-Prem、Cloud 與 Hybrid 架構。</p>
+        <a class="text-link" href="products.html#uc" data-i18n="common.cta.learnMore">了解更多 →</a>
+      </article>
+      <article class="card product-card">
+        <div class="tag" style="background:var(--accent)" data-i18n="index.solutions.card2.tag">熱門方案</div>
+        <h3 data-i18n="common.mega.recording">錄音系統</h3>
+        <p data-i18n="index.solutions.card2.desc">支援類比、數位、IP 錄音多種模式，提供 VL2000、華鼎 EULS、華鼎 TCR 2000 與 QMS 品質管理系統，滿足法遵與稽核需求。</p>
+        <a class="text-link" href="products.html#recording" data-i18n="common.cta.learnMore">了解更多 →</a>
+      </article>
+      <article class="card product-card">
+        <div class="tag" style="background:#7b2ff7" data-i18n="index.solutions.card3.tag">客服方案</div>
+        <h3>Call Center｜IVR</h3>
+        <p data-i18n="index.solutions.card3.desc">EICC 企業客服中心平台，整合 IVR、ACD、錄音、報表與 CRM，打造高效率可管理的現代客服環境。</p>
+        <a class="text-link" href="products.html#callcenter" data-i18n="common.cta.learnMore">了解更多 →</a>
+      </article>
+      <article class="card product-card">
+        <div class="tag" style="background:#1a7a4a" data-i18n="index.solutions.card4.tag">會議方案</div>
+        <h3 data-i18n="common.mega.meeting">會議設備整合</h3>
+        <p data-i18n="index.solutions.card4.desc">從小型到大型會議室，提供 MTR、Zoom Rooms、無線投影與 ESI-TIK Booking System，支援混合辦公會議場景。</p>
+        <a class="text-link" href="products.html#meeting-room" data-i18n="common.cta.learnMore">了解更多 →</a>
+      </article>
+      <article class="card product-card">
+        <div class="tag" style="background:#c2410c" data-i18n="index.solutions.card5.tag">設備方案</div>
+        <h3>Gateway｜SBC</h3>
+        <p data-i18n="index.solutions.card5.desc">AudioCodes、Ribbon 企業級 SBC 與 Gateway，確保 SIP 中繼安全互通、Teams Direct Routing 與通話品質管理。</p>
+        <a class="text-link" href="products.html#gateway" data-i18n="common.cta.learnMore">了解更多 →</a>
+      </article>
+      <article class="card product-card">
+        <div class="tag" style="background:#0e7490" data-i18n="index.solutions.card5.tag">設備方案</div>
+        <h3>IP Phone｜Teams Phone</h3>
+        <p data-i18n="index.solutions.card6.desc">AudioCodes C450/C470 Native Teams Phone、RXV200 一體入會設備與 Snom 高音質 SIP 話機，滿足各種辦公部署需求。</p>
+        <a class="text-link" href="products.html#ipphone" data-i18n="common.cta.learnMore">了解更多 →</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ── SERVICES DETAIL ── -->
+<section class="section">
+  <div class="container">
+    <div class="section-heading reveal">
+      <span class="eyebrow">Our Services</span>
+      <h2 data-i18n="index.process.title">完整服務流程</h2>
+    </div>
+    <div class="timeline stagger">
+      <div class="timeline-item">
+        <strong>01</strong>
+        <div>
+          <h3 data-i18n="index.process.step1.title">需求評估</h3>
+          <p data-i18n="index.process.step1.desc">確認客戶環境、需求與導入目標，規劃最適方案。</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <strong>02</strong>
+        <div>
+          <h3 data-i18n="index.process.step2.title">方案設計</h3>
+          <p data-i18n="index.process.step2.desc">規劃系統架構、設備清單、PoC 驗證與建置時程。</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <strong>03</strong>
+        <div>
+          <h3 data-i18n="index.process.step3.title">建置導入</h3>
+          <p data-i18n="index.process.step3.desc">安裝、整合、測試與教育訓練，確保順利上線。</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <strong>04</strong>
+        <div>
+          <h3 data-i18n="index.process.step4.title">上線維運</h3>
+          <p data-i18n="index.process.step4.desc">持續監控、維護、升級與故障快速排除。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── NEWS ── -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-heading row-between reveal" style="display:flex;justify-content:space-between;align-items:flex-end;text-align:left;margin-bottom:36px">
+      <div>
+        <span class="eyebrow">Latest News</span>
+        <h2 style="margin:8px 0 0" data-i18n="index.news.title">最新消息</h2>
+      </div>
+      <a class="text-link" href="news.html" data-i18n="index.news.viewAll">查看全部消息 →</a>
+    </div>
+    <div class="cards three-cols stagger">
+      <article class="card news-card">
+        <span class="news-date">2026-05-06</span>
+        <span style="display:inline-block;padding:2px 9px;border-radius:99px;font-size:.7rem;font-weight:700;background:rgba(11,61,145,.08);color:var(--primary);margin-bottom:8px">AudioCodes</span>
+        <h3>Voice AI 營收年增逾 50%，加速 AI 語音轉型</h3>
+        <p>Voca CIC 持續獲大型企業採用，ARR 突破 8,000 萬美元，深化 Microsoft Teams 客服 AI 整合。</p>
+      </article>
+      <article class="card news-card">
+        <span class="news-date">2026-04-30</span>
+        <span style="display:inline-block;padding:2px 9px;border-radius:99px;font-size:.7rem;font-weight:700;background:rgba(11,61,145,.08);color:var(--primary);margin-bottom:8px">Microsoft Teams</span>
+        <h3>Copilot 可接聽電話、即時翻譯，AI 全面升級</h3>
+        <p>Teams 新增 Copilot 通話代理與即時口譯，將 Teams 進化為 AI 驅動的企業協作中樞。</p>
+      </article>
+      <article class="card news-card">
+        <span class="news-date">2025-12-16</span>
+        <span style="display:inline-block;padding:2px 9px;border-radius:99px;font-size:.7rem;font-weight:700;background:rgba(10,92,48,.1);color:#0a5c30;margin-bottom:8px">Enghouse</span>
+        <h3>AI 虛擬客服與真人專員人機協作新模型</h3>
+        <p>Enghouse 發表白皮書，AI 可分析 100% 客服互動，強調信任與透明是 AI 客服導入關鍵。</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="section cta-section">
+  <div class="container cta-box reveal">
+    <div>
+      <span class="eyebrow" style="color:var(--accent2);background:rgba(245,166,35,.15)">Contact Us</span>
+      <h2 data-i18n="index.cta.title">需要客製化整合通訊方案？</h2>
+      <p data-i18n="index.cta.desc">從需求訪談到建置上線，ESI Taiwan 提供一站式服務。</p>
+    </div>
+    <a class="btn btn-primary" href="contact.html" data-i18n="index.cta.button">立即與我們聯繫</a>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <div class="brand-footer">ESI Taiwan</div>
+      <p>易通科技股份有限公司<br><span data-i18n="common.footer.tagline">整合通訊、視訊協作、客服中心與企業顧問服務。</span></p>
+    </div>
+    <div>
+      <h4 data-i18n="common.footer.quicklinks">快速連結</h4>
+      <ul class="footer-links">
+        <li><a href="index.html" data-i18n="common.nav.home">首頁</a></li>
+        <li><a href="about.html" data-i18n="common.nav.about">關於我們</a></li>
+        <li><a href="products.html" data-i18n="common.nav.products">產品方案</a></li>
+        <li><a href="news.html" data-i18n="common.nav.news">最新消息</a></li>
+        <li><a href="community.html" data-i18n="common.nav.community">交流天地</a></li>
+        <li><a href="support.html" data-i18n="common.nav.support">技術支援</a></li>
+        <li><a href="contact.html" data-i18n="common.nav.contact">聯絡我們</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 data-i18n="common.footer.contactInfo">聯絡資訊</h4>
+      <ul class="footer-links">
+        <li data-i18n="common.footer.phone">電話：02-77283528</li>
+        <li data-i18n="common.footer.email">Email：sales@esi-asia.com.tw</li>
+        <li data-i18n="common.footer.address">地址：新北市242新莊區新北大道三段5號18樓之2</li>
+      </ul>
+    </div>
+  </div>
+  <hr class="footer-divider">
+  <div class="copyright container">© 2026 Expert System IVR (Asia) Co., Ltd. All Rights Reserved.</div>
+</footer>
+
+<script>
+  window.ESI_I18N = { en: {
+    'index.meta.title': 'ESI Taiwan | Unified Communications & Enterprise Solutions',
+    'index.meta.desc': 'ESI Taiwan provides unified communications, video conferencing, contact center systems, and professional consulting services.',
+
+    'index.hero.sectionAria': 'Homepage Carousel',
+    'index.hero.prevAria': 'Previous slide',
+    'index.hero.nextAria': 'Next slide',
+    'index.hero.dot1': 'Slide 1',
+    'index.hero.dot2': 'Slide 2',
+    'index.hero.dot3': 'Slide 3',
+
+    'index.hero1.title': 'Unified Communications<br>Built for Seamless Collaboration',
+    'index.hero1.desc': 'ESI Taiwan helps enterprises integrate IP PBX, Microsoft Teams, video conferencing, and contact centers to build an efficient digital communication environment.',
+    'index.hero1.cta2': 'View Solutions',
+
+    'index.hero2.title': 'Contact Center Systems<br>Elevating Service Quality',
+    'index.hero2.desc': 'Supporting IVR, ACD, call recording, reporting, and workflow integration — from queue design to supervisor dashboards — to fully optimize customer service efficiency.',
+    'index.hero2.cta1': 'Explore Contact Center Solutions',
+    'index.hero2.cta2': 'Schedule a Consultation',
+
+    'index.hero3.title': 'Meeting Room Integration<br>A New Hybrid Work Experience',
+    'index.hero3.desc': 'Deploy MTR, USB video conferencing devices, wireless screen sharing, and room control systems so every remote meeting feels face-to-face.',
+    'index.hero3.cta1': 'View Meeting Room Solutions',
+
+    'index.stats.label1': 'Enterprise Deployments',
+    'index.stats.label2': 'Technical Support & Maintenance',
+    'index.stats.label3': 'Years of Industry Experience',
+    'index.stats.label4': 'Planning, Deployment, Training & Support',
+
+    'index.about.title': 'Driving Unified Communications Forward',
+    'index.about.p1': 'ESI (Expert System IVR (Asia) Co., Ltd.) specializes in enterprise communication integration and collaboration solutions, focusing on UC unified communications, mobile extensions, contact centers, call recording, and meeting room integration — delivering one-stop service from planning through deployment to ongoing operations.',
+    'index.about.p2': 'As a Microsoft Gold Communications Partner and a certified AudioCodes reseller, ESI has an extensive track record integrating platforms such as Teams Phone, Zoom Phone, and Deltapath frSIP.',
+    'index.about.li2': 'Certified AudioCodes Reseller',
+    'index.about.li3': 'On-Prem / Cloud / Hybrid Architecture Support',
+    'index.about.li4': 'One-Stop Service from Planning to Operations',
+
+    'index.solutions.title': 'Featured Products & Solutions',
+    'index.solutions.desc': 'Full lifecycle service from needs analysis to deployment and operations',
+    'index.solutions.card1.tag': 'Core Solution',
+    'index.solutions.card1.desc': 'Supporting Microsoft Teams Phone, Zoom Phone, and Deltapath frSIP, integrating enterprise voice, extensions, and collaboration tools across On-Prem, Cloud, and Hybrid architectures.',
+    'index.solutions.card2.tag': 'Popular Solution',
+    'index.solutions.card2.desc': 'Supporting analog, digital, and IP recording modes, with VL2000, Multisuns EULS, Multisuns TCR 2000, and a QMS quality management system to meet compliance and audit requirements.',
+    'index.solutions.card3.tag': 'Contact Center Solution',
+    'index.solutions.card3.desc': 'The EICC enterprise contact center platform integrates IVR, ACD, call recording, reporting, and CRM to build an efficient, manageable modern customer service environment.',
+    'index.solutions.card4.tag': 'Meeting Room Solution',
+    'index.solutions.card4.desc': 'From small to large meeting rooms, offering MTR, Zoom Rooms, wireless screen sharing, and the ESI-TIK Booking System for hybrid meeting scenarios.',
+    'index.solutions.card5.tag': 'Hardware Solution',
+    'index.solutions.card5.desc': 'Enterprise-grade SBCs and gateways from AudioCodes and Ribbon, ensuring secure SIP trunk interoperability, Teams Direct Routing, and call quality management.',
+    'index.solutions.card6.desc': 'AudioCodes C450/C470 native Teams phones, the RXV200 all-in-one meeting device, and Snom high-fidelity SIP phones to meet a wide range of office deployment needs.',
+
+    'index.process.title': 'Our Complete Service Process',
+    'index.process.step1.title': 'Requirements Assessment',
+    'index.process.step1.desc': 'Confirm the customer\'s environment and needs, and define deployment goals and scope.',
+    'index.process.step2.title': 'Solution Design',
+    'index.process.step2.desc': 'Plan the system architecture, equipment list, PoC validation, and deployment timeline.',
+    'index.process.step3.title': 'Deployment',
+    'index.process.step3.desc': 'Installation, integration, testing, and training to ensure a smooth go-live.',
+    'index.process.step4.title': 'Operations & Support',
+    'index.process.step4.desc': 'Ongoing monitoring, maintenance, upgrades, and rapid troubleshooting.',
+
+    'index.news.title': 'Latest News',
+    'index.news.viewAll': 'View All News →',
+
+    'index.cta.title': 'Need a Customized Unified Communications Solution?',
+    'index.cta.desc': 'From requirements interviews to deployment, ESI Taiwan provides one-stop service.',
+    'index.cta.button': 'Get in Touch With Us'
+  }};
+</script>
+<script src="i18n.js"></script>
+<script src="site.js"></script>
+</body>
+</html>

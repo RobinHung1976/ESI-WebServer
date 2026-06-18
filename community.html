@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-i18n="community.meta.title">交流天地｜ESI Taiwan</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── Brand logo inline ── */
+    .brand-logo{display:inline-flex;align-items:center;text-decoration:none;gap:0}
+    .brand-esi-mark{display:inline-flex;align-items:flex-start;position:relative;line-height:1}
+    .brand-esi-es{font-family:'Arial Black','Arial',sans-serif;font-size:2.6rem;font-weight:900;font-style:normal;color:#fff;letter-spacing:.02em;line-height:1;text-shadow:0 0 18px rgba(255,255,255,.35)}
+    .brand-esi-i-wrap{position:relative;display:inline-flex;align-items:flex-start}
+    .brand-esi-i{font-family:'Arial Black','Arial',sans-serif;font-size:2.6rem;font-weight:900;font-style:normal;color:#fff;line-height:1;letter-spacing:.02em;text-shadow:0 0 18px rgba(255,255,255,.35)}
+    .brand-esi-dot{position:absolute;top:-.28em;left:50%;transform:translateX(-50%);width:.52em;height:.52em;border-radius:50%;background:radial-gradient(circle at 38% 35%,#ff5555,#cc1111);box-shadow:0 2px 10px rgba(200,0,0,.7)}
+    .brand-divider{width:1.5px;height:44px;background:linear-gradient(to bottom,transparent,rgba(0,229,255,.6),transparent);margin:0 14px}
+    .brand-wordmark{display:flex;flex-direction:column;line-height:1;gap:2px}
+    .brand-sub{font-family:'Noto Sans TC',sans-serif;font-size:.68rem;font-weight:500;color:rgba(180,220,255,.9);letter-spacing:.18em;margin-top:3px}
+  </style>
+  <style>
+    .community-hero{background:linear-gradient(135deg,#071534 0%,#0b3d91 55%,#0a2460 100%);color:#fff;padding:112px 0 64px;position:relative;overflow:hidden}
+    .community-hero::before{content:'';position:absolute;right:-80px;top:-80px;width:560px;height:560px;border-radius:50%;border:2px solid rgba(255,255,255,.05)}
+    .community-hero h1{font-family:'Barlow Condensed',sans-serif;font-size:clamp(2.2rem,4vw,3.6rem);font-weight:900;margin:10px 0 14px}
+
+    .filter-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:36px}
+    .filter-btn{padding:7px 18px;border-radius:99px;border:1.5px solid var(--border);background:var(--surface);color:var(--muted);font-size:.85rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+    .filter-btn.active,.filter-btn:hover{background:var(--primary);border-color:var(--primary);color:#fff}
+
+    .post-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px 30px;box-shadow:var(--shadow);transition:transform .3s,box-shadow .3s;position:relative;overflow:hidden}
+    .post-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--primary),var(--primary-mid));transform:scaleX(0);transform-origin:left;transition:transform .35s}
+    .post-card:hover{transform:translateY(-4px);box-shadow:0 18px 48px rgba(11,61,145,.13)}
+    .post-card:hover::before{transform:scaleX(1)}
+    .post-card + .post-card{margin-top:22px}
+
+    .post-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:14px}
+    .post-avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:.95rem;flex-shrink:0}
+    .post-meta{flex:1}
+    .post-author{font-weight:700;font-size:.95rem;color:var(--text);margin-bottom:2px}
+    .post-info{display:flex;align-items:center;gap:10px;font-size:.78rem;color:var(--muted)}
+    .post-tag{display:inline-block;padding:2px 9px;border-radius:99px;font-size:.72rem;font-weight:700;background:rgba(13,74,164,.08);color:var(--primary)}
+    .post-tag.green{background:rgba(10,92,48,.1);color:#0a5c30}
+    .post-tag.orange{background:rgba(232,67,26,.1);color:var(--accent)}
+    .post-tag.purple{background:rgba(90,79,199,.1);color:#5a4fc7}
+    .post-title{font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:9px;line-height:1.4}
+    .post-body{font-size:.92rem;color:var(--muted);line-height:1.72}
+    .post-body a[href]:not([href^='/assets']){pointer-events:none;text-decoration:none;color:inherit;cursor:text;}
+    .post-footer{display:flex;align-items:center;justify-content:space-between;margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}
+    .post-reactions{display:flex;gap:14px}
+    .reaction-btn{display:flex;align-items:center;gap:5px;font-size:.82rem;color:var(--muted);background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:6px;transition:background .2s,color .2s;font-family:inherit}
+    .reaction-btn:hover{background:var(--bg);color:var(--primary)}
+    .reaction-btn.liked{color:var(--accent)}
+
+
+
+    .posts-loading{text-align:center;padding:60px 0;color:var(--muted)}
+    .loading-spinner{width:48px;height:48px;border:3px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    .community-layout{display:grid;grid-template-columns:1fr 300px;gap:36px;align-items:start}
+    .community-sidebar{display:grid;gap:20px}
+    .trending-item{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);cursor:pointer}
+    .trending-item:last-child{border-bottom:none}
+    .trending-num{font-family:'Barlow Condensed',sans-serif;font-size:1.4rem;font-weight:900;color:var(--primary);opacity:.25;line-height:1;min-width:24px}
+    .trending-title{font-size:.88rem;font-weight:600;color:var(--text);line-height:1.4}
+
+    .btn-add-post{display:flex;align-items:center;gap:7px;padding:9px 18px;border-radius:8px;border:1.5px solid var(--primary);background:var(--surface);color:var(--primary);font-weight:700;font-size:.88rem;cursor:pointer;transition:all .2s;font-family:inherit}
+    .btn-add-post:hover{background:var(--primary);color:#fff}
+
+    .modal-overlay{position:fixed;inset:0;background:rgba(7,15,36,.55);backdrop-filter:blur(4px);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .25s}
+    .modal-overlay.open{opacity:1;pointer-events:all}
+    .modal{background:var(--surface);border-radius:18px;padding:36px;width:100%;max-width:560px;box-shadow:0 24px 80px rgba(7,15,36,.35);transform:translateY(16px);transition:transform .25s}
+    .modal-overlay.open .modal{transform:translateY(0)}
+    .modal h3{margin-bottom:22px;font-size:1.2rem}
+    .modal label{display:flex;flex-direction:column;gap:6px;font-size:.85rem;font-weight:600;color:var(--muted);margin-bottom:14px}
+    .modal input,.modal select,.modal textarea{font-family:inherit;font-size:.95rem;padding:10px 14px;border:1.5px solid var(--border);border-radius:9px;background:var(--bg);color:var(--text);outline:none;transition:border-color .2s}
+    .modal input:focus,.modal select:focus,.modal textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(13,74,164,.1)}
+    .modal-actions{display:flex;gap:12px;justify-content:flex-end;margin-top:8px}
+    .btn-cancel{padding:10px 22px;border-radius:8px;border:1.5px solid var(--border);background:none;color:var(--muted);font-weight:700;font-size:.9rem;cursor:pointer;font-family:inherit}
+
+    .api-bar{display:flex;align-items:center;gap:8px;font-size:.78rem;margin-bottom:20px;padding:8px 14px;border-radius:8px;background:var(--surface);border:1px solid var(--border)}
+    .api-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;background:#ccc;transition:background .3s}
+    .api-dot.ok{background:#0a5c30}
+    .api-dot.err{background:#c03010}
+    .api-dot.loading{background:#f5a623;animation:blink .8s infinite}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+    @media(max-width:900px){.community-layout{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+
+<header class="site-header" id="siteHeader">
+  <div class="container nav-wrap">
+    <a class="brand-logo" href="index.html">
+      <span class="brand-esi-mark">
+        <span class="brand-esi-es">ES</span>
+        <span class="brand-esi-i-wrap">
+          <span class="brand-esi-i">I</span>
+          <span class="brand-esi-dot"></span>
+        </span>
+      </span>
+      <span class="brand-divider"></span>
+      <span class="brand-wordmark">
+        <span style="font-family:'Noto Sans TC',sans-serif;font-size:1.15rem;font-weight:700;color:#fff;letter-spacing:.06em;line-height:1.2;text-shadow:0 0 12px rgba(255,255,255,.25)">易通科技</span>
+        <span class="brand-sub">Expert System IVR (Asia) Co., Ltd.</span>
+      </span>
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="選單" data-i18n-attr="aria-label:common.nav.menuAria"><span></span><span></span><span></span></button>
+    <ul class="main-nav" id="mainNav">
+      <li><a href="index.html" data-i18n="common.nav.home">首頁</a></li>
+      <li class="has-mega">
+        <button><span data-i18n="common.nav.products">產品方案</span> <svg class="nav-arrow" viewBox="0 0 14 14" fill="none"><path d="M2 4.5L7 9.5L12 4.5" stroke="rgba(255,255,255,.8)" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="mega-menu">
+          <div class="mega-col"><h4 data-i18n="common.mega.uc">整合通訊</h4><a href="products.html#uc">Microsoft Teams Phone</a><a href="products.html#uc">Zoom Phone</a><a href="products.html#uc">Deltapath FreSIP</a></div>
+          <div class="mega-col"><h4 data-i18n="common.mega.recording">錄音系統</h4><a href="products.html#recording">VL2000</a><a href="products.html#recording" data-i18n="common.product.huadingEuls">華鼎 EULS</a><a href="products.html#recording" data-i18n="common.product.huadingTcr">華鼎 TCR 2000</a><a href="products.html#recording">QMS</a></div>
+          <div class="mega-col"><h4 data-i18n="common.mega.callcenter">Call Center｜IVR</h4><a href="products.html#callcenter">EICC</a></div>
+          <div class="mega-col"><h4 data-i18n="common.mega.meeting">會議設備</h4><a href="products.html#meeting-room" data-i18n="common.mega.video">視訊設備</a><a href="products.html#meeting-room" data-i18n="common.mega.headset">耳機和揚聲器</a><a href="products.html#meeting-room" data-i18n="common.mega.wireless">無線投影</a><a href="https://esi-asia.com/esi-tik-for-neat-pad-neat-frame/" target="_blank">ESI-TIK Booking System</a></div>
+          <div class="mega-col"><h4 data-i18n="common.mega.gateway">Gateway｜SBC</h4><a href="products.html#gateway">AudioCodes</a><a href="products.html#gateway">Ribbon</a></div>
+          <div class="mega-col"><h4 data-i18n="common.mega.ipphone">IP Phone｜Teams Phone</h4><a href="products.html#ipphone">AudioCodes</a><a href="products.html#ipphone">Snom</a></div>
+        </div>
+      </li>
+      <li><a href="about.html" data-i18n="common.nav.about">關於我們</a></li>
+      <li><a href="news.html" data-i18n="common.nav.news">最新消息</a></li>
+      <li><a href="community.html" class="active" data-i18n="common.nav.community">交流天地</a></li>
+      <li><a href="support.html" data-i18n="common.nav.support">技術支援</a></li>
+      <li><a href="contact.html" class="nav-cta" data-i18n="common.nav.contact">立即洽詢</a></li>
+    </ul>
+  </div>
+</header>
+
+<section class="community-hero">
+  <div class="container">
+    <span class="eyebrow" style="color:#f5a623;background:rgba(245,166,35,.15)">Community</span>
+    <h1 data-i18n="community.hero.title">交流天地</h1>
+    <p class="lead" data-i18n="community.hero.lead">整合通訊、視訊會議、客服中心使用心得與技術分享。</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container community-layout">
+    <main>
+      <div class="api-bar">
+        <span class="api-dot loading" id="apiDot"></span>
+        <span id="apiStatus" data-i18n="community.loading">載入中...</span>
+      </div>
+
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:28px">
+        <div class="filter-bar" id="filterBar">
+          <button class="filter-btn active" data-cat="all"><span data-i18n="news.filter.all">全部</span></button>
+          <button class="filter-btn" data-cat="uc"><span data-i18n="common.mega.uc">整合通訊</span></button>
+          <button class="filter-btn" data-cat="cc"><span data-i18n="common.mega.callcenter">Call Center｜IVR</span></button>
+          <button class="filter-btn" data-cat="meeting"><span data-i18n="common.mega.meeting">會議設備</span></button>
+          <button class="filter-btn" data-cat="tips"><span data-i18n="community.cat.tips">使用技巧</span></button>
+          <button class="filter-btn" data-cat="gateway"><span data-i18n="common.mega.gateway">Gateway｜SBC</span></button>
+          <button class="filter-btn" data-cat="ipphone"><span data-i18n="common.mega.ipphone">IP Phone｜Teams Phone</span></button>
+          <button class="filter-btn" data-cat="recording"><span data-i18n="common.mega.recording">錄音系統</span></button>
+          <button class="filter-btn" data-cat="share"><span data-i18n="community.cat.share">資料分享</span></button>
+        </div>
+        <button class="btn-add-post" id="addPostBtn">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <span data-i18n="community.addBtn">分享心得</span>
+        </button>
+      </div>
+
+      <div id="postsContainer">
+        <div class="posts-loading"><div class="loading-spinner"></div><p data-i18n="community.loading">載入中...</p></div>
+      </div>
+    </main>
+
+    <aside class="community-sidebar">
+      <div class="panel">
+        <h3 style="margin-bottom:16px" data-i18n="community.trendingTitle">🔥 熱門話題</h3>
+        <div id="trendingList"><div style="color:var(--muted);font-size:.88rem" data-i18n="community.loading">載入中...</div></div>
+      </div>
+      <div class="panel">
+        <h3 style="margin-bottom:10px" data-i18n="community.aboutTitle">💡 關於交流天地</h3>
+        <p style="color:var(--muted);font-size:.88rem;line-height:1.7" data-i18n="community.aboutDesc">心得與討論內容由 ESI 提供與維護，永久保存。</p>
+      </div>
+
+    </aside>
+  </div>
+</section>
+
+<!-- Add Post Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h3 data-i18n="community.modal.title">✏️ 分享使用心得</h3>
+    <label><span data-i18n="community.modal.name">您的姓名</span><input type="text" id="pAuthor" placeholder="例：王小明"/></label>
+    <label><span data-i18n="community.modal.role">職稱（選填）</span><input type="text" id="pRole" placeholder="例：IT 管理員"/></label>
+    <label><span data-i18n="news.modal.category">分類</span>
+      <select id="pCat" onchange="document.getElementById('fileSection').style.display=this.value==='share'?'block':'none';document.getElementById('pFile').value='';document.getElementById('uploadStatus').textContent='';">
+        <option value="uc" data-i18n="common.mega.uc">整合通訊</option>
+        <option value="cc" data-i18n="common.mega.callcenter">Call Center｜IVR</option>
+        <option value="meeting" data-i18n="common.mega.meeting">會議設備</option>
+        <option value="tips" data-i18n="community.cat.tips">使用技巧</option>
+        <option value="gateway" data-i18n="common.mega.gateway">Gateway｜SBC</option>
+        <option value="ipphone" data-i18n="common.mega.ipphone">IP Phone｜Teams Phone</option>
+        <option value="recording" data-i18n="common.mega.recording">錄音系統</option>
+        <option value="share" data-i18n="community.cat.share">資料分享</option>
+      </select>
+    </label>
+    <label><span data-i18n="news.modal.title2">標題</span><input type="text" id="pTitle" placeholder="請輸入心得標題" data-i18n-placeholder="community.modal.titlePh"/></label>
+    <label><span data-i18n="news.modal.body">內容</span><textarea id="pBody" rows="5" placeholder="分享您的使用心得（建議 50-150 字）" data-i18n-placeholder="community.modal.bodyPh"></textarea></label>
+    <div id="fileSection" style="display:none">
+      <label><span data-i18n="community.modal.attachment">附件（選填，最大 20MB）</span>
+        <input type="file" id="pFile" accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.zip,.mp4" style="padding:8px"/>
+      </label>
+      <div id="uploadStatus" style="font-size:.82rem;margin-top:-8px;margin-bottom:8px;min-height:1.2em"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" id="cancelBtn" data-i18n="common.cta.cancel">取消</button>
+      <button class="btn btn-primary" id="saveBtn" data-i18n="community.modal.publish">發佈</button>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div><div class="brand-footer">ESI Taiwan</div><p data-i18n="common.footer.tagline">整合通訊、視訊協作、客服中心與企業顧問服務。</p></div>
+    <div><h4 data-i18n="common.footer.quicklinks">快速連結</h4><ul class="footer-links"><li><a href="index.html" data-i18n="common.nav.home">首頁</a></li><li><a href="about.html" data-i18n="common.nav.about">關於我們</a></li><li><a href="products.html" data-i18n="common.nav.products">產品方案</a></li><li><a href="news.html" data-i18n="common.nav.news">最新消息</a></li><li><a href="community.html" data-i18n="common.nav.community">交流天地</a></li><li><a href="support.html" data-i18n="common.nav.support">技術支援</a></li><li><a href="contact.html" data-i18n="common.nav.contact">聯絡我們</a></li></ul></div>
+    <div><h4 data-i18n="common.footer.contactInfo">聯絡資訊</h4><ul class="footer-links"><li data-i18n="common.footer.phone">電話：02-77283528</li><li data-i18n="common.footer.email">Email：sales@esi-asia.com.tw</li><li data-i18n="common.footer.address">地址：新北市242新莊區新北大道三段5號18樓之2</li></ul></div>
+  </div>
+  <hr class="footer-divider">
+  <div class="copyright container">© 2026 Expert System IVR (Asia) Co., Ltd. All Rights Reserved.</div>
+</footer>
+<script>
+  window.ESI_I18N = { en: {
+    'community.meta.title': 'Community | ESI Taiwan',
+    'community.hero.title': 'Community',
+    'community.hero.lead': 'Tips, experiences, and technical insights on unified communications, video conferencing, and contact centers.',
+    'community.loading': 'Loading...',
+    'community.cat.tips': 'Tips & Tricks',
+    'community.cat.share': 'Resource Sharing',
+    'community.addBtn': 'Share Your Experience',
+    'community.trendingTitle': '🔥 Trending Topics',
+    'community.aboutTitle': '💡 About the Community',
+    'community.aboutDesc': 'Posts and discussions are provided and maintained by ESI and kept permanently.',
+    'community.modal.title': '✏️ Share Your Experience',
+    'community.modal.name': 'Your Name',
+    'community.modal.role': 'Job Title (optional)',
+    'community.modal.titlePh': 'Enter a title for your post',
+    'community.modal.bodyPh': 'Share your experience (50–150 words recommended)',
+    'community.modal.attachment': 'Attachment (optional, max 20MB)',
+    'community.modal.publish': 'Publish',
+    'community.tag.uc': 'Unified Communications',
+    'community.tag.cc': 'Call Center｜IVR',
+    'community.tag.meeting': 'Meeting Room Equipment',
+    'community.tag.tips': 'Tips & Tricks',
+    'community.tag.share': 'Resource Sharing',
+    'community.tag.gateway': 'Gateway｜SBC',
+    'community.tag.ipphone': 'IP Phone｜Teams Phone',
+    'community.tag.recording': 'Call Recording'
+  }};
+</script>
+<script src="i18n.js"></script>
+<script src="site.js"></script>
+<script>
+(function(){
+  const API = '/api';
+  const TAG_MAP = {
+    uc:{label: (window.t&&window.t('community.tag.uc')) || '整合通訊', color:''},
+    cc:{label: (window.t&&window.t('community.tag.cc')) || 'Call Center｜IVR', color:'green'},
+    meeting:{label: (window.t&&window.t('community.tag.meeting')) || '會議設備', color:'orange'},
+    tips:{label: (window.t&&window.t('community.tag.tips')) || '使用技巧', color:'purple'},
+    share:{label: (window.t&&window.t('community.tag.share')) || '資料分享', color:'blue'},
+    gateway:{label: (window.t&&window.t('community.tag.gateway')) || 'Gateway｜SBC', color:'orange'},
+    ipphone:{label: (window.t&&window.t('community.tag.ipphone')) || 'IP Phone｜Teams Phone', color:'teal'},
+    recording:{label: (window.t&&window.t('community.tag.recording')) || '錄音系統', color:'red'}
+  };
+  const AVATAR_COLOR = {uc:'#0b3d91',cc:'#0a5c30',meeting:'#6b0e2e',tips:'#5a4fc7',share:'#0e7490',gateway:'#c2410c',ipphone:'#0e7490',recording:'#b91c1c'};
+
+  /* session_id for like dedup */
+  let SID = localStorage.getItem('esi_sid');
+  if(!SID){ SID = Math.random().toString(36).slice(2)+Date.now().toString(36); localStorage.setItem('esi_sid',SID); }
+
+  let allPosts=[], currentCat='all';
+
+  function setStatus(state,msg){
+    document.getElementById('apiDot').className='api-dot '+state;
+    document.getElementById('apiStatus').textContent=msg;
+  }
+
+  async function api(path,opts){
+    const r=await fetch(API+path,{headers:{'Content-Type':'application/json'},...opts});
+    if(!r.ok) throw new Error(await r.text());
+    return r.json();
+  }
+
+  function timeAgo(ts){
+    const diff=(Date.now()-new Date(ts))/1000;
+    if(diff<3600) return Math.floor(diff/60)+'分鐘前';
+    if(diff<86400) return Math.floor(diff/3600)+'小時前';
+    return Math.floor(diff/86400)+'天前';
+  }
+
+  async function load(cat){
+    setStatus('loading','載入中...');
+    const container=document.getElementById('postsContainer');
+    container.innerHTML='<div class="posts-loading"><div class="loading-spinner"></div><p>載入中...</p></div>';
+    try{
+      const q=cat&&cat!=='all'?`?category=${cat}`:'';
+      allPosts=await api('/posts'+q);
+      setStatus('ok',`共 ${allPosts.length} 則心得，資料來源由 ESI 提供`);
+      renderPosts(allPosts);
+      renderTrending(allPosts);
+    }catch(e){
+      setStatus('err','資料載入失敗：'+e.message);
+      container.innerHTML=`<div style="color:var(--muted);padding:40px 0;text-align:center">
+        ⚠️ 資料暫時無法載入<br>
+        <small style="font-size:.82rem">請稍後再試，或與 ESI 聯繫</small>
+      </div>`;
+    }
+  }
+
+  function renderPosts(posts){
+    const c=document.getElementById('postsContainer');
+    if(!posts.length){c.innerHTML='<p style="color:var(--muted);padding:32px 0">尚無心得，趕快分享第一篇！</p>';return;}
+    c.innerHTML=posts.map(p=>{
+      const tag=TAG_MAP[p.category]||TAG_MAP.tips;
+      const av=AVATAR_COLOR[p.category]||'#0b3d91';
+      const init=(p.author||'?')[0];
+      return `
+      <div class="post-card" data-id="${p.id}" data-post-id="${p.id}">
+        <div class="post-header">
+          <div class="post-avatar" style="background:linear-gradient(135deg,${av},${av}cc)">${esc(init)}</div>
+          <div class="post-meta">
+            <div class="post-author">${esc(p.author)}</div>
+            <div class="post-info">
+              <span>${esc(p.role||'')}</span>
+              ${p.role?'<span>・</span>':''}
+              <span>${timeAgo(p.created_at)}</span>
+              <span class="post-tag ${tag.color}">${tag.label}</span>
+            </div>
+          </div>
+        </div>
+        <div class="post-title">${esc(p.title)}</div>
+        <div class="post-body">${(p.category==='share' || p.body.includes('/assets/uploads/')) ? p.body : safeBody(p.body)}</div>
+        <div class="post-footer">
+          <div class="post-reactions">
+            <button class="reaction-btn" id="like-${p.id}" onclick="toggleLike(${p.id},this)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              <span>${p.likes||0}</span>
+            </button>
+            <span class="reaction-btn" style="cursor:default">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <span>${p.comments||0}</span>
+            </span>
+          </div>
+          <span style="font-size:.78rem;color:var(--muted)">👁 ${p.views||0}</span>
+        </div>
+      </div>`;
+    }).join('');
+
+    /* 瀏覽數 +1（批次，簡單做法：逐篇發） */
+    posts.forEach(p=>{
+      fetch(API+'/posts/'+p.id+'/view',{method:'POST'}).catch(()=>{});
+    });
+  }
+
+  function renderTrending(posts){
+    const top=[...posts].sort((a,b)=>(b.views||0)-(a.views||0)).slice(0,5);
+    document.getElementById('trendingList').innerHTML=top.map((p,i)=>`
+      <div class="trending-item" onclick="scrollToPost(${p.id})">
+        <span class="trending-num">0${i+1}</span>
+        <span class="trending-title">${esc(p.title)}</span>
+      </div>`).join('');
+  }
+
+  window.scrollToPost = function(id) {
+    // 先切換到全部 tab
+    const allBtn = document.querySelector('[data-cat="all"]');
+    if (allBtn) allBtn.click();
+    setTimeout(function() {
+      const el = document.querySelector('[data-post-id="'+id+'"]');
+      if (el) {
+        el.scrollIntoView({behavior:'smooth', block:'center'});
+        el.style.boxShadow='0 0 0 3px var(--primary)';
+        setTimeout(()=>el.style.boxShadow='', 2000);
+      }
+    }, 300);
+  };
+
+  /* 篩選 */
+  document.getElementById('filterBar').addEventListener('click',e=>{
+    const btn=e.target.closest('.filter-btn');
+    if(!btn) return;
+    currentCat=btn.dataset.cat;
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.toggle('active',b.dataset.cat===currentCat));
+    load(currentCat);
+  });
+
+  /* 按讚 */
+  window.toggleLike=async function(id,btn){
+    try{
+      const r=await api('/posts/'+id+'/like',{method:'POST',body:JSON.stringify({session_id:SID})});
+      btn.classList.toggle('liked',r.liked);
+      btn.querySelector('span').textContent=r.likes;
+    }catch(e){ console.warn(e); }
+  };
+
+;
+
+  /* Modal */
+  const overlay=document.getElementById('modalOverlay');
+  document.getElementById('addPostBtn').onclick=()=>overlay.classList.add('open');
+  document.getElementById('cancelBtn').onclick=()=>overlay.classList.remove('open');
+  overlay.onclick=e=>{ if(e.target===overlay) overlay.classList.remove('open'); };
+
+  document.getElementById('saveBtn').onclick=async()=>{
+    const author=document.getElementById('pAuthor').value.trim();
+    const role  =document.getElementById('pRole').value.trim();
+    const cat   =document.getElementById('pCat').value;
+    const title =document.getElementById('pTitle').value.trim();
+    const body  =document.getElementById('pBody').value.trim();
+    const fileInput = document.getElementById('pFile');
+    if(!author||!title||!body){alert('請填寫姓名、標題與內容');return;}
+    const statusEl = document.getElementById('uploadStatus');
+    let fileLink = '';
+    // 上傳檔案（如果有選擇）
+    if (fileInput.files.length > 0) {
+      const file = fileInput.files[0];
+      if (file.size > 20 * 1024 * 1024) { alert('檔案大小不可超過 20MB'); return; }
+      statusEl.style.color = '#0052cc';
+      statusEl.textContent = '⏳ 上傳中...';
+      const fd = new FormData();
+      fd.append('file', file);
+      try {
+        const r = await fetch('/api/upload', { method:'POST', body: fd });
+        const d = await r.json();
+        if (!r.ok) { statusEl.style.color='#cc2200'; statusEl.textContent='❌ '+d.error; return; }
+        fileLink = '\n\n📎 <a href="'+d.url+'" target="_blank">'+d.name+'</a>';
+        statusEl.style.color = '#1a7a1a';
+        statusEl.textContent = '✅ 上傳成功：' + d.name;
+      } catch(e) { statusEl.style.color='#cc2200'; statusEl.textContent='❌ 上傳失敗'; return; }
+    }
+    try{
+      await api('/posts',{method:'POST',body:JSON.stringify({author,role,category:cat,title,body:body+fileLink})});
+      overlay.classList.remove('open');
+      ['pAuthor','pRole','pTitle','pBody'].forEach(id=>document.getElementById(id).value='');
+      load(currentCat);
+    }catch(e){alert('發佈失敗：'+e.message);}
+  };
+
+  function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function safeBody(s){ return esc(s).replace(/(「|」|（|）|「|」|（|）)/g, '$1​'); }
+
+  load('all');
+})();
+</script>
+</body>
+</html>

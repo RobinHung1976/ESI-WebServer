@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-i18n="contact.meta.title">聯絡我們｜ESI Taiwan</title>
+  <meta name="description" content="聯絡 ESI，索取產品資訊或預約顧問諮詢。" data-i18n-attr="content:contact.meta.desc" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── Brand logo inline ── */
+    .brand-logo{display:inline-flex;align-items:center;text-decoration:none;gap:0}
+    .brand-esi-mark{display:inline-flex;align-items:flex-start;position:relative;line-height:1}
+    .brand-esi-es{font-family:'Arial Black','Arial',sans-serif;font-size:2.6rem;font-weight:900;font-style:normal;color:#fff;letter-spacing:.02em;line-height:1;text-shadow:0 0 18px rgba(255,255,255,.35)}
+    .brand-esi-i-wrap{position:relative;display:inline-flex;align-items:flex-start}
+    .brand-esi-i{font-family:'Arial Black','Arial',sans-serif;font-size:2.6rem;font-weight:900;font-style:normal;color:#fff;line-height:1;letter-spacing:.02em;text-shadow:0 0 18px rgba(255,255,255,.35)}
+    .brand-esi-dot{position:absolute;top:-.28em;left:50%;transform:translateX(-50%);width:.52em;height:.52em;border-radius:50%;background:radial-gradient(circle at 38% 35%,#ff5555,#cc1111);box-shadow:0 2px 10px rgba(200,0,0,.7)}
+    .brand-divider{width:1.5px;height:44px;background:linear-gradient(to bottom,transparent,rgba(0,229,255,.6),transparent);margin:0 14px}
+    .brand-wordmark{display:flex;flex-direction:column;line-height:1;gap:2px}
+    .brand-sub{font-family:'Noto Sans TC',sans-serif;font-size:.68rem;font-weight:500;color:rgba(180,220,255,.9);letter-spacing:.18em;margin-top:3px}
+  </style>
+</head>
+<body>
+
+<header class="site-header" id="siteHeader">
+  <div class="container nav-wrap">
+    <a class="brand-logo" href="index.html">
+      <span class="brand-esi-mark">
+        <span class="brand-esi-es">ES</span>
+        <span class="brand-esi-i-wrap">
+          <span class="brand-esi-i">I</span>
+          <span class="brand-esi-dot"></span>
+        </span>
+      </span>
+      <span class="brand-divider"></span>
+      <span class="brand-wordmark">
+        <span style="font-family:'Noto Sans TC',sans-serif;font-size:1.15rem;font-weight:700;color:#fff;letter-spacing:.06em;line-height:1.2;text-shadow:0 0 12px rgba(255,255,255,.25)">易通科技</span>
+        <span class="brand-sub">Expert System IVR (Asia) Co., Ltd.</span>
+      </span>
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="選單" data-i18n-attr="aria-label:common.nav.menuAria"><span></span><span></span><span></span></button>
+    <ul class="main-nav" id="mainNav">
+      <li><a href="index.html" data-i18n="common.nav.home">首頁</a></li>
+      <li class="has-mega">
+        <button><span data-i18n="common.nav.products">產品方案</span> <svg class="nav-arrow" viewBox="0 0 14 14" fill="none"><path d="M2 4.5L7 9.5L12 4.5" stroke="rgba(255,255,255,.8)" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="mega-menu">
+          <div class="mega-col"><h4 data-i18n="common.mega.uc">整合通訊</h4><a href="products.html#uc">Microsoft Teams Phone</a><a href="products.html#uc">Zoom Phone</a><a href="products.html#uc">Deltapath FreSIP</a></div>
+          <div class="mega-col"><h4 data-i18n="common.mega.recording">錄音系統</h4><a href="products.html#recording">VL2000</a><a href="products.html#recording" data-i18n="common.product.huadingEuls">華鼎 EULS</a><a href="products.html#recording" data-i18n="common.product.huadingTcr">華鼎 TCR 2000</a><a href="products.html#recording">QMS</a></div>
+          <div class="mega-col"><h4 data-i18n="common.mega.callcenter">Call Center｜IVR</h4><a href="products.html#callcenter">EICC</a></div>
+          <div class="mega-col"><h4 data-i18n="common.mega.meeting">會議設備</h4><a href="products.html#meeting-room" data-i18n="common.mega.video">視訊設備</a><a href="products.html#meeting-room" data-i18n="common.mega.headset">耳機和揚聲器</a><a href="products.html#meeting-room" data-i18n="common.mega.wireless">無線投影</a><a href="https://esi-asia.com/esi-tik-for-neat-pad-neat-frame/" target="_blank">ESI-TIK Booking System</a></div>
+          <div class="mega-col"><h4 data-i18n="common.mega.gateway">Gateway｜SBC</h4><a href="products.html#gateway">AudioCodes</a><a href="products.html#gateway">Ribbon</a></div>
+          <div class="mega-col"><h4 data-i18n="common.mega.ipphone">IP Phone｜Teams Phone</h4><a href="products.html#ipphone">AudioCodes</a><a href="products.html#ipphone">Snom</a></div>
+        </div>
+      </li>
+      <li><a href="about.html" data-i18n="common.nav.about">關於我們</a></li>
+      <li><a href="news.html" data-i18n="common.nav.news">最新消息</a></li>
+      <li><a href="community.html" data-i18n="common.nav.community">交流天地</a></li>
+      <li><a href="support.html" data-i18n="common.nav.support">技術支援</a></li>
+      <li><a href="contact.html" class="nav-cta active" data-i18n="common.nav.contact">立即洽詢</a></li>
+    </ul>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow" style="color:var(--accent2);background:rgba(245,166,35,.15)">Contact Us</span>
+    <h1 data-i18n="contact.hero.title">聯絡我們</h1>
+    <p class="lead" data-i18n="contact.hero.lead">歡迎透過電話、Email 或線上表單與我們聯繫，我們將盡快安排專人為您服務。</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="form-panel reveal" style="max-width:680px;margin:0 auto">
+      <h2 style="margin-bottom:24px" data-i18n="contact.form.title">線上洽詢表單</h2>
+
+      <!-- success message (hidden by default) -->
+      <div id="formSuccess" style="display:none;background:linear-gradient(135deg,#003d22,#005a30);border:1px solid rgba(0,255,180,0.35);border-radius:12px;padding:32px 28px;text-align:center">
+        <div style="font-size:2.8rem;margin-bottom:12px">✅</div>
+        <h3 style="color:#00ffcc;margin:0 0 10px" data-i18n="contact.form.successTitle">洽詢已成功送出！</h3>
+        <p style="color:rgba(180,255,230,0.85);margin:0 0 6px" data-i18n="contact.form.successP1">感謝您聯繫 ESI 易通科技，業務團隊將於 1 個工作天內與您聯繫。</p>
+        <p style="color:rgba(180,255,230,0.65);font-size:.88rem;margin:0" data-i18n="contact.form.successP2">確認信已寄至您的信箱，請留意查收。</p>
+      </div>
+
+      <!-- error message (hidden by default) -->
+      <div id="formError" style="display:none;background:rgba(180,30,30,0.15);border:1px solid rgba(255,80,80,0.35);border-radius:10px;padding:16px 20px;margin-bottom:20px;color:#ff8888;font-size:.92rem"></div>
+
+      <form id="contactForm">
+        <label><span data-i18n="contact.form.name">姓名</span> <span style="color:#ff6666">*</span><input type="text" name="name" placeholder="請輸入姓名" required data-i18n-placeholder="contact.form.namePh" /></label>
+        <label><span data-i18n="contact.form.company">公司名稱</span> <input type="text" name="company" placeholder="請輸入公司名稱" data-i18n-placeholder="contact.form.companyPh" /></label>
+        <label>Email <span style="color:#ff6666">*</span><input type="email" name="email" placeholder="請輸入 Email" required data-i18n-placeholder="contact.form.emailPh" /></label>
+        <label><span data-i18n="contact.form.phone">電話</span> <input type="tel" name="phone" placeholder="請輸入電話" data-i18n-placeholder="contact.form.phonePh" /></label>
+        <label><span data-i18n="contact.form.type">需求類型</span>
+          <select name="type">
+            <option data-i18n="common.mega.uc">整合通訊</option>
+            <option data-i18n="common.mega.recording">錄音系統</option>
+            <option data-i18n="common.mega.callcenter">Call Center｜IVR</option>
+            <option data-i18n="common.mega.meeting">會議設備</option>
+            <option data-i18n="common.mega.gateway">Gateway｜SBC</option>
+            <option data-i18n="common.mega.ipphone">IP Phone｜Teams Phone</option>
+            <option data-i18n="news.filter.other">其他</option>
+          </select>
+        </label>
+        <label><span data-i18n="contact.form.message">需求說明</span> <span style="color:#ff6666">*</span><textarea name="message" rows="5" placeholder="請簡述需求內容" required data-i18n-placeholder="contact.form.messagePh"></textarea></label>
+        <button class="btn btn-primary btn-block" type="submit" id="submitBtn" data-i18n="contact.form.submit">送出洽詢</button>
+        <p class="form-note" style="margin-top:10px;font-size:.82rem;color:var(--muted)" data-i18n="contact.form.note">＊ 標示為必填欄位，送出後將同步寄送確認信至您的信箱。</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div><div class="brand-footer">ESI Taiwan</div><p data-i18n="common.footer.tagline">整合通訊、視訊協作、客服中心與企業顧問服務。</p></div>
+    <div><h4 data-i18n="common.footer.quicklinks">快速連結</h4><ul class="footer-links"><li><a href="index.html" data-i18n="common.nav.home">首頁</a></li><li><a href="about.html" data-i18n="common.nav.about">關於我們</a></li><li><a href="products.html" data-i18n="common.nav.products">產品方案</a></li><li><a href="news.html" data-i18n="common.nav.news">最新消息</a></li><li><a href="community.html" data-i18n="common.nav.community">交流天地</a></li><li><a href="support.html" data-i18n="common.nav.support">技術支援</a></li><li><a href="contact.html" data-i18n="common.nav.contact">聯絡我們</a></li></ul></div>
+    <div><h4 data-i18n="common.footer.contactInfo">聯絡資訊</h4><ul class="footer-links"><li data-i18n="common.footer.phone">電話：02-77283528</li><li data-i18n="common.footer.email">Email：sales@esi-asia.com.tw</li><li data-i18n="common.footer.address">地址：新北市242新莊區新北大道三段5號18樓之2</li></ul></div>
+  </div>
+  <hr class="footer-divider">
+  <div class="copyright container">© 2026 Expert System IVR (Asia) Co., Ltd. All Rights Reserved.</div>
+</footer>
+<script>
+  window.ESI_I18N = { en: {
+    'contact.meta.title': 'Contact Us | ESI Taiwan',
+    'contact.meta.desc': 'Contact ESI to request product information or schedule a consultation.',
+    'contact.hero.title': 'Contact Us',
+    'contact.hero.lead': "Reach us by phone, email, or the online form below, and we'll have someone follow up with you as soon as possible.",
+    'contact.form.title': 'Online Inquiry Form',
+    'contact.form.successTitle': 'Your inquiry has been submitted!',
+    'contact.form.successP1': 'Thank you for contacting ESI Taiwan. Our sales team will reach out to you within 1 business day.',
+    'contact.form.successP2': 'A confirmation email has been sent to your inbox — please check it.',
+    'contact.form.name': 'Name',
+    'contact.form.namePh': 'Enter your name',
+    'contact.form.company': 'Company Name',
+    'contact.form.companyPh': 'Enter your company name',
+    'contact.form.emailPh': 'Enter your email',
+    'contact.form.phone': 'Phone',
+    'contact.form.phonePh': 'Enter your phone number',
+    'contact.form.type': 'Inquiry Type',
+    'contact.form.message': 'Details',
+    'contact.form.messagePh': 'Briefly describe what you need',
+    'contact.form.submit': 'Submit Inquiry',
+    'contact.form.submitting': 'Submitting…',
+    'contact.form.note': '* Required fields. A confirmation email will be sent to your inbox after submission.',
+    'contact.form.errDefault': 'Submission failed, please try again later.',
+    'contact.form.errNetwork': 'Network error. Please check your connection and try again, or call us directly at 02-7728-3528.'
+  }};
+</script>
+<script src="i18n.js"></script>
+<script src="site.js"></script>
+<script>
+(function(){
+  const form      = document.getElementById('contactForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const success   = document.getElementById('formSuccess');
+  const errorBox  = document.getElementById('formError');
+
+  if (!form) return;
+
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    errorBox.style.display = 'none';
+    submitBtn.disabled = true;
+    submitBtn.textContent = (window.t && window.t('contact.form.submitting')) || '送出中…';
+
+    const data = {
+      name:    form.name.value.trim(),
+      company: form.company.value.trim(),
+      email:   form.email.value.trim(),
+      phone:   form.phone.value.trim(),
+      type:    form.type.value,
+      message: form.message.value.trim(),
+    };
+
+    try {
+      const res = await fetch('/api/contact', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(data),
+      });
+      const json = await res.json();
+
+      if (res.ok) {
+        form.style.display    = 'none';
+        success.style.display = 'block';
+      } else {
+        errorBox.textContent    = json.error || (window.t && window.t('contact.form.errDefault')) || '送出失敗，請稍後再試。';
+        errorBox.style.display  = 'block';
+        submitBtn.disabled      = false;
+        submitBtn.textContent   = (window.t && window.t('contact.form.submit')) || '送出洽詢';
+      }
+    } catch(err) {
+      errorBox.textContent   = (window.t && window.t('contact.form.errNetwork')) || '網路錯誤，請確認連線後再試，或直接來電 02-77283528。';
+      errorBox.style.display = 'block';
+      submitBtn.disabled     = false;
+      submitBtn.textContent  = (window.t && window.t('contact.form.submit')) || '送出洽詢';
+    }
+  });
+})();
+</script>
+</body>
+</html>

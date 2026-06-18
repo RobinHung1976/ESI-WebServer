@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-i18n="support.meta.title">技術支援｜ESI Taiwan</title>
+  <meta name="description" content="ESI Taiwan 技術支援服務，提供電話支援與線上報修。" data-i18n-attr="content:support.meta.desc" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── Brand logo inline ── */
+    .brand-logo{display:inline-flex;align-items:center;text-decoration:none;gap:0}
+    .brand-esi-mark{display:inline-flex;align-items:flex-start;position:relative;line-height:1}
+    .brand-esi-es{font-family:'Arial Black','Arial',sans-serif;font-size:2.6rem;font-weight:900;font-style:normal;color:#fff;letter-spacing:.02em;line-height:1;text-shadow:0 0 18px rgba(255,255,255,.35)}
+    .brand-esi-i-wrap{position:relative;display:inline-flex;align-items:flex-start}
+    .brand-esi-i{font-family:'Arial Black','Arial',sans-serif;font-size:2.6rem;font-weight:900;font-style:normal;color:#fff;line-height:1;letter-spacing:.02em;text-shadow:0 0 18px rgba(255,255,255,.35)}
+    .brand-esi-dot{position:absolute;top:-.28em;left:50%;transform:translateX(-50%);width:.52em;height:.52em;border-radius:50%;background:radial-gradient(circle at 38% 35%,#ff5555,#cc1111);box-shadow:0 2px 10px rgba(200,0,0,.7)}
+    .brand-divider{width:1.5px;height:44px;background:linear-gradient(to bottom,transparent,rgba(0,229,255,.6),transparent);margin:0 14px}
+    .brand-wordmark{display:flex;flex-direction:column;line-height:1;gap:2px}
+    .brand-sub{font-family:'Noto Sans TC',sans-serif;font-size:.68rem;font-weight:500;color:rgba(180,220,255,.9);letter-spacing:.18em;margin-top:3px}
+  </style>
+  <style>
+    .support-cards{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:24px;
+      margin-bottom:48px;
+    }
+    .support-card{
+      background:var(--surface);
+      border-radius:16px;
+      border:1px solid rgba(11,61,145,.08);
+      padding:36px 28px;
+      text-align:center;
+      box-shadow:0 2px 12px rgba(11,61,145,.06);
+      transition:transform .25s,box-shadow .25s;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:14px;
+    }
+    .support-card:hover{
+      transform:translateY(-6px);
+      box-shadow:0 14px 32px rgba(11,61,145,.13);
+    }
+    .support-icon{
+      width:64px;height:64px;border-radius:16px;
+      display:flex;align-items:center;justify-content:center;
+      font-size:1.8rem;flex-shrink:0;
+    }
+    .support-card h3{margin:0;font-size:1.15rem}
+    .support-card p{color:var(--muted);font-size:.9rem;margin:0;line-height:1.6}
+    .support-card .btn{margin-top:6px;width:100%;text-align:center}
+
+    .faq-list{display:grid;gap:14px;margin-top:8px}
+    .faq-item{
+      background:var(--surface);
+      border:1px solid rgba(11,61,145,.08);
+      border-radius:12px;
+      overflow:hidden;
+    }
+    .faq-q{
+      width:100%;text-align:left;
+      padding:18px 22px;
+      background:none;border:none;
+      font-family:inherit;font-size:.97rem;font-weight:700;
+      color:var(--text);cursor:pointer;
+      display:flex;justify-content:space-between;align-items:center;gap:12px;
+    }
+    .faq-q:hover{background:rgba(11,61,145,.04)}
+    .faq-arrow{
+      width:20px;height:20px;flex-shrink:0;
+      border:2px solid var(--muted);border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      transition:transform .2s,border-color .2s;font-size:.75rem;color:var(--muted)
+    }
+    .faq-item.open .faq-arrow{transform:rotate(180deg);border-color:var(--primary);color:var(--primary)}
+    .faq-a{
+      max-height:0;overflow:hidden;
+      transition:max-height .3s ease,padding .3s ease;
+      padding:0 22px;color:var(--muted);font-size:.92rem;line-height:1.7;
+    }
+    .faq-item.open .faq-a{max-height:200px;padding:0 22px 18px}
+
+    .sla-table{width:100%;border-collapse:collapse;margin-top:8px;font-size:.9rem}
+    .sla-table th{background:var(--primary);color:#fff;padding:12px 16px;text-align:left;font-weight:700}
+    .sla-table td{padding:12px 16px;border-bottom:1px solid var(--border);color:var(--text)}
+    .sla-table tr:last-child td{border-bottom:none}
+    .sla-table tr:nth-child(even) td{background:rgba(11,61,145,.03)}
+
+    .badge-critical{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.75rem;font-weight:700;background:rgba(200,50,30,.1);color:#c03010}
+    .badge-major   {display:inline-block;padding:2px 10px;border-radius:99px;font-size:.75rem;font-weight:700;background:rgba(245,166,35,.12);color:#b07000}
+    .badge-minor   {display:inline-block;padding:2px 10px;border-radius:99px;font-size:.75rem;font-weight:700;background:rgba(11,61,145,.09);color:var(--primary)}
+
+    @media(max-width:900px){
+      .support-cards{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="site-header" id="siteHeader">
+  <div class="container nav-wrap">
+    <a class="brand-logo" href="index.html">
+      <span class="brand-esi-mark">
+        <span class="brand-esi-es">ES</span>
+        <span class="brand-esi-i-wrap">
+          <span class="brand-esi-i">I</span>
+          <span class="brand-esi-dot"></span>
+        </span>
+      </span>
+      <span class="brand-divider"></span>
+      <span class="brand-wordmark">
+        <span style="font-family:'Noto Sans TC',sans-serif;font-size:1.15rem;font-weight:700;color:#fff;letter-spacing:.06em;line-height:1.2;text-shadow:0 0 12px rgba(255,255,255,.25)">易通科技</span>
+        <span class="brand-sub">Expert System IVR (Asia) Co., Ltd.</span>
+      </span>
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="選單" data-i18n-attr="aria-label:common.nav.menuAria"><span></span><span></span><span></span></button>
+    <ul class="main-nav" id="mainNav">
+      <li><a href="index.html" data-i18n="common.nav.home">首頁</a></li>
+      <li class="has-mega">
+        <button><span data-i18n="common.nav.products">產品方案</span> <svg class="nav-arrow" viewBox="0 0 14 14" fill="none"><path d="M2 4.5L7 9.5L12 4.5" stroke="rgba(255,255,255,.8)" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="mega-menu">
+          <div class="mega-col"><h4 data-i18n="common.mega.uc">整合通訊</h4><a href="products.html#uc">Microsoft Teams Phone</a><a href="products.html#uc">Zoom Phone</a><a href="products.html#uc">Deltapath FreSIP</a></div>
+          <div class="mega-col"><h4 data-i18n="common.mega.recording">錄音系統</h4><a href="products.html#recording">VL2000</a><a href="products.html#recording" data-i18n="common.product.huadingEuls">華鼎 EULS</a><a href="products.html#recording" data-i18n="common.product.huadingTcr">華鼎 TCR 2000</a><a href="products.html#recording">QMS</a></div>
+          <div class="mega-col"><h4 data-i18n="common.mega.callcenter">Call Center｜IVR</h4><a href="products.html#callcenter">EICC</a></div>
+          <div class="mega-col"><h4 data-i18n="common.mega.meeting">會議設備</h4><a href="products.html#meeting-room" data-i18n="common.mega.video">視訊設備</a><a href="products.html#meeting-room" data-i18n="common.mega.headset">耳機和揚聲器</a><a href="products.html#meeting-room" data-i18n="common.mega.wireless">無線投影</a><a href="https://esi-asia.com/esi-tik-for-neat-pad-neat-frame/" target="_blank">ESI-TIK Booking System</a></div>
+          <div class="mega-col"><h4 data-i18n="common.mega.gateway">Gateway｜SBC</h4><a href="products.html#gateway">AudioCodes</a><a href="products.html#gateway">Ribbon</a></div>
+          <div class="mega-col"><h4 data-i18n="common.mega.ipphone">IP Phone｜Teams Phone</h4><a href="products.html#ipphone">AudioCodes</a><a href="products.html#ipphone">Snom</a></div>
+        </div>
+      </li>
+      <li><a href="about.html" data-i18n="common.nav.about">關於我們</a></li>
+      <li><a href="news.html" data-i18n="common.nav.news">最新消息</a></li>
+      <li><a href="community.html" data-i18n="common.nav.community">交流天地</a></li>
+      <li><a href="support.html" class="active" data-i18n="common.nav.support">技術支援</a></li>
+      <li><a href="contact.html" class="nav-cta" data-i18n="common.nav.contact">立即洽詢</a></li>
+    </ul>
+  </div>
+</header>
+
+<!-- ── PAGE HERO ── -->
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow" style="color:var(--accent2);background:rgba(245,166,35,.15)">Technical Support</span>
+    <h1 data-i18n="support.hero.title">技術支援</h1>
+    <p class="lead" data-i18n="support.hero.lead">ESI 技術團隊提供專業的售後支援服務。選擇以下方式聯絡我們，我們將盡快回應您的需求。</p>
+  </div>
+</section>
+
+<!-- ── SUPPORT CONTACT CARDS ── -->
+<section class="section">
+  <div class="container">
+    <div class="section-heading reveal">
+      <span class="eyebrow" style="font-size:1rem;letter-spacing:.18em;font-weight:800;color:#fff;background:var(--primary);padding:6px 20px;border-radius:99px">Contact Support</span>
+      <h2 style="font-size:clamp(2rem,4vw,3rem);margin-top:18px;margin-bottom:10px" data-i18n="support.contact.title">聯絡技術支援</h2>
+      <p style="font-size:1.05rem" data-i18n="support.contact.desc">請選擇最適合您的聯絡方式，我們的技術顧問將協助您解決問題</p>
+    </div>
+    <div class="support-cards stagger" style="grid-template-columns:repeat(2,1fr);max-width:760px;margin:0 auto">
+
+      <!-- 電話支援 -->
+      <div class="support-card">
+        <div class="support-icon" style="background:rgba(11,61,145,.1)">📞</div>
+        <h3 data-i18n="support.phone.title">電話支援</h3>
+        <p data-i18n="support.phone.desc">直接撥打支援專線，適合緊急或需要即時引導的問題</p>
+        <div style="font-size:1.3rem;font-weight:900;color:var(--primary);letter-spacing:.5px">02-7728-3528</div>
+        <p style="font-size:.8rem;color:var(--muted)" data-i18n="support.phone.hours">週一至週五　09:00 – 18:00</p>
+        <a class="btn btn-primary" href="tel:0277283528" data-i18n="support.phone.cta">立即撥打</a>
+      </div>
+
+      <!-- 線上報修 -->
+      <div class="support-card">
+        <div class="support-icon" style="background:rgba(10,92,48,.1)">🛠️</div>
+        <h3 data-i18n="support.repair.title">線上報修</h3>
+        <p data-i18n="support.repair.desc">填寫詳細問題描述，包含系統環境與錯誤現象，以便技術人員快速處理</p>
+        <div style="font-size:.9rem;color:var(--muted);font-weight:600" data-i18n="support.repair.followup">填表後專人跟進</div>
+        <p style="font-size:.8rem;color:var(--muted)" data-i18n="support.repair.responseTime">一般問題約 1 個工作天內回覆</p>
+        <a class="btn btn-primary" href="repair.html" target="_blank" data-i18n="support.repair.cta">前往線上報修</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── SLA TABLE ── -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-heading reveal">
+      <span class="eyebrow">Response Time</span>
+      <h2 data-i18n="support.sla.title">支援回應時間</h2>
+      <p data-i18n="support.sla.desc">依問題優先等級提供對應的回應時效</p>
+    </div>
+    <div class="reveal" style="overflow-x:auto">
+      <table class="sla-table">
+        <thead>
+          <tr>
+            <th data-i18n="support.sla.colPriority">優先等級</th>
+            <th data-i18n="support.sla.colScenario">情境說明</th>
+            <th data-i18n="support.sla.colPhone">電話回應</th>
+            <th data-i18n="support.sla.colEmail">Email 回應</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge-critical" data-i18n="support.sla.p1">緊急 P1</span></td>
+            <td data-i18n="support.sla.p1desc">系統全線中斷、通話完全無法使用</td>
+            <td data-i18n="support.sla.p1phone">2 小時內</td>
+            <td data-i18n="support.sla.p1email">4 小時內</td>
+          </tr>
+          <tr>
+            <td><span class="badge-major" data-i18n="support.sla.p2">重要 P2</span></td>
+            <td data-i18n="support.sla.p2desc">部分功能異常，影響正常業務運作</td>
+            <td data-i18n="support.sla.p2phone">4 小時內</td>
+            <td data-i18n="support.sla.p2email">1 個工作天</td>
+          </tr>
+          <tr>
+            <td><span class="badge-minor" data-i18n="support.sla.p3">一般 P3</span></td>
+            <td data-i18n="support.sla.p3desc">非緊急問題、功能諮詢、設定調整</td>
+            <td data-i18n="support.sla.p3phone">1 個工作天</td>
+            <td data-i18n="support.sla.p3email">2 個工作天</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="color:var(--muted);font-size:.82rem;margin-top:14px" data-i18n="support.sla.note">＊ 以上時效適用於標準維護合約客戶，服務時間為週一至週五 09:00–18:00（國定假日除外）</p>
+  </div>
+</section>
+
+<!-- ── FAQ ── -->
+<section class="section">
+  <div class="container">
+    <div class="section-heading reveal">
+      <span class="eyebrow">FAQ</span>
+      <h2 data-i18n="support.faq.title">常見問題</h2>
+    </div>
+    <div class="faq-list reveal" style="max-width:780px;margin:0 auto">
+
+      <div class="faq-item">
+        <button class="faq-q"><span data-i18n="support.faq.q1">如何回報緊急技術問題？</span><span class="faq-arrow">▼</span></button>
+        <div class="faq-a" data-i18n="support.faq.a1">請直接撥打支援專線 02-7728-3528，說明系統名稱、問題現象與影響範圍，技術人員將立即協助評估與處理。</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q"><span data-i18n="support.faq.q2">維護合約包含哪些服務項目？</span><span class="faq-arrow">▼</span></button>
+        <div class="faq-a" data-i18n="support.faq.a2">維護合約通常涵蓋定期健康巡檢、軟體版本升級建議、故障排除支援與年度系統報告。詳細條款依合約版本而定，請聯絡業務確認。</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q"><span data-i18n="support.faq.q3">沒有維護合約，仍可申請技術支援嗎？</span><span class="faq-arrow">▼</span></button>
+        <div class="faq-a" data-i18n="support.faq.a3">可以。非合約客戶可透過 Email 或表單提交支援請求，我們將依序回覆，惟回應時效以合約客戶優先。如需即時支援，建議洽詢維護合約方案。</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q"><span data-i18n="support.faq.q4">回報問題時需要準備哪些資訊？</span><span class="faq-arrow">▼</span></button>
+        <div class="faq-a" data-i18n="support.faq.a4">建議事先備妥：系統名稱與版本、問題發生時間與頻率、錯誤訊息截圖、已嘗試的排除步驟，以及受影響的使用者或功能範圍，可加速問題診斷。</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q"><span data-i18n="support.faq.q5">如何申請系統教育訓練？</span><span class="faq-arrow">▼</span></button>
+        <div class="faq-a" data-i18n="support.faq.a5">請透過聯絡我們頁面填寫教育訓練需求，說明系統種類、參與人數及希望的時間，業務與技術團隊將共同安排課程內容。</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="section cta-section">
+  <div class="container cta-box reveal">
+    <div>
+      <span class="eyebrow" style="color:var(--accent2);background:rgba(245,166,35,.15)">Still Need Help?</span>
+      <h2 data-i18n="support.cta.title">仍未解決問題？</h2>
+      <p data-i18n="support.cta.desc">聯絡我們的業務與技術團隊，提供更完整的協助。</p>
+    </div>
+    <div style="display:flex;gap:14px;flex-wrap:wrap">
+      <a class="btn btn-primary" href="tel:0277283528" data-i18n="support.cta.call">📞 立即致電</a>
+      <a class="btn btn-outline" href="repair.html" target="_blank" data-i18n="support.cta.repair">🛠️ 線上報修</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div><div class="brand-footer">ESI Taiwan</div><p data-i18n="common.footer.tagline">整合通訊、視訊協作、客服中心與企業顧問服務。</p></div>
+    <div><h4 data-i18n="common.footer.quicklinks">快速連結</h4><ul class="footer-links"><li><a href="index.html" data-i18n="common.nav.home">首頁</a></li><li><a href="about.html" data-i18n="common.nav.about">關於我們</a></li><li><a href="products.html" data-i18n="common.nav.products">產品方案</a></li><li><a href="news.html" data-i18n="common.nav.news">最新消息</a></li>
+      <li><a href="community.html" data-i18n="common.nav.community">交流天地</a></li><li><a href="support.html" data-i18n="common.nav.support">技術支援</a></li><li><a href="contact.html" data-i18n="common.nav.contact">聯絡我們</a></li></ul></div>
+    <div><h4 data-i18n="common.footer.contactInfo">聯絡資訊</h4><ul class="footer-links"><li data-i18n="common.footer.phone">電話：02-77283528</li><li data-i18n="common.footer.email">Email：sales@esi-asia.com.tw</li><li data-i18n="common.footer.address">地址：新北市242新莊區新北大道三段5號18樓之2</li></ul></div>
+  </div>
+  <hr class="footer-divider">
+  <div class="copyright container">© 2026 Expert System IVR (Asia) Co., Ltd. All Rights Reserved.</div>
+</footer>
+
+<script>
+  window.ESI_I18N = { en: {
+    'support.meta.title': 'Technical Support | ESI Taiwan',
+    'support.meta.desc': 'ESI Taiwan technical support services, offering phone support and online repair requests.',
+    'support.hero.title': 'Technical Support',
+    'support.hero.lead': "ESI's technical team provides professional after-sales support. Choose a contact method below and we'll respond to your request as soon as possible.",
+    'support.contact.title': 'Contact Technical Support',
+    'support.contact.desc': 'Choose the contact method that suits you best — our technical consultants will help resolve your issue.',
+    'support.phone.title': 'Phone Support',
+    'support.phone.desc': 'Call our support hotline directly — ideal for urgent issues or those requiring real-time guidance.',
+    'support.phone.hours': 'Monday–Friday, 09:00–18:00',
+    'support.phone.cta': 'Call Now',
+    'support.repair.title': 'Online Repair Request',
+    'support.repair.desc': 'Submit a detailed description of your issue, including the system environment and symptoms, so our technicians can respond quickly.',
+    'support.repair.followup': 'A team member follows up after submission',
+    'support.repair.responseTime': 'General issues typically receive a reply within 1 business day',
+    'support.repair.cta': 'Go to Online Repair',
+
+    'support.sla.title': 'Support Response Times',
+    'support.sla.desc': 'Response times vary based on issue priority',
+    'support.sla.colPriority': 'Priority',
+    'support.sla.colScenario': 'Scenario',
+    'support.sla.colPhone': 'Phone Response',
+    'support.sla.colEmail': 'Email Response',
+    'support.sla.p1': 'Critical P1',
+    'support.sla.p1desc': 'Complete system outage; calls are entirely unavailable',
+    'support.sla.p1phone': 'Within 2 hours',
+    'support.sla.p1email': 'Within 4 hours',
+    'support.sla.p2': 'Major P2',
+    'support.sla.p2desc': 'Partial functionality issues affecting normal business operations',
+    'support.sla.p2phone': 'Within 4 hours',
+    'support.sla.p2email': '1 business day',
+    'support.sla.p3': 'Minor P3',
+    'support.sla.p3desc': 'Non-urgent issues, feature inquiries, or configuration adjustments',
+    'support.sla.p3phone': '1 business day',
+    'support.sla.p3email': '2 business days',
+    'support.sla.note': '* The above response times apply to customers with a standard maintenance contract. Service hours are Monday–Friday, 09:00–18:00 (excluding public holidays).',
+
+    'support.faq.title': 'Frequently Asked Questions',
+    'support.faq.q1': 'How do I report an urgent technical issue?',
+    'support.faq.a1': 'Call our support hotline at 02-7728-3528 and describe the system name, the issue, and its impact. Our technicians will immediately help assess and address it.',
+    'support.faq.q2': 'What services are included in a maintenance contract?',
+    'support.faq.a2': 'Maintenance contracts typically cover regular health checks, software upgrade recommendations, troubleshooting support, and annual system reports. Specific terms vary by contract; please contact sales to confirm.',
+    'support.faq.q3': "Can I still request support without a maintenance contract?",
+    'support.faq.a3': 'Yes. Customers without a contract can submit support requests by email or form, and we will respond in order, though contract customers are prioritized. For real-time support, we recommend a maintenance contract.',
+    'support.faq.q4': 'What information should I prepare when reporting an issue?',
+    'support.faq.a4': 'We recommend preparing: the system name and version, when and how often the issue occurs, screenshots of any error messages, troubleshooting steps already attempted, and the affected users or features — this speeds up diagnosis.',
+    'support.faq.q5': 'How do I request system training?',
+    'support.faq.a5': 'Please fill out a training request via the Contact Us page, specifying the system type, number of participants, and preferred timing. Our sales and technical teams will arrange the course content together.',
+
+    'support.cta.title': 'Still Have Unresolved Issues?',
+    'support.cta.desc': 'Contact our sales and technical team for more comprehensive assistance.',
+    'support.cta.call': '📞 Call Now',
+    'support.cta.repair': '🛠️ Online Repair'
+  }};
+</script>
+<script src="i18n.js"></script>
+<script src="site.js"></script>
+<script>
+  /* FAQ accordion */
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+</script>
+</body>
+</html>

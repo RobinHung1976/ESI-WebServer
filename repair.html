@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title data-i18n="repair.meta.title">線上報修｜ESI Taiwan</title>
+  <meta name="description" content="ESI Taiwan 線上報修系統，登入後即可提交技術支援案件。" data-i18n-attr="content:repair.meta.desc"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* ── Brand logo inline ── */
+    .brand-logo{display:inline-flex;align-items:center;text-decoration:none;gap:0}
+    .brand-esi-mark{display:inline-flex;align-items:flex-start;position:relative;line-height:1}
+    .brand-esi-es{font-family:'Arial Black','Arial',sans-serif;font-size:2.6rem;font-weight:900;color:#fff;letter-spacing:.02em;line-height:1;text-shadow:0 0 18px rgba(255,255,255,.35)}
+    .brand-esi-i-wrap{position:relative;display:inline-flex;align-items:flex-start}
+    .brand-esi-i{font-family:'Arial Black','Arial',sans-serif;font-size:2.6rem;font-weight:900;color:#fff;line-height:1;letter-spacing:.02em;text-shadow:0 0 18px rgba(255,255,255,.35)}
+    .brand-esi-dot{position:absolute;top:-.28em;left:50%;transform:translateX(-50%);width:.52em;height:.52em;border-radius:50%;background:radial-gradient(circle at 38% 35%,#ff5555,#cc1111);box-shadow:0 2px 10px rgba(200,0,0,.7)}
+    .brand-divider{width:1.5px;height:44px;background:linear-gradient(to bottom,transparent,rgba(0,229,255,.6),transparent);margin:0 14px}
+    .brand-wordmark{display:flex;flex-direction:column;line-height:1;gap:2px}
+    .brand-sub{font-family:'Noto Sans TC',sans-serif;font-size:.68rem;font-weight:500;color:rgba(180,220,255,.9);letter-spacing:.18em;margin-top:3px}
+
+    body { padding-top: var(--nav-h); }
+
+    /* ── card wrapper ── */
+    .repair-wrap {
+      max-width: 580px;
+      margin: 60px auto;
+      padding: 0 20px 60px;
+    }
+
+    /* ── tab switcher ── */
+    .tab-bar {
+      display: flex;
+      gap: 0;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 28px;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 13px;
+      border: none;
+      background: none;
+      font-family: inherit;
+      font-size: .95rem;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .tab-btn.active {
+      background: linear-gradient(135deg, #0052cc, #00b4d8);
+      color: #fff;
+    }
+
+    /* ── form card ── */
+    .repair-card {
+      background: var(--surface);
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-lg);
+      padding: 36px 32px;
+    }
+    .repair-card h2 { margin: 0 0 6px; font-size: 1.4rem; }
+    .repair-card .sub { color: var(--muted); font-size: .88rem; margin: 0 0 26px; }
+
+    .repair-card label {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .repair-card input,
+    .repair-card select,
+    .repair-card textarea {
+      font-family: inherit;
+      font-size: .95rem;
+      padding: 11px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 9px;
+      background: var(--bg);
+      color: var(--text);
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .repair-card input:focus,
+    .repair-card select:focus,
+    .repair-card textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0,180,216,.12);
+    }
+    .repair-card .btn { width: 100%; margin-top: 6px; }
+
+    /* ── priority pills ── */
+    .priority-group { display: flex; gap: 10px; margin-bottom: 14px; }
+    .priority-pill {
+      flex: 1;
+      padding: 10px 6px;
+      border-radius: 10px;
+      border: 2px solid var(--border);
+      text-align: center;
+      font-size: .85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .2s;
+      user-select: none;
+    }
+    .priority-pill[data-val="low"].selected   { border-color: #00b4d8; background: rgba(0,180,216,.1); color: #0090ad; }
+    .priority-pill[data-val="normal"].selected { border-color: #f5a623; background: rgba(245,166,35,.1); color: #b07000; }
+    .priority-pill[data-val="urgent"].selected { border-color: #e8431a; background: rgba(232,67,26,.1);  color: #c03010; }
+    input[name="priority"] { display: none; }
+
+    /* ── messages ── */
+    .msg-box {
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin-bottom: 18px;
+      font-size: .9rem;
+      display: none;
+    }
+    .msg-box.success { background: rgba(0,60,30,.08); border: 1px solid rgba(0,180,100,.35); color: #005c28; }
+    .msg-box.error   { background: rgba(180,30,30,.08); border: 1px solid rgba(200,60,30,.35); color: #991100; }
+
+    /* ── ticket list ── */
+    .ticket-list { display: flex; flex-direction: column; gap: 14px; margin-top: 8px; }
+    .ticket-item {
+      background: var(--bg);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 16px 18px;
+    }
+    .ticket-no   { font-family: monospace; font-size: .85rem; color: var(--primary); font-weight: 700; }
+    .ticket-meta { font-size: .82rem; color: var(--muted); margin: 4px 0 8px; }
+    .ticket-desc { font-size: .9rem; color: var(--text); }
+    .t-badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 99px;
+      font-size: .72rem;
+      font-weight: 700;
+    }
+    .t-badge.open     { background: rgba(0,82,204,.1);  color: #0052cc; }
+    .t-badge.progress { background: rgba(245,166,35,.12); color: #b07000; }
+    .t-badge.closed   { background: rgba(0,100,40,.1);  color: #005c28; }
+    .t-badge.urgent   { background: rgba(200,50,30,.1); color: #c03010; }
+    .t-badge.normal   { background: rgba(245,166,35,.12); color: #b07000; }
+    .t-badge.low      { background: rgba(0,180,216,.1); color: #0090ad; }
+
+    /* ── user info bar ── */
+    .user-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--primary-light, #e8f0fe);
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin-bottom: 24px;
+      font-size: .88rem;
+    }
+    .user-bar strong { color: var(--primary); }
+    .logout-btn {
+      font-size: .8rem;
+      color: var(--muted);
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: 7px;
+      padding: 4px 12px;
+      font-family: inherit;
+      transition: all .2s;
+    }
+    .logout-btn:hover { color: #c03010; border-color: #c03010; }
+
+    @media(max-width:600px) {
+      .repair-card { padding: 24px 18px; }
+      .priority-group { flex-direction: column; }
+    }
+
+    /* msg modal */
+    .msg-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:900;display:flex;align-items:center;justify-content:center;padding:20px}
+    .msg-modal{background:#fff;border-radius:20px;width:100%;max-width:640px;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 24px 80px rgba(0,0,0,.3)}
+    .msg-modal-header{padding:18px 24px;border-bottom:1px solid #e0e8f0;display:flex;justify-content:space-between;align-items:center}
+    .msg-modal-header h3{margin:0;color:#0052cc;font-size:1rem}
+    .msg-modal-close{background:none;border:none;font-size:1.4rem;cursor:pointer;color:#8899aa;line-height:1}
+    .msg-thread{flex:1;overflow-y:auto;padding:20px 24px;display:flex;flex-direction:column;gap:12px}
+    .msg-bubble{max-width:85%;padding:12px 16px;border-radius:14px;font-size:.88rem;line-height:1.6}
+    .msg-bubble.admin{align-self:flex-start;background:#f0f4ff;color:#1a2a4a;border-radius:14px 14px 14px 4px}
+    .msg-bubble.user{align-self:flex-end;background:linear-gradient(135deg,#0052cc,#00b4d8);color:#fff;border-radius:14px 14px 4px 14px}
+    .msg-meta{font-size:.75rem;opacity:.7;margin-bottom:4px}
+    .msg-input-area{padding:16px 24px;border-top:1px solid #e0e8f0;display:flex;gap:10px}
+    .msg-input-area textarea{flex:1;padding:10px 14px;border:1.5px solid #c8d8f0;border-radius:10px;font-size:.9rem;font-family:inherit;resize:none;height:72px;outline:none}
+    .msg-input-area textarea:focus{border-color:#0052cc}
+    .msg-send-btn{padding:0 18px;background:linear-gradient(135deg,#0052cc,#00b4d8);color:#fff;border:none;border-radius:10px;font-weight:700;cursor:pointer;font-size:.9rem}
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="site-header" id="siteHeader">
+  <div class="container nav-wrap">
+    <a class="brand-logo" href="index.html">
+      <span class="brand-esi-mark">
+        <span class="brand-esi-es">ES</span>
+        <span class="brand-esi-i-wrap">
+          <span class="brand-esi-i">I</span>
+          <span class="brand-esi-dot"></span>
+        </span>
+      </span>
+      <span class="brand-divider"></span>
+      <span class="brand-wordmark">
+        <span style="font-family:'Noto Sans TC',sans-serif;font-size:1.15rem;font-weight:700;color:#fff;letter-spacing:.06em;line-height:1.2">易通科技</span>
+        <span class="brand-sub">Expert System IVR (Asia) Co., Ltd.</span>
+      </span>
+    </a>
+    <ul class="main-nav" id="mainNav">
+      <li><a href="index.html" data-i18n="common.nav.home">首頁</a></li>
+      <li><a href="support.html" data-i18n="common.nav.support">技術支援</a></li>
+      <li><a href="contact.html" class="nav-cta" data-i18n="common.nav.contact">立即洽詢</a></li>
+    </ul>
+  </div>
+</header>
+
+<!-- ── PAGE HERO ── -->
+<section class="page-hero" style="padding:48px 0 36px">
+  <div class="container">
+    <span class="eyebrow" style="color:var(--accent2);background:rgba(245,166,35,.15)">Online Repair</span>
+    <h1 data-i18n="repair.hero.title">線上報修系統</h1>
+    <p class="lead" data-i18n="repair.hero.lead">登入後提交報修案件，系統將自動產生案件編號並通知技術團隊。</p>
+  </div>
+</section>
+
+<!-- ── MAIN ── -->
+<div class="repair-wrap">
+
+  <!-- Tab bar -->
+  <div class="tab-bar" id="tabBar">
+    <button class="tab-btn active" data-tab="login"><span data-i18n="repair.tab.login">🔐 登入</span></button>
+    <button class="tab-btn" data-tab="register"><span data-i18n="repair.tab.register">📝 申請帳號</span></button>
+  </div>
+
+  <!-- ════ LOGIN PANEL ════ -->
+  <div id="panelLogin" class="repair-card">
+    <h2 data-i18n="repair.login.title">登入報修系統</h2>
+    <p class="sub" data-i18n="repair.login.sub">使用您的帳號登入後即可提交報修案件</p>
+    <div class="msg-box" id="loginMsg"></div>
+    <form id="loginForm">
+      <label><span data-i18n="repair.login.email">Email（帳號）</span>
+        <input type="email" name="email" placeholder="請輸入 Email" required data-i18n-placeholder="repair.emailPh"/>
+      </label>
+      <label><span data-i18n="repair.login.password">密碼</span>
+        <input type="password" name="password" placeholder="請輸入密碼" required data-i18n-placeholder="repair.login.passwordPh"/>
+      </label>
+      <button class="btn btn-primary" type="submit" id="loginBtn" data-i18n="repair.login.submit">登入</button>
+      <p style="text-align:center;margin-top:12px;font-size:.85rem">
+        <a href="#" onclick="showRepairForgot(event)" style="color:var(--muted)" data-i18n="repair.login.forgot">忘記密碼？</a>
+      </p>
+      <div id="forgotArea" style="display:none;margin-top:16px;border-top:1px solid #e0e8f0;padding-top:16px">
+        <p style="font-size:.88rem;color:var(--muted);margin-bottom:10px" data-i18n="repair.forgot.desc">輸入您的 Email，我們將發送重置連結</p>
+        <input type="email" id="forgotEmail" placeholder="您的 Email" data-i18n-placeholder="repair.forgot.emailPh" style="width:100%;box-sizing:border-box;padding:10px 14px;border:1.5px solid #c8d8f0;border-radius:10px;font-size:.95rem;font-family:inherit;outline:none;margin-bottom:8px"/>
+        <button type="button" onclick="sendRepairForgot()" style="width:100%;padding:11px;border:none;border-radius:10px;background:linear-gradient(135deg,#0052cc,#00b4d8);color:#fff;font-size:.95rem;font-weight:700;cursor:pointer" data-i18n="repair.forgot.send">發送重置連結</button>
+        <div id="forgotMsg" style="font-size:.85rem;margin-top:8px;min-height:1.2em"></div>
+        <p style="margin-top:8px;font-size:.85rem;text-align:center"><a href="#" onclick="showRepairForgot(event,false)" style="color:var(--muted)" data-i18n="repair.forgot.back">← 返回登入</a></p>
+      </div>
+    </form>
+    <p style="text-align:center;margin-top:16px;font-size:.85rem;color:var(--muted)">
+      <span data-i18n="repair.login.noAccount">尚未有帳號？</span><span style="color:var(--primary);cursor:pointer;font-weight:700" onclick="switchTab('register')" data-i18n="repair.login.applyHere">點此申請</span>
+    </p>
+  </div>
+
+  <!-- ════ REGISTER PANEL ════ -->
+  <div id="panelRegister" class="repair-card" style="display:none">
+    <h2 data-i18n="repair.register.title">申請報修帳號</h2>
+    <p class="sub" data-i18n="repair.register.sub">填寫以下資訊送出申請，管理員審核通過後將以 Email 通知您</p>
+    <div class="msg-box" id="registerMsg"></div>
+    <form id="registerForm">
+      <label><span data-i18n="repair.register.name">聯絡人姓名</span> <span style="color:#e8431a">*</span>
+        <input type="text" name="name" placeholder="請輸入姓名" required data-i18n-placeholder="contact.form.namePh"/>
+      </label>
+      <label><span data-i18n="contact.form.company">公司名稱</span> <span style="color:#e8431a">*</span>
+        <input type="text" name="company" placeholder="請輸入公司名稱" required data-i18n-placeholder="contact.form.companyPh"/>
+      </label>
+      <label><span data-i18n="repair.register.phone">聯絡電話</span> <span style="color:#e8431a">*</span>
+        <input type="tel" name="phone" placeholder="請輸入電話" required data-i18n-placeholder="contact.form.phonePh"/>
+      </label>
+      <label><span data-i18n="repair.register.email">Email（登入帳號）</span><span style="color:#e8431a">*</span>
+        <input type="email" name="email" placeholder="請輸入 Email" required data-i18n-placeholder="repair.emailPh"/>
+      </label>
+      <label><span data-i18n="repair.register.password">設定密碼</span> <span style="color:#e8431a">*</span>
+        <input type="password" name="password" placeholder="至少 8 個字元" minlength="8" required data-i18n-placeholder="repair.register.passwordPh"/>
+      </label>
+      <button class="btn btn-primary" type="submit" id="registerBtn" data-i18n="repair.register.submit">送出申請</button>
+    </form>
+    <p style="text-align:center;margin-top:16px;font-size:.85rem;color:var(--muted)">
+      <span data-i18n="repair.register.hasAccount">已有帳號？</span><span style="color:var(--primary);cursor:pointer;font-weight:700" onclick="switchTab('login')" data-i18n="repair.register.loginHere">點此登入</span>
+    </p>
+  </div>
+
+  <!-- ════ LOGGED-IN PANEL ════ -->
+  <div id="panelLoggedIn" style="display:none">
+
+    <!-- user info bar -->
+    <div class="user-bar">
+      <div><span data-i18n="repair.loggedIn">已登入：</span><strong id="userNameDisplay"></strong>　<span style="color:var(--muted)" id="userCompanyDisplay"></span></div>
+      <button class="logout-btn" onclick="logout()" data-i18n="repair.logout">登出</button>
+    </div>
+
+    <!-- new ticket form -->
+    <div class="repair-card" style="margin-bottom:24px">
+      <h2 data-i18n="repair.ticket.title">🛠️ 提交報修案件</h2>
+      <p class="sub" data-i18n="repair.ticket.sub">填寫以下資訊，系統將自動產生案件編號</p>
+      <div class="msg-box" id="ticketMsg"></div>
+      <form id="ticketForm">
+        <label><span data-i18n="repair.ticket.productType">產品類型</span> <span style="color:#e8431a">*</span>
+          <select name="product_type" required>
+            <option value="" data-i18n="repair.ticket.selectPlaceholder">-- 請選擇 --</option>
+            <option data-i18n="common.mega.uc">整合通訊</option>
+            <option data-i18n="common.mega.recording">錄音系統</option>
+            <option data-i18n="common.mega.callcenter">Call Center｜IVR</option>
+            <option data-i18n="common.mega.meeting">會議設備</option>
+            <option data-i18n="common.mega.gateway">Gateway｜SBC</option>
+            <option data-i18n="common.mega.ipphone">IP Phone｜Teams Phone</option>
+            <option data-i18n="news.filter.other">其他</option>
+          </select>
+        </label>
+        <label style="margin-bottom:6px"><span data-i18n="repair.ticket.priority">優先等級</span> <span style="color:#e8431a">*</span></label>
+        <div class="priority-group">
+          <div class="priority-pill" data-val="low"    onclick="selectPriority('low')"><span data-i18n="repair.priority.low">🔵 輕微</span></div>
+          <div class="priority-pill selected" data-val="normal" onclick="selectPriority('normal')"><span data-i18n="repair.priority.normal">🟡 中等</span></div>
+          <div class="priority-pill" data-val="urgent" onclick="selectPriority('urgent')"><span data-i18n="repair.priority.urgent">🔴 緊急</span></div>
+        </div>
+        <input type="hidden" name="priority" value="normal"/>
+        <label><span data-i18n="repair.ticket.description">問題描述</span> <span style="color:#e8431a">*</span>
+          <textarea name="description" rows="5" placeholder="請詳細描述問題現象、發生時間與影響範圍" required data-i18n-placeholder="repair.ticket.descriptionPh"></textarea>
+        </label>
+        <div style="margin-bottom:14px">
+          <div style="font-size:.85rem;font-weight:600;color:var(--muted);margin-bottom:6px" data-i18n="repair.ticket.attachment">附件（選填，總大小不超過 100MB）</div>
+          <button type="button" onclick="document.getElementById('ticketFileInput').click()" style="padding:8px 16px;border:1.5px dashed #c8d8f0;border-radius:8px;background:#f8faff;color:#0052cc;font-size:.85rem;cursor:pointer;font-family:inherit" data-i18n="repair.ticket.addAttachment">＋ 新增附件</button>
+          <input type="file" id="ticketFileInput" multiple style="display:none"/>
+          <div id="ticketFileList" style="margin-top:8px"></div>
+          <div id="ticketFileStatus" style="font-size:.82rem;margin-top:4px;min-height:1.2em"></div>
+        </div>
+        <button class="btn btn-primary" type="submit" id="ticketBtn" data-i18n="repair.ticket.submit">建立報修案件</button>
+      </form>
+    </div>
+
+    <!-- ticket history -->
+    <div class="repair-card" style="text-align:center;padding:36px 24px">
+      <div style="font-size:2.5rem;margin-bottom:12px">📋</div>
+      <h2 style="margin-bottom:8px" data-i18n="repair.history.title">我的案件記錄</h2>
+      <p class="sub" style="margin-bottom:24px" data-i18n="repair.history.sub">查看您的歷史報修案件與對話記錄</p>
+      <a href="my-tickets.html" class="btn btn-primary" style="display:inline-block;text-decoration:none;padding:13px 36px;font-size:1rem" data-i18n="repair.history.cta">查看我的案件記錄 →</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div><div class="brand-footer">ESI Taiwan</div><p data-i18n="common.footer.tagline">整合通訊、視訊協作、客服中心與企業顧問服務。</p></div>
+    <div><h4 data-i18n="common.footer.quicklinks">快速連結</h4><ul class="footer-links">
+      <li><a href="index.html" data-i18n="common.nav.home">首頁</a></li>
+      <li><a href="products.html" data-i18n="common.nav.products">產品方案</a></li>
+      <li><a href="support.html" data-i18n="common.nav.support">技術支援</a></li>
+      <li><a href="contact.html" data-i18n="common.nav.contact">聯絡我們</a></li>
+    </ul></div>
+    <div><h4 data-i18n="common.footer.contactInfo">聯絡資訊</h4><ul class="footer-links">
+      <li data-i18n="common.footer.phone">電話：02-77283528</li>
+      <li data-i18n="common.footer.email">Email：sales@esi-asia.com.tw</li>
+      <li data-i18n="common.footer.address">地址：新北市242新莊區新北大道三段5號18樓之2</li>
+    </ul></div>
+  </div>
+  <hr class="footer-divider">
+  <div class="copyright container">© 2026 Expert System IVR (Asia) Co., Ltd. All Rights Reserved.</div>
+</footer>
+
+<script>
+  window.ESI_I18N = { en: {
+    'repair.meta.title': 'Online Repair | ESI Taiwan',
+    'repair.meta.desc': 'ESI Taiwan online repair system — log in to submit a technical support ticket.',
+    'repair.hero.title': 'Online Repair System',
+    'repair.hero.lead': 'Log in to submit a repair ticket. The system will automatically generate a ticket number and notify our technical team.',
+    'repair.tab.login': '🔐 Log In',
+    'repair.tab.register': '📝 Apply for an Account',
+    'repair.login.title': 'Log In to the Repair System',
+    'repair.login.sub': 'Log in with your account to submit a repair ticket',
+    'repair.login.email': 'Email (Username)',
+    'repair.login.password': 'Password',
+    'repair.login.passwordPh': 'Enter your password',
+    'repair.login.submit': 'Log In',
+    'repair.login.loading': 'Logging in…',
+    'repair.login.forgot': 'Forgot your password?',
+    'repair.login.noAccount': "Don't have an account yet?",
+    'repair.login.applyHere': 'Apply here',
+    'repair.emailPh': 'Enter your email',
+    'repair.forgot.desc': "Enter your email and we'll send you a reset link",
+    'repair.forgot.emailPh': 'Your email',
+    'repair.forgot.send': 'Send Reset Link',
+    'repair.forgot.sending': 'Sending…',
+    'repair.forgot.back': '← Back to Log In',
+    'repair.forgot.emptyEmail': 'Please enter your email',
+    'repair.forgot.success': '✅ If this email exists, a reset link has been sent — please check your inbox',
+    'repair.forgot.networkErr': 'Connection failed',
+
+    'repair.register.title': 'Apply for a Repair Account',
+    'repair.register.sub': "Fill out the information below to submit your application. We'll notify you by email once an administrator approves it.",
+    'repair.register.name': 'Contact Name',
+    'repair.register.phone': 'Contact Phone',
+    'repair.register.email': 'Email (Username)',
+    'repair.register.password': 'Set Password',
+    'repair.register.passwordPh': 'At least 8 characters',
+    'repair.register.submit': 'Submit Application',
+    'repair.register.submitting': 'Submitting…',
+    'repair.register.hasAccount': 'Already have an account?',
+    'repair.register.loginHere': 'Log in here',
+    'repair.errNetwork': 'Network error, please try again later',
+
+    'repair.loggedIn': 'Logged in: ',
+    'repair.logout': 'Log Out',
+    'repair.ticket.title': '🛠️ Submit a Repair Ticket',
+    'repair.ticket.sub': 'Fill out the information below and the system will automatically generate a ticket number',
+    'repair.ticket.productType': 'Product Type',
+    'repair.ticket.selectPlaceholder': '-- Please select --',
+    'repair.ticket.priority': 'Priority',
+    'repair.ticket.description': 'Issue Description',
+    'repair.ticket.descriptionPh': 'Please describe the issue, when it occurred, and its impact in detail',
+    'repair.ticket.attachment': 'Attachments (optional, total size up to 100MB)',
+    'repair.ticket.addAttachment': '＋ Add Attachment',
+    'repair.ticket.submit': 'Create Repair Ticket',
+    'repair.ticket.creating': 'Creating…',
+    'repair.ticket.created': '✅ Ticket created! Ticket number: ',
+    'repair.priority.low': '🔵 Low',
+    'repair.priority.normal': '🟡 Normal',
+    'repair.priority.urgent': '🔴 Urgent',
+    'repair.history.title': 'My Tickets',
+    'repair.history.sub': 'View your ticket history and conversation records',
+    'repair.history.cta': 'View My Tickets →',
+
+    'repair.msg.title': 'Conversation',
+    'repair.msg.inputPh': 'Type a reply…',
+    'repair.msg.send': 'Send Reply',
+    'repair.msg.sending': 'Sending…',
+    'repair.msg.loading': 'Loading…',
+    'repair.msg.none': 'No conversation yet',
+    'repair.msg.loadFailed': 'Failed to load',
+    'repair.msg.emptyInput': 'Please enter a message',
+    'repair.msg.sendFailed': 'Failed to send: ',
+    'repair.msg.connFailed': 'Connection failed',
+    'repair.msg.unknownErr': 'Unknown error',
+
+    'repair.noTickets': 'You have no repair tickets yet',
+    'repair.loadFailed': 'Failed to load',
+    'repair.status.open': 'Open',
+    'repair.status.progress': 'In Progress',
+    'repair.status.closed': 'Closed',
+    'repair.attachUploading': '⏳ Uploading attachment...',
+    'repair.attachDone': '✅ Upload complete',
+    'repair.attachFailed': '❌ Upload failed',
+    'repair.attachTooLarge': '❌ Total size exceeds 100MB',
+    'repair.fileCount': ' files, total size: ',
+    'repair.dialogHistory': '💬 Conversation'
+  }};
+</script>
+<script src="i18n.js"></script>
+<script src="site.js"></script>
+
+<div id="msgModal" class="msg-modal-overlay" style="display:none">
+  <div class="msg-modal">
+    <div class="msg-modal-header">
+      <h3 id="msgModalTitle" data-i18n="repair.msg.title">對話記錄</h3>
+      <button class="msg-modal-close" onclick="closeMsgModal()">✕</button>
+    </div>
+    <div class="msg-thread" id="msgThread"></div>
+    <div class="msg-input-area">
+      <textarea id="msgInput" placeholder="輸入回覆訊息…" data-i18n-placeholder="repair.msg.inputPh"></textarea>
+      <button class="msg-send-btn" onclick="sendUserMsg()" data-i18n="repair.msg.send">發送回覆</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const API = '/api/repair';
+  let currentUser = null;
+  let currentPriority = 'normal';
+  function T(key, fallback){ return (window.t && window.t(key)) || fallback; }
+
+  /* ── restore session ── */
+  const saved = sessionStorage.getItem('esi_repair_user');
+  if (saved) {
+    currentUser = JSON.parse(saved);
+    showLoggedIn();
+  }
+
+  /* ── tab switch ── */
+  window.switchTab = function(tab) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+    document.getElementById('panelLogin').style.display    = tab === 'login'    ? '' : 'none';
+    document.getElementById('panelRegister').style.display = tab === 'register' ? '' : 'none';
+  };
+  document.getElementById('tabBar').addEventListener('click', e => {
+    const b = e.target.closest('.tab-btn');
+    if (b) switchTab(b.dataset.tab);
+  });
+
+  /* ── priority pills ── */
+  window.selectPriority = function(val) {
+    currentPriority = val;
+    document.querySelectorAll('.priority-pill').forEach(p => p.classList.toggle('selected', p.dataset.val === val));
+    document.querySelector('input[name="priority"]').value = val;
+  };
+
+  /* ── show/hide ── */
+  function showLoggedIn() {
+    document.getElementById('tabBar').style.display       = 'none';
+    document.getElementById('panelLogin').style.display   = 'none';
+    document.getElementById('panelRegister').style.display= 'none';
+    document.getElementById('panelLoggedIn').style.display= '';
+    document.getElementById('userNameDisplay').textContent    = currentUser.name;
+    document.getElementById('userCompanyDisplay').textContent = currentUser.company;
+    loadTickets();
+  }
+
+  /* ── logout ── */
+  window.logout = function() {
+    sessionStorage.removeItem('esi_repair_user');
+    currentUser = null;
+    document.getElementById('tabBar').style.display       = '';
+    document.getElementById('panelLoggedIn').style.display= 'none';
+    document.getElementById('panelLogin').style.display   = '';
+  };
+
+  /* ── LOGIN ── */
+  document.getElementById('loginForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('loginBtn');
+    const msg = document.getElementById('loginMsg');
+    btn.disabled = true; btn.textContent = T('repair.login.loading','登入中…');
+    msg.style.display = 'none';
+    try {
+      const r = await fetch(API + '/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: this.email.value.trim(),
+          password: this.password.value
+        })
+      });
+      const d = await r.json();
+      if (!r.ok) {
+        showMsg(msg, 'error', d.error);
+        btn.disabled = false; btn.textContent = T('repair.login.submit','登入');
+        return;
+      }
+      currentUser = d.user;
+      sessionStorage.setItem('esi_repair_user', JSON.stringify(d.user));
+      showLoggedIn();
+    } catch(err) {
+      showMsg(msg, 'error', T('repair.errNetwork','網路錯誤，請稍後再試'));
+      btn.disabled = false; btn.textContent = T('repair.login.submit','登入');
+    }
+  });
+
+  /* ── REGISTER ── */
+  document.getElementById('registerForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('registerBtn');
+    const msg = document.getElementById('registerMsg');
+    btn.disabled = true; btn.textContent = T('repair.register.submitting','送出中…');
+    msg.style.display = 'none';
+    try {
+      const r = await fetch(API + '/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name:      this.name.value.trim(),
+          company:   this.company.value.trim(),
+          phone:     this.phone.value.trim(),
+          email:     this.email.value.trim(),
+          password:  this.password.value
+        })
+      });
+      const d = await r.json();
+      if (!r.ok) {
+        showMsg(msg, 'error', d.error);
+        btn.disabled = false; btn.textContent = T('repair.register.submit','送出申請');
+        return;
+      }
+      showMsg(msg, 'success', '✅ ' + d.message);
+      this.reset();
+      btn.disabled = false; btn.textContent = T('repair.register.submit','送出申請');
+    } catch(err) {
+      showMsg(msg, 'error', T('repair.errNetwork','網路錯誤，請稍後再試'));
+      btn.disabled = false; btn.textContent = T('repair.register.submit','送出申請');
+    }
+  });
+
+  /* ── SUBMIT TICKET ── */
+  document.getElementById('ticketForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('ticketBtn');
+    const msg = document.getElementById('ticketMsg');
+    btn.disabled = true; btn.textContent = T('repair.ticket.creating','建立中…');
+    msg.style.display = 'none';
+    // 上傳附件
+    let fileLinks = '';
+    const ticketFiles = window._ticketFiles || [];
+    if (ticketFiles.length > 0) {
+      const status = document.getElementById('ticketFileStatus');
+      status.style.color = '#0052cc'; status.textContent = T('repair.attachUploading','⏳ 上傳附件中...');
+      const fd2 = new FormData();
+      ticketFiles.forEach(function(f){ fd2.append('files', f); });
+      try {
+        const ur = await fetch('/api/upload/multi', {method:'POST', body:fd2});
+        const ud = await ur.json();
+        if (ur.ok) {
+          fileLinks = '\n\n📎 附件：\n' + ud.files.map(function(f){return '<a href="'+f.url+'" target="_blank">'+f.name+'</a>';}).join('\n');
+          status.style.color = '#1a7a1a'; status.textContent = T('repair.attachDone','✅ 上傳完成');
+        } else {
+          status.style.color = '#cc2200'; status.textContent = T('repair.attachFailed','❌ 上傳失敗') + (ud.error ? ' ' + ud.error : '');
+          btn.disabled=false; btn.textContent=T('repair.ticket.submit','建立報修案件'); return;
+        }
+      } catch(e) {
+        status.style.color = '#cc2200'; status.textContent = T('repair.attachFailed','❌ 上傳失敗');
+        btn.disabled=false; btn.textContent=T('repair.ticket.submit','建立報修案件'); return;
+      }
+    }
+    try {
+      const r = await fetch(API + '/tickets', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user_id:      currentUser.id,
+          product_type: this.product_type.value,
+          description:  this.description.value.trim() + fileLinks,
+          priority:     currentPriority
+        })
+      });
+      const d = await r.json();
+      if (!r.ok) {
+        showMsg(msg, 'error', d.error);
+        btn.disabled = false; btn.textContent = T('repair.ticket.submit','建立報修案件');
+        return;
+      }
+      showMsg(msg, 'success', T('repair.ticket.created','✅ 案件已建立！案件編號：') + d.ticket.ticket_no);
+      this.reset();
+      selectPriority('normal');
+      btn.disabled = false; btn.textContent = T('repair.ticket.submit','建立報修案件');
+      loadTickets();
+    } catch(err) {
+      showMsg(msg, 'error', T('repair.errNetwork','網路錯誤，請稍後再試'));
+      btn.disabled = false; btn.textContent = T('repair.ticket.submit','建立報修案件');
+    }
+  });
+
+
+  /* msg modal */
+  let _currentTicketId = null;
+  var _tl = document.getElementById('ticketList');
+  if(_tl) _tl.addEventListener('click', function(e){
+    const btn = e.target.closest('.msg-open-btn');
+    if(btn) openMsgModal(parseInt(btn.dataset.id), btn.dataset.no);
+  });
+
+  window.openMsgModal = async function(ticketId, ticketNo){
+    _currentTicketId = ticketId;
+    document.getElementById('msgModalTitle').textContent = T('repair.msg.title','對話記錄') + '　' + ticketNo;
+    document.getElementById('msgModal').style.display = 'flex';
+    document.getElementById('msgInput').value = '';
+    await refreshMsgThread();
+  };
+  window.closeMsgModal = function(){
+    document.getElementById('msgModal').style.display = 'none';
+    _currentTicketId = null;
+  };
+  async function refreshMsgThread(){
+    const thread = document.getElementById('msgThread');
+    thread.innerHTML = '<p style="color:#8899aa;text-align:center">'+T('repair.msg.loading','載入中…')+'</p>';
+    try {
+      const r = await fetch(API+'/tickets/'+_currentTicketId+'/messages?user_id='+currentUser.id);
+      const msgs = await r.json();
+      if(!msgs.length){ thread.innerHTML='<p style="color:#8899aa;text-align:center;padding:20px">'+T('repair.msg.none','尚無對話記錄')+'</p>'; return; }
+      thread.innerHTML = msgs.map(m=>{
+        const dt = new Date(m.created_at).toLocaleString('zh-TW',{timeZone:'Asia/Taipei',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
+        return '<div class="msg-bubble '+m.sender_type+'"><div class="msg-meta">'+esc(m.sender_name)+' ・ '+dt+'</div><div style="white-space:pre-wrap">'+esc(m.message)+'</div></div>';
+      }).join('');
+      thread.scrollTop = thread.scrollHeight;
+    } catch(e){ thread.innerHTML='<p style="color:#cc2200;text-align:center">'+T('repair.msg.loadFailed','載入失敗')+'</p>'; }
+  }
+  window.sendUserMsg = async function(){
+    const msg = document.getElementById('msgInput').value.trim();
+    if(!msg){ alert(T('repair.msg.emptyInput','請輸入回覆內容')); return; }
+    const btn = document.querySelector('.msg-send-btn');
+    btn.disabled=true; btn.textContent=T('repair.msg.sending','發送中…');
+    try {
+      const r = await fetch(API+'/tickets/'+_currentTicketId+'/messages',{
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({user_id:currentUser.id, message:msg})
+      });
+      const d = await r.json();
+      if(!r.ok){ alert(T('repair.msg.sendFailed','發送失敗：')+(d.error||T('repair.msg.unknownErr','未知錯誤'))); return; }
+      document.getElementById('msgInput').value='';
+      await refreshMsgThread();
+    } catch(e){ alert(T('repair.msg.connFailed','連線失敗')); }
+    finally{ btn.disabled=false; btn.textContent=T('repair.msg.send','發送回覆'); }
+  };
+  document.getElementById('msgModal').addEventListener('click',function(e){ if(e.target===this) closeMsgModal(); });
+
+
+  window.showRepairForgot = function(e, show=true){
+    e && e.preventDefault();
+    document.getElementById('forgotArea').style.display = show ? 'block' : 'none';
+  };
+  window.sendRepairForgot = async function(){
+    const email = document.getElementById('forgotEmail').value.trim();
+    const msg   = document.getElementById('forgotMsg');
+    if (!email){ msg.style.color='#cc2200'; msg.textContent=T('repair.forgot.emptyEmail','請輸入 Email'); return; }
+    const btn = document.querySelector('#forgotArea button');
+    btn.disabled=true; btn.textContent=T('repair.forgot.sending','發送中…');
+    try {
+      await fetch('/api/repair/forgot-password',{
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({email})
+      });
+      msg.style.color='#1a7a1a';
+      msg.textContent=T('repair.forgot.success','✅ 若此 Email 存在，重置連結已發送，請檢查信箱');
+    } catch(e){
+      msg.style.color='#cc2200'; msg.textContent=T('repair.forgot.networkErr','連線失敗');
+    }
+    btn.disabled=false; btn.textContent=T('repair.forgot.send','發送重置連結');
+  };
+  /* ── LOAD TICKETS ── */
+  async function loadTickets() {
+    const list = document.getElementById('ticketList');
+    try {
+      const r = await fetch(API + '/tickets/' + currentUser.id);
+      const rows = await r.json();
+      if (!rows.length) {
+        list.innerHTML = '<p style="color:var(--muted);text-align:center;padding:20px 0">'+T('repair.noTickets','目前沒有報修記錄')+'</p>';
+        return;
+      }
+      const statusMap = { open:T('repair.status.open','處理中'), progress:T('repair.status.progress','進行中'), closed:T('repair.status.closed','已結案') };
+      const priorityMap = { low:T('repair.priority.low','輕微'), normal:T('repair.priority.normal','中等'), urgent:T('repair.priority.urgent','緊急') };
+      list.innerHTML = rows.map(t => {
+        const dt = new Date(t.created_at).toLocaleDateString('zh-TW') + ' ' +
+                   new Date(t.created_at).toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'});
+        const sClass = t.status === 'closed' ? 'closed' : t.status === 'progress' ? 'progress' : 'open';
+        const pClass = t.priority;
+        return `<div class="ticket-item">
+          <div class="ticket-no">${esc(t.ticket_no)}</div>
+          <div class="ticket-meta">
+            ${dt} ·
+            <span class="t-badge ${pClass}">${priorityMap[t.priority]||t.priority}</span>
+            <span class="t-badge ${sClass}" style="margin-left:4px">${statusMap[t.status]||t.status}</span>
+            · ${esc(t.product_type)}
+          </div>
+          <div class="ticket-desc">${esc(t.description)}</div>
+          <button class="msg-open-btn" data-id="${t.id}" data-no="${esc(t.ticket_no)}" style="margin-top:10px;padding:6px 16px;background:#f0f4ff;color:#0052cc;border:1.5px solid #c8d8f0;border-radius:8px;font-size:.82rem;cursor:pointer">${T('repair.dialogHistory','💬 對話記錄')}</button>
+        </div>`;
+      }).join('');
+    } catch(e) {
+      list.innerHTML = '<p style="color:var(--muted);text-align:center">'+T('repair.loadFailed','載入失敗')+'</p>';
+    }
+  }
+
+  /* ── helpers ── */
+  function showMsg(el, type, txt) {
+    el.className = 'msg-box ' + type;
+    el.textContent = txt;
+    el.style.display = 'block';
+  }
+  window.esc = function esc(s) {
+    return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+})();
+</script>
+<script>
+function showRepairForgot(e, show){
+  if(show===undefined) show=true;
+  e && e.preventDefault();
+  var area = document.getElementById('forgotArea');
+  if(area) area.style.display = show ? 'block' : 'none';
+}
+</script>
+<script>
+function showRepairForgot(e, show) {
+  if (show === undefined) show = true;
+  e && e.preventDefault();
+  var area = document.getElementById('forgotArea');
+  if (area) area.style.display = show ? 'block' : 'none';
+}
+</script>
+<script>
+window._ticketFiles = [];
+document.addEventListener('DOMContentLoaded', function() {
+  var input = document.getElementById('ticketFileInput');
+  if (input) {
+    input.addEventListener('change', function() {
+      Array.from(this.files).forEach(function(f) {
+        var total = window._ticketFiles.reduce(function(s,x){return s+x.size;},0) + f.size;
+        if (total > 100*1024*1024) { alert((window.t && window.t('repair.attachTooLarge')) || '❌ 總大小超過 100MB'); return; }
+        if (!window._ticketFiles.find(function(x){return x.name===f.name&&x.size===f.size;}))
+          window._ticketFiles.push(f);
+      });
+      this.value = '';
+      renderTicketFileList();
+    });
+  }
+});
+function renderTicketFileList() {
+  var el = document.getElementById('ticketFileList');
+  var status = document.getElementById('ticketFileStatus');
+  if (!el) return;
+  if (!window._ticketFiles.length) { el.innerHTML=''; if(status) status.textContent=''; return; }
+  var total = window._ticketFiles.reduce(function(s,f){return s+f.size;},0);
+  if (status) { status.style.color='#1a7a1a'; status.textContent=window._ticketFiles.length+((window.t && window.t('repair.fileCount')) || ' 個檔案，總大小：')+(total/1024/1024).toFixed(1)+'MB'; }
+  el.innerHTML = window._ticketFiles.map(function(f,i){
+    return '<div style="display:flex;align-items:center;gap:8px;padding:6px 10px;background:#f8faff;border-radius:8px;margin-bottom:4px;font-size:.83rem">'
+      +'<span style="flex:1">📎 '+f.name+'</span>'
+      +'<span style="color:var(--muted)">'+(f.size/1024).toFixed(0)+'KB</span>'
+      +'<button type="button" onclick="removeTicketFile('+i+')" style="border:none;background:none;color:#cc2200;cursor:pointer;font-size:1rem;padding:0 4px">×</button>'
+      +'</div>';
+  }).join('');
+}
+function removeTicketFile(i) {
+  window._ticketFiles.splice(i,1);
+  renderTicketFileList();
+}
+</script>
+<script>
+window._ticketFiles = [];
+document.addEventListener('DOMContentLoaded', function() {
+  var input = document.getElementById('ticketFileInput');
+  if (input) {
+    input.addEventListener('change', function() {
+      Array.from(this.files).forEach(function(f) {
+        var total = window._ticketFiles.reduce(function(s,x){return s+x.size;},0) + f.size;
+        if (total > 100*1024*1024) { alert((window.t && window.t('repair.attachTooLarge')) || '❌ 總大小超過 100MB'); return; }
+        if (!window._ticketFiles.find(function(x){return x.name===f.name&&x.size===f.size;}))
+          window._ticketFiles.push(f);
+      });
+      this.value = '';
+      renderTicketFileList();
+    });
+  }
+});
+function renderTicketFileList() {
+  var el = document.getElementById('ticketFileList');
+  var status = document.getElementById('ticketFileStatus');
+  if (!el) return;
+  if (!window._ticketFiles.length) { el.innerHTML=''; if(status) status.textContent=''; return; }
+  var total = window._ticketFiles.reduce(function(s,f){return s+f.size;},0);
+  if (status) { status.style.color='#1a7a1a'; status.textContent=window._ticketFiles.length+((window.t && window.t('repair.fileCount')) || ' 個檔案，總大小：')+(total/1024/1024).toFixed(1)+'MB'; }
+  el.innerHTML = window._ticketFiles.map(function(f,i){
+    return '<div style="display:flex;align-items:center;gap:8px;padding:6px 10px;background:#f8faff;border-radius:8px;margin-bottom:4px;font-size:.83rem">'
+      +'<span style="flex:1">📎 '+f.name+'</span>'
+      +'<span style="color:var(--muted)">'+(f.size/1024).toFixed(0)+'KB</span>'
+      +'<button type="button" onclick="removeTicketFile('+i+')" style="border:none;background:none;color:#cc2200;cursor:pointer;font-size:1rem;padding:0 4px">×</button>'
+      +'</div>';
+  }).join('');
+}
+function removeTicketFile(i) {
+  window._ticketFiles.splice(i,1);
+  renderTicketFileList();
+}
+</script>
+</body>
+</html>

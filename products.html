@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-i18n="products.meta.title">產品方案｜ESI Taiwan</title>
+  <meta name="description" content="ESI 的企業整合通訊、客服中心、會議室與維運服務方案。" data-i18n-attr="content:products.meta.desc" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── Brand logo inline ── */
+    .brand-logo{display:inline-flex;align-items:center;text-decoration:none;gap:0}
+    .brand-esi-mark{display:inline-flex;align-items:flex-start;position:relative;line-height:1}
+    .brand-esi-es{font-family:'Arial Black','Arial',sans-serif;font-size:2.6rem;font-weight:900;font-style:normal;color:#fff;letter-spacing:.02em;line-height:1;text-shadow:0 0 18px rgba(255,255,255,.35)}
+    .brand-esi-i-wrap{position:relative;display:inline-flex;align-items:flex-start}
+    .brand-esi-i{font-family:'Arial Black','Arial',sans-serif;font-size:2.6rem;font-weight:900;font-style:normal;color:#fff;line-height:1;letter-spacing:.02em;text-shadow:0 0 18px rgba(255,255,255,.35)}
+    .brand-esi-dot{position:absolute;top:-.28em;left:50%;transform:translateX(-50%);width:.52em;height:.52em;border-radius:50%;background:radial-gradient(circle at 38% 35%,#ff5555,#cc1111);box-shadow:0 2px 10px rgba(200,0,0,.7)}
+    .brand-divider{width:1.5px;height:44px;background:linear-gradient(to bottom,transparent,rgba(0,229,255,.6),transparent);margin:0 14px}
+    .brand-wordmark{display:flex;flex-direction:column;line-height:1;gap:2px}
+    .brand-sub{font-family:'Noto Sans TC',sans-serif;font-size:.68rem;font-weight:500;color:rgba(180,220,255,.9);letter-spacing:.18em;margin-top:3px}
+  </style>
+</head>
+<body>
+
+<header class="site-header" id="siteHeader">
+  <div class="container nav-wrap">
+    <a class="brand-logo" href="index.html">
+      <span class="brand-esi-mark">
+        <span class="brand-esi-es">ES</span>
+        <span class="brand-esi-i-wrap">
+          <span class="brand-esi-i">I</span>
+          <span class="brand-esi-dot"></span>
+        </span>
+      </span>
+      <span class="brand-divider"></span>
+      <span class="brand-wordmark">
+        <span style="font-family:'Noto Sans TC',sans-serif;font-size:1.15rem;font-weight:700;color:#fff;letter-spacing:.06em;line-height:1.2;text-shadow:0 0 12px rgba(255,255,255,.25)">易通科技</span>
+        <span class="brand-sub">Expert System IVR (Asia) Co., Ltd.</span>
+      </span>
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="選單" data-i18n-attr="aria-label:common.nav.menuAria"><span></span><span></span><span></span></button>
+    <ul class="main-nav" id="mainNav">
+      <li><a href="index.html" data-i18n="common.nav.home">首頁</a></li>
+      <li class="has-mega">
+        <button><span data-i18n="common.nav.products">產品方案</span> <svg class="nav-arrow" viewBox="0 0 14 14" fill="none"><path d="M2 4.5L7 9.5L12 4.5" stroke="rgba(255,255,255,.8)" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="mega-menu">
+          <div class="mega-col"><h4 data-i18n="common.mega.uc">整合通訊</h4><a href="#uc">Microsoft Teams Phone</a><a href="#uc">Zoom Phone</a><a href="#uc">Deltapath FreSIP</a></div>
+          <div class="mega-col"><h4 data-i18n="common.mega.recording">錄音系統</h4><a href="#recording">VL2000</a><a href="#recording" data-i18n="common.product.huadingEuls">華鼎 EULS</a><a href="#recording" data-i18n="common.product.huadingTcr">華鼎 TCR 2000</a><a href="#recording">QMS</a></div>
+          <div class="mega-col"><h4 data-i18n="common.mega.callcenter">Call Center｜IVR</h4><a href="#callcenter">EICC</a></div>
+          <div class="mega-col"><h4 data-i18n="common.mega.meeting">會議設備</h4><a href="#meeting-room" data-i18n="common.mega.video">視訊設備</a><a href="#meeting-room" data-i18n="common.mega.headset">耳機和揚聲器</a><a href="#meeting-room" data-i18n="common.mega.wireless">無線投影</a><a href="https://esi-asia.com/esi-tik-for-neat-pad-neat-frame/" target="_blank">ESI-TIK Booking System</a></div>
+          <div class="mega-col"><h4 data-i18n="common.mega.gateway">Gateway｜SBC</h4><a href="#gateway">AudioCodes</a><a href="#gateway">Ribbon</a></div>
+          <div class="mega-col"><h4 data-i18n="common.mega.ipphone">IP Phone｜Teams Phone</h4><a href="#ipphone">AudioCodes</a><a href="#ipphone">Snom</a></div>
+        </div>
+      </li>
+      <li><a href="about.html" data-i18n="common.nav.about">關於我們</a></li>
+      <li><a href="news.html" data-i18n="common.nav.news">最新消息</a></li>
+      <li><a href="community.html" data-i18n="common.nav.community">交流天地</a></li>
+      <li><a href="support.html" data-i18n="common.nav.support">技術支援</a></li>
+      <li><a href="contact.html" class="nav-cta" data-i18n="common.nav.contact">立即洽詢</a></li>
+    </ul>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow" style="color:var(--accent2);background:rgba(245,166,35,.15)">Products & Solutions</span>
+    <h1 data-i18n="products.hero.title">產品與解決方案</h1>
+    <p class="lead" data-i18n="products.hero.lead">整合通訊、客服中心、視訊會議設備與維運服務，提供企業全方位的通訊升級方案。</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container product-list">
+
+    <article id="uc" class="reveal" style="margin-bottom:48px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;margin-bottom:24px">
+        <div>
+          <span class="tag" style="background:var(--primary)" data-i18n="products.uc.tag">核心方案</span>
+          <h2 style="margin:12px 0 14px" data-i18n="common.mega.uc">整合通訊平台</h2>
+          <p style="color:var(--muted);margin-bottom:16px" data-i18n="products.uc.desc">整合企業電話、分機、視訊會議與協作工具，讓員工在辦公室、在家或外出時都能維持一致的通訊體驗。支援 Microsoft Teams Phone、Zoom Phone與 Deltapath FreSIP。</p>
+          <ul class="check-list compact">
+            <li>Microsoft Teams Phone</li>
+            <li>Zoom Phone</li>
+            <li>Deltapath FreSIP</li>
+          </ul>
+        </div>
+        <div style="padding:16px;background:var(--surface);border-radius:12px;border:1px solid var(--border)">
+          <p style="font-size:.85rem;font-weight:700;color:var(--primary);margin-bottom:8px" data-i18n="products.uc.featuresTitle">方案特色</p>
+          <ul style="color:var(--muted);font-size:.85rem;padding-left:16px;line-height:1.9;margin:0 0 16px 0">
+            <li data-i18n="products.uc.f1">支援 On-Prem 與 Hybrid 混合架構</li>
+            <li data-i18n="products.uc.f2">整合既有 PBX、SIP Trunk 與 Gateway</li>
+            <li data-i18n="products.uc.f3">支援行動分機、遠端辦公與跨據點通訊</li>
+            <li data-i18n="products.uc.f4">Direct Routing、Cloud PBX 多種部署方式</li>
+          </ul>
+          <a class="btn btn-primary" href="contact.html" data-i18n="common.cta.requestQuote">索取方案報價</a>
+        </div>
+      </div>
+      <!-- Tab 按鈕 -->
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px" id="ucTabs">
+        <button onclick="showUcTab('teams-onprem')" id="tab-teams-onprem" style="padding:7px 14px;border-radius:99px;border:1.5px solid #0052cc;background:#0052cc;color:#fff;font-size:.82rem;font-weight:700;cursor:pointer">Teams On-Prem</button>
+        
+        <button onclick="showUcTab('zoom-onprem')" id="tab-zoom-onprem" style="padding:7px 14px;border-radius:99px;border:1.5px solid var(--border);background:var(--surface);color:var(--muted);font-size:.82rem;font-weight:700;cursor:pointer">Zoom On-Prem</button>
+        
+        <button onclick="showUcTab('deltapath')" id="tab-deltapath" style="padding:7px 14px;border-radius:99px;border:1.5px solid var(--border);background:var(--surface);color:var(--muted);font-size:.82rem;font-weight:700;cursor:pointer">Deltapath</button>
+      </div>
+      <!-- 圖片全寬顯示 -->
+      <div id="uc-teams-onprem" class="uc-tab-img"><img src="assets/products/teamsphoneonprem.png" alt="Teams Phone On-Prem" style="width:100%;border-radius:12px"/></div>
+      
+      <div id="uc-zoom-onprem" class="uc-tab-img" style="display:none"><img src="assets/products/zoomphoneonprem.png" alt="Zoom Phone On-Prem" style="width:100%;border-radius:12px"/></div>
+      
+      <div id="uc-deltapath" class="uc-tab-img" style="display:none"><img src="assets/products/deltapathonprem.png" alt="Deltapath frSIP On-Prem" style="width:100%;border-radius:12px"/></div>
+    </article>
+    <script>
+    function showUcTab(name){
+      document.querySelectorAll('.uc-tab-img').forEach(el=>el.style.display='none');
+      document.getElementById('uc-'+name).style.display='block';
+      document.querySelectorAll('#ucTabs button').forEach(btn=>{
+        btn.style.background='var(--surface)';
+        btn.style.color='var(--muted)';
+        btn.style.borderColor='var(--border)';
+      });
+      var active = document.getElementById('tab-'+name);
+      active.style.background='#0052cc';
+      active.style.color='#fff';
+      active.style.borderColor='#0052cc';
+    }
+    </script>
+
+    <article id="recording" class="reveal" style="margin-bottom:48px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;margin-bottom:24px">
+        <div>
+          <span class="tag" style="background:var(--accent)" data-i18n="products.recording.tag">熱門方案</span>
+          <h2 style="margin:12px 0 14px" data-i18n="common.mega.recording">錄音系統</h2>
+          <p style="color:var(--muted);margin-bottom:16px" data-i18n="products.recording.desc">提供完整通話錄音解決方案，支援類比、數位、IP 錄音多種模式，確保通話內容完整保存，協助企業符合法遵要求、內部稽核與服務品質提升。</p>
+          <ul class="check-list compact">
+            <li>VL2000</li>
+            <li data-i18n="common.product.huadingEuls">華鼎 EULS</li>
+            <li data-i18n="common.product.huadingTcr">華鼎 TCR 2000</li>
+            <li data-i18n="products.recording.qms">QMS（品質管理系統）</li>
+          </ul>
+        </div>
+        <div style="padding:16px;background:var(--surface);border-radius:12px;border:1px solid var(--border)">
+          <p style="font-size:.85rem;font-weight:700;color:var(--accent);margin-bottom:8px" data-i18n="products.recording.modesTitle">錄音模式</p>
+          <ul style="color:var(--muted);font-size:.85rem;padding-left:16px;line-height:1.9;margin:0 0 12px 0">
+            <li data-i18n="products.recording.m1">類比錄音 / 數位錄音 / IP 錄音</li>
+            <li data-i18n="products.recording.m2">即時錄音、稽核與回放</li>
+            <li data-i18n="products.recording.m3">錄音備份與事後查詢</li>
+            <li data-i18n="products.recording.m4">QMS 品質管理與評分系統</li>
+          </ul>
+          <p style="font-size:.85rem;font-weight:700;color:var(--accent);margin-bottom:6px" data-i18n="products.scenarios">適用產業</p>
+          <p style="color:var(--muted);font-size:.85rem;margin:0 0 16px 0" data-i18n="products.recording.industries">金融證券、電信公司、客服中心、政府機關、醫療院所、跨國企業。</p>
+          <a class="btn btn-primary" href="contact.html" data-i18n="common.cta.requestQuote">索取方案報價</a>
+        </div>
+      </div>
+      <!-- 圖片全寬 -->
+      <img src="assets/products/recording.png" alt="錄音系統架構圖" style="width:100%;border-radius:12px"/>
+    </article>
+    <article id="callcenter" class="reveal" style="margin-bottom:48px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;margin-bottom:24px">
+        <div>
+          <span class="tag" style="background:#7b2ff7" data-i18n="products.cc.tag">客服方案</span>
+          <h2 style="margin:12px 0 14px">Call Center｜IVR</h2>
+          <p style="color:var(--muted);margin-bottom:16px" data-i18n="products.cc.desc">打造高效率、可管理、可整合的現代企業客服中心平台，整合語音流程與智能分派，提供一致且專業的客戶服務體驗。</p>
+          <ul class="check-list compact">
+            <li data-i18n="products.cc.l1">EICC — 企業客服中心解決方案</li>
+            <li data-i18n="products.cc.l2">IVR 語音流程與來電分流</li>
+            <li data-i18n="products.cc.l3">ACD 智能排障與技能指派</li>
+            <li data-i18n="products.cc.l4">Agent / Supervisor 管理介面</li>
+            <li data-i18n="products.cc.l5">錄音、監聽、插話、強拆功能</li>
+            <li data-i18n="products.cc.l6">即時與歷史報表分析</li>
+            <li data-i18n="products.cc.l7">CRM / Ticket / API 整合</li>
+          </ul>
+        </div>
+        <div style="padding:16px;background:var(--surface);border-radius:12px;border:1px solid var(--border)">
+          <p style="font-size:.85rem;font-weight:700;color:#7b2ff7;margin-bottom:8px" data-i18n="products.cc.coreTitle">EICC 核心功能</p>
+          <ul style="color:var(--muted);font-size:.85rem;padding-left:16px;line-height:1.9;margin:0 0 12px 0">
+            <li data-i18n="products.cc.c1">電話進線 → IVR → Queue / ACD 智能分派</li>
+            <li data-i18n="products.cc.c2">Agent 座席與 Supervisor 管理介面</li>
+            <li data-i18n="products.cc.c3">錄音系統整合</li>
+            <li data-i18n="products.cc.c4">CRM / 工單系統 / 報表中心</li>
+            <li data-i18n="products.cc.c5">Email / Web / API 多通道整合</li>
+          </ul>
+          <p style="font-size:.85rem;font-weight:700;color:#7b2ff7;margin-bottom:6px" data-i18n="products.scenarios">適用情境</p>
+          <p style="color:var(--muted);font-size:.85rem;margin:0 0 16px 0" data-i18n="products.cc.scenariosDesc">企業客服專線、售後服務中心、訂單接聽、金融與醫療客服櫃檯、電商客服平台。</p>
+          <a class="btn btn-primary" href="contact.html" data-i18n="common.cta.requestQuote">索取方案報價</a>
+        </div>
+      </div>
+      <!-- 圖片全寬 -->
+      <img src="assets/products/eicc.png" alt="EICC 客服中心架構圖" style="width:100%;border-radius:12px"/>
+    </article>
+
+    <article id="meeting-room" class="reveal" style="margin-bottom:48px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;margin-bottom:24px">
+        <div>
+          <span class="tag" style="background:#1a7a4a" data-i18n="products.meeting.tag">會議方案</span>
+          <h2 style="margin:12px 0 14px" data-i18n="common.mega.meeting">會議設備整合</h2>
+          <p style="color:var(--muted);margin-bottom:16px" data-i18n="products.meeting.desc">提供 USB 視訊會議設備、MTR、無線投影與 ESI-TIK Booking System 等完整會議室整合，支援混合會議場景。</p>
+          <ul class="check-list compact">
+            <li data-i18n="common.mega.video">視訊設備</li>
+            <li data-i18n="common.mega.headset">耳機和揚聲器</li>
+            <li data-i18n="common.mega.wireless">無線投影</li>
+            <li><a href="https://esi-asia.com/esi-tik-for-neat-pad-neat-frame/" target="_blank">ESI-TIK Booking System</a></li>
+          </ul>
+        </div>
+        <div style="padding:16px;background:var(--surface);border-radius:12px;border:1px solid var(--border)">
+          <p style="font-size:.85rem;font-weight:700;color:#1a7a4a;margin-bottom:8px" data-i18n="products.meeting.scaleTitle">規模方案</p>
+          <ul style="color:var(--muted);font-size:.85rem;padding-left:16px;line-height:1.9;margin:0 0 12px 0">
+            <li data-i18n="products.meeting.s1">小型（8人以下）：Logitech Meetup、Poly Studio、Jabra Panacast、AudioCodes RXVCam50</li>
+            <li data-i18n="products.meeting.s2">中型（8～15人）：Logitech Rally Camera、Jabra Panacast 50、AudioCodes RXVCam50</li>
+            <li data-i18n="products.meeting.s3">大型（15人以上）：Logitech Rally / Rally Plus、Logitech Rally Bar</li>
+            <li data-i18n="products.meeting.s4">個人入會：AudioCodes RXV200、RXV81-B10、Logitech BRIO</li>
+            <li data-i18n="products.meeting.s5">耳機與會議電話：Jabra、Poly、AudioCodes RX10/RX50</li>
+          </ul>
+          <p style="font-size:.85rem;font-weight:700;color:#1a7a4a;margin-bottom:6px" data-i18n="products.scenarios">適用情境</p>
+          <p style="color:var(--muted);font-size:.85rem;margin:0 0 16px 0" data-i18n="products.meeting.scenariosDesc">董事會議室、簡報空間、跨地點混合會議、教育訓練場域。</p>
+          <a class="btn btn-primary" href="contact.html" data-i18n="common.cta.requestQuote">索取方案報價</a>
+        </div>
+      </div>
+      <!-- Tab 按鈕 -->
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px" id="meetingTabs">
+        <button onclick="showMeetingTab('all')" id="mtab-all" style="padding:7px 14px;border-radius:99px;border:1.5px solid #1a7a4a;background:#1a7a4a;color:#fff;font-size:.82rem;font-weight:700;cursor:pointer" data-i18n="products.meeting.tabAll">總覽</button>
+        <button onclick="showMeetingTab('8p')" id="mtab-8p" style="padding:7px 14px;border-radius:99px;border:1.5px solid var(--border);background:var(--surface);color:var(--muted);font-size:.82rem;font-weight:700;cursor:pointer" data-i18n="products.meeting.tab8p">小型（8人以下）</button>
+        <button onclick="showMeetingTab('15p')" id="mtab-15p" style="padding:7px 14px;border-radius:99px;border:1.5px solid var(--border);background:var(--surface);color:var(--muted);font-size:.82rem;font-weight:700;cursor:pointer" data-i18n="products.meeting.tab15p">中型（8～15人）</button>
+        <button onclick="showMeetingTab('15p-up')" id="mtab-15p-up" style="padding:7px 14px;border-radius:99px;border:1.5px solid var(--border);background:var(--surface);color:var(--muted);font-size:.82rem;font-weight:700;cursor:pointer" data-i18n="products.meeting.tab15pUp">大型（15人以上）</button>
+        <button onclick="showMeetingTab('onetouch')" id="mtab-onetouch" style="padding:7px 14px;border-radius:99px;border:1.5px solid var(--border);background:var(--surface);color:var(--muted);font-size:.82rem;font-weight:700;cursor:pointer" data-i18n="products.meeting.tabOnetouch">個人入會設備</button>
+        <button onclick="showMeetingTab('headset')" id="mtab-headset" style="padding:7px 14px;border-radius:99px;border:1.5px solid var(--border);background:var(--surface);color:var(--muted);font-size:.82rem;font-weight:700;cursor:pointer" data-i18n="products.meeting.tabHeadset">耳機與會議電話</button>
+      </div>
+      <!-- 圖片 -->
+      <div id="meeting-all" class="meeting-tab-img"><img src="assets/products/meeting-all.png" alt="會議設備總覽" style="width:100%;border-radius:12px"/></div>
+      <div id="meeting-8p" class="meeting-tab-img" style="display:none"><img src="assets/products/meeting-8p.png" alt="小型會議室" style="width:100%;border-radius:12px"/></div>
+      <div id="meeting-15p" class="meeting-tab-img" style="display:none"><img src="assets/products/meeting-15p.png" alt="中型會議室" style="width:100%;border-radius:12px"/></div>
+      <div id="meeting-15p-up" class="meeting-tab-img" style="display:none"><img src="assets/products/meeting-15p-up.png" alt="大型會議室" style="width:100%;border-radius:12px"/></div>
+      <div id="meeting-onetouch" class="meeting-tab-img" style="display:none"><img src="assets/products/meeting-onetouch.png" alt="個人入會設備" style="width:100%;border-radius:12px"/></div>
+      <div id="meeting-headset" class="meeting-tab-img" style="display:none"><img src="assets/products/headset-speaker.png" alt="耳機與會議電話" style="width:100%;border-radius:12px"/></div>
+    </article>
+    <script>
+    function showMeetingTab(name){
+      document.querySelectorAll('.meeting-tab-img').forEach(el=>el.style.display='none');
+      document.getElementById('meeting-'+name).style.display='block';
+      document.querySelectorAll('#meetingTabs button').forEach(btn=>{
+        btn.style.background='var(--surface)';
+        btn.style.color='var(--muted)';
+        btn.style.borderColor='var(--border)';
+      });
+      var active = document.getElementById('mtab-'+name);
+      active.style.background='#1a7a4a';
+      active.style.color='#fff';
+      active.style.borderColor='#1a7a4a';
+    }
+    </script>
+
+    <article id="gateway" class="reveal" style="margin-bottom:48px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;margin-bottom:24px">
+        <div>
+          <span class="tag" style="background:#c2410c" data-i18n="products.gateway.tag">設備方案</span>
+          <h2 style="margin:12px 0 14px">Gateway｜SBC</h2>
+          <p style="color:var(--muted);margin-bottom:16px" data-i18n="products.gateway.desc">提供企業級語音閘道器與會話邊界控制器（SBC），確保 SIP 中繼安全互通、協定轉換與通話品質管理。採用 AudioCodes 與 Ribbon 領導品牌。</p>
+          <ul class="check-list compact">
+            <li>AudioCodes</li>
+            <li>Ribbon</li>
+          </ul>
+        </div>
+        <div style="padding:16px;background:var(--surface);border-radius:12px;border:1px solid var(--border)">
+          <p style="font-size:.85rem;font-weight:700;color:#c2410c;margin-bottom:8px" data-i18n="products.gateway.ovocTitle">AudioCodes OVOC 監控管理</p>
+          <ul style="color:var(--muted);font-size:.85rem;padding-left:16px;line-height:1.9;margin:0 0 12px 0">
+            <li data-i18n="products.gateway.o1">設備集中管理與監控</li>
+            <li data-i18n="products.gateway.o2">網路品質與通話品質分析（MOS）</li>
+            <li data-i18n="products.gateway.o3">告警、報表與事件追蹤</li>
+            <li data-i18n="products.gateway.o4">中央化設定與維運管理</li>
+          </ul>
+          <p style="font-size:.85rem;font-weight:700;color:#c2410c;margin-bottom:6px" data-i18n="products.scenarios">適用情境</p>
+          <p style="color:var(--muted);font-size:.85rem;margin:0 0 16px 0" data-i18n="products.gateway.scenariosDesc">SIP Trunk 串接、PSTN 連接、Teams Direct Routing、多廠牌系統互通。</p>
+          <a class="btn btn-primary" href="contact.html" data-i18n="common.cta.requestQuote">索取方案報價</a>
+        </div>
+      </div>
+      <!-- 品牌 Tab 按鈕 -->
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px" id="gatewayTabs">
+        <button onclick="showGatewayTab('audiocodes')" id="gtab-audiocodes" style="padding:7px 14px;border-radius:99px;border:1.5px solid #c2410c;background:#c2410c;color:#fff;font-size:.82rem;font-weight:700;cursor:pointer">AudioCodes</button>
+        <button onclick="showGatewayTab('ribbon')" id="gtab-ribbon" style="padding:7px 14px;border-radius:99px;border:1.5px solid var(--border);background:var(--surface);color:var(--muted);font-size:.82rem;font-weight:700;cursor:pointer">Ribbon</button>
+      </div>
+
+      <!-- AudioCodes 產品卡片 -->
+      <div id="gateway-audiocodes" class="gateway-tab-panel">
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px">
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+            <img src="assets/products/mediant-500-session-border-controller-sbc.webp" alt="Mediant 500" style="width:100%;aspect-ratio:4/3;object-fit:contain;background:#fff;padding:12px"/>
+            <div style="padding:12px 14px">
+              <p style="font-weight:700;font-size:.92rem;margin-bottom:8px">Mediant 500</p>
+              <a href="assets/products/mediant-500-sbc-datasheet.pdf" target="_blank" style="font-size:.8rem;color:#c2410c;font-weight:600" data-i18n="products.specPdf">📄 產品規格 PDF</a>
+            </div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+            <img src="assets/products/mediant-800-session-border-controller-sbc.webp" alt="Mediant 800" style="width:100%;aspect-ratio:4/3;object-fit:contain;background:#fff;padding:12px"/>
+            <div style="padding:12px 14px">
+              <p style="font-weight:700;font-size:.92rem;margin-bottom:8px">Mediant 800</p>
+              <a href="assets/products/mediant-800-hybrid-e-sbc-and-media-gateway-datasheet.pdf" target="_blank" style="font-size:.8rem;color:#c2410c;font-weight:600" data-i18n="products.specPdf">📄 產品規格 PDF</a>
+            </div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+            <img src="assets/products/mediant-1000-session-border-controller-sbc.webp" alt="Mediant 1000" style="width:100%;aspect-ratio:4/3;object-fit:contain;background:#fff;padding:12px"/>
+            <div style="padding:12px 14px">
+              <p style="font-weight:700;font-size:.92rem;margin-bottom:8px">Mediant 1000</p>
+              <a href="assets/products/mediant-1000-hybrid-e-sbc-and-media-gateway-datasheet.pdf" target="_blank" style="font-size:.8rem;color:#c2410c;font-weight:600" data-i18n="products.specPdf">📄 產品規格 PDF</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ribbon 產品卡片 -->
+      <div id="gateway-ribbon" class="gateway-tab-panel" style="display:none">
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px">
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+            <img src="assets/products/sbc1000-2000.png" alt="SBC 1000 / 2000" style="width:100%;aspect-ratio:4/3;object-fit:contain;background:#fff;padding:12px"/>
+            <div style="padding:12px 14px">
+              <p style="font-weight:700;font-size:.92rem;margin-bottom:8px">SBC 1000 / 2000</p>
+              <a href="assets/products/sbc-1000-2000-datasheet.pdf" target="_blank" style="font-size:.8rem;color:#c2410c;font-weight:600" data-i18n="products.specPdf">📄 產品規格 PDF</a>
+            </div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 14px;text-align:center">
+            <span style="font-size:2rem;margin-bottom:8px">☁️</span>
+            <p style="font-weight:700;font-size:.92rem;margin-bottom:8px">SBC SWe Edge<br><span style="font-size:.78rem;color:var(--muted);font-weight:400" data-i18n="products.gateway.virtualized">虛擬化軟體版</span></p>
+            <a href="assets/products/sbc-swe-edge-datasheet.pdf" target="_blank" style="font-size:.8rem;color:#c2410c;font-weight:600" data-i18n="products.specPdf">📄 產品規格 PDF</a>
+          </div>
+        </div>
+      </div>
+    </article>
+    <script>
+    function showGatewayTab(name){
+      document.querySelectorAll('.gateway-tab-panel').forEach(el=>el.style.display='none');
+      document.getElementById('gateway-'+name).style.display='block';
+      document.querySelectorAll('#gatewayTabs button').forEach(btn=>{
+        btn.style.background='var(--surface)';
+        btn.style.color='var(--muted)';
+        btn.style.borderColor='var(--border)';
+      });
+      var active = document.getElementById('gtab-'+name);
+      active.style.background='#c2410c';
+      active.style.color='#fff';
+      active.style.borderColor='#c2410c';
+    }
+    </script>
+
+    <article id="ipphone" class="reveal" style="margin-bottom:48px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;margin-bottom:24px">
+        <div>
+          <span class="tag" style="background:#0e7490" data-i18n="products.ipphone.tag">設備方案</span>
+          <h2 style="margin:12px 0 14px">IP Phone｜Teams Phone</h2>
+          <p style="color:var(--muted);margin-bottom:16px" data-i18n="products.ipphone.desc">提供桌上型 IP 話機與 Teams 認證話機，支援高音質通話、會議與整合通訊環境。採用 AudioCodes 與 Snom 話機。</p>
+          <ul class="check-list compact">
+            <li>AudioCodes</li>
+            <li>Snom</li>
+          </ul>
+        </div>
+        <div style="padding:16px;background:var(--surface);border-radius:12px;border:1px solid var(--border)">
+          <p style="font-size:.85rem;font-weight:700;color:#0e7490;margin-bottom:8px" data-i18n="products.ipphone.recommendedTitle">推薦型號</p>
+          <ul style="color:var(--muted);font-size:.85rem;padding-left:16px;line-height:1.9;margin:0 0 12px 0">
+            <li data-i18n="products.ipphone.r1">AudioCodes C450 / C470 — Native Teams Phone</li>
+            <li data-i18n="products.ipphone.r2">AudioCodes C405 / C425 / C445 — SIP 標準話機</li>
+            <li data-i18n="products.ipphone.r3">Snom D 系列 — Microsoft Teams 認證話機</li>
+            <li data-i18n="products.ipphone.r4">Snom 系列 — 高音質 SIP 話機</li>
+          </ul>
+          <p style="font-size:.85rem;font-weight:700;color:#0e7490;margin-bottom:6px" data-i18n="products.scenarios">適用情境</p>
+          <p style="color:var(--muted);font-size:.85rem;margin:0 0 16px 0" data-i18n="products.ipphone.scenariosDesc">辦公室桌機部署、Teams Phone 環境、櫃檯與會議室話機。</p>
+          <a class="btn btn-primary" href="contact.html" data-i18n="common.cta.requestQuote">索取方案報價</a>
+        </div>
+      </div>
+      <!-- 品牌 Tab 按鈕 -->
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px" id="ipphoneTabs">
+        <button onclick="showIpphoneTab('audiocodes')" id="iptab-audiocodes" style="padding:7px 14px;border-radius:99px;border:1.5px solid #0e7490;background:#0e7490;color:#fff;font-size:.82rem;font-weight:700;cursor:pointer">AudioCodes</button>
+        <button onclick="showIpphoneTab('snom')" id="iptab-snom" style="padding:7px 14px;border-radius:99px;border:1.5px solid var(--border);background:var(--surface);color:var(--muted);font-size:.82rem;font-weight:700;cursor:pointer">Snom</button>
+      </div>
+
+      <!-- AudioCodes 產品卡片 -->
+      <div id="ipphone-audiocodes" class="ipphone-tab-panel">
+        <p style="font-size:.85rem;font-weight:700;color:#0e7490;margin:8px 0" data-i18n="products.ipphone.seriesC">C 系列</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-bottom:24px">
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+            <img src="assets/products/405hd-ip-phone.webp" alt="C405HD" style="width:100%;aspect-ratio:4/3;object-fit:contain;background:#fff;padding:10px"/>
+            <div style="padding:10px 12px"><p style="font-weight:700;font-size:.86rem">C405HD</p></div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+            <img src="assets/products/425hd-ip-phone.webp" alt="C425HD" style="width:100%;aspect-ratio:4/3;object-fit:contain;background:#fff;padding:10px"/>
+            <div style="padding:10px 12px"><p style="font-weight:700;font-size:.86rem">C425HD</p></div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+            <img src="assets/products/445hd-ip-phone.webp" alt="C445HD" style="width:100%;aspect-ratio:4/3;object-fit:contain;background:#fff;padding:10px"/>
+            <div style="padding:10px 12px"><p style="font-weight:700;font-size:.86rem">C445HD</p></div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+            <img src="assets/products/c435hd-ip-phone.webp" alt="C435HD" style="width:100%;aspect-ratio:4/3;object-fit:contain;background:#fff;padding:10px"/>
+            <div style="padding:10px 12px"><p style="font-weight:700;font-size:.86rem">C435HD</p></div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+            <img src="assets/products/c436hd-ip-phone.webp" alt="C436HD" style="width:100%;aspect-ratio:4/3;object-fit:contain;background:#fff;padding:10px"/>
+            <div style="padding:10px 12px"><p style="font-weight:700;font-size:.86rem">C436HD</p></div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+            <img src="assets/products/c450hd-ip-phone.webp" alt="C450HD" style="width:100%;aspect-ratio:4/3;object-fit:contain;background:#fff;padding:10px"/>
+            <div style="padding:10px 12px"><p style="font-weight:700;font-size:.86rem">C450HD</p></div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+            <img src="assets/products/c455hd-ip-phone.webp" alt="C455HD" style="width:100%;aspect-ratio:4/3;object-fit:contain;background:#fff;padding:10px"/>
+            <div style="padding:10px 12px"><p style="font-weight:700;font-size:.86rem">C455HD<br><span style="font-size:.74rem;color:var(--muted);font-weight:400" data-i18n="products.ipphone.withExpansion">含擴充模組</span></p></div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+            <img src="assets/products/c456hd-expansion-module.webp" alt="C456HD 擴充模組" style="width:100%;aspect-ratio:4/3;object-fit:contain;background:#fff;padding:10px"/>
+            <div style="padding:10px 12px"><p style="font-weight:700;font-size:.86rem">C456HD<br><span style="font-size:.74rem;color:var(--muted);font-weight:400" data-i18n="products.ipphone.expansionModule">擴充模組</span></p></div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+            <img src="assets/products/c470hd-ip-phone.webp" alt="C470HD" style="width:100%;aspect-ratio:4/3;object-fit:contain;background:#fff;padding:10px"/>
+            <div style="padding:10px 12px"><p style="font-weight:700;font-size:.86rem">C470HD</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Snom -->
+      <div id="ipphone-snom" class="ipphone-tab-panel" style="display:none">
+        <p style="font-size:.85rem;font-weight:700;color:#0e7490;margin:8px 0" data-i18n="products.ipphone.seriesD">D 系列</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px">
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+            <img src="assets/products/d140-d150-ip-phone.png" alt="D140 / D150" style="width:100%;aspect-ratio:4/3;object-fit:contain;background:#fff;padding:10px"/>
+            <div style="padding:10px 12px">
+              <p style="font-weight:700;font-size:.86rem;margin-bottom:6px">D140 / D150</p>
+              <div style="display:flex;gap:8px">
+                <a href="assets/products/d140-datasheet.pdf" target="_blank" style="font-size:.76rem;color:#0e7490;font-weight:600">📄 D140</a>
+                <a href="assets/products/d150-datasheet.pdf" target="_blank" style="font-size:.76rem;color:#0e7490;font-weight:600">📄 D150</a>
+              </div>
+            </div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+            <img src="assets/products/d717-ip-phone-teams.png" alt="D717" style="width:100%;aspect-ratio:4/3;object-fit:contain;background:#fff;padding:10px"/>
+            <div style="padding:10px 12px">
+              <p style="font-weight:700;font-size:.86rem;margin-bottom:6px">D717</p>
+              <a href="assets/products/d717-datasheet.pdf" target="_blank" style="font-size:.76rem;color:#0e7490;font-weight:600" data-i18n="products.specPdf">📄 產品規格 PDF</a>
+            </div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+            <img src="assets/products/d735-ip-phone-teams.png" alt="D735" style="width:100%;aspect-ratio:4/3;object-fit:contain;background:#fff;padding:10px"/>
+            <div style="padding:10px 12px">
+              <p style="font-weight:700;font-size:.86rem;margin-bottom:6px">D735</p>
+              <a href="assets/products/d735-datasheet.pdf" target="_blank" style="font-size:.76rem;color:#0e7490;font-weight:600" data-i18n="products.specPdf">📄 產品規格 PDF</a>
+            </div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+            <img src="assets/products/d812-ip-phone.png" alt="D812" style="width:100%;aspect-ratio:4/3;object-fit:contain;background:#fff;padding:10px"/>
+            <div style="padding:10px 12px">
+              <p style="font-weight:700;font-size:.86rem;margin-bottom:6px">D812</p>
+              <a href="assets/products/d812-datasheet.pdf" target="_blank" style="font-size:.76rem;color:#0e7490;font-weight:600" data-i18n="products.specPdf">📄 產品規格 PDF</a>
+            </div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+            <img src="assets/products/d8c-ip-phone.png" alt="D8C" style="width:100%;aspect-ratio:4/3;object-fit:contain;background:#fff;padding:10px"/>
+            <div style="padding:10px 12px">
+              <p style="font-weight:700;font-size:.86rem;margin-bottom:6px">D8C</p>
+              <a href="assets/products/d8c-datasheet.pdf" target="_blank" style="font-size:.76rem;color:#0e7490;font-weight:600" data-i18n="products.specPdf">📄 產品規格 PDF</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+    <script>
+    function showIpphoneTab(name){
+      document.querySelectorAll('.ipphone-tab-panel').forEach(el=>el.style.display='none');
+      document.getElementById('ipphone-'+name).style.display='block';
+      document.querySelectorAll('#ipphoneTabs button').forEach(btn=>{
+        btn.style.background='var(--surface)';
+        btn.style.color='var(--muted)';
+        btn.style.borderColor='var(--border)';
+      });
+      var active = document.getElementById('iptab-'+name);
+      active.style.background='#0e7490';
+      active.style.color='#fff';
+      active.style.borderColor='#0e7490';
+    }
+    </script>
+
+    <article class="product-row reveal">
+      <div>
+        <span class="tag" style="background:#5a4fc7" data-i18n="products.maint.tag">維運服務</span>
+        <h2 style="margin:12px 0 14px" data-i18n="products.maint.title">維護與技術顧問</h2>
+        <p style="color:var(--muted);margin-bottom:16px" data-i18n="products.maint.desc">提供上線後維護、定期巡檢、升級規劃與問題排除，確保系統穩定運行，降低企業 IT 維運成本。</p>
+        <ul class="check-list compact">
+          <li data-i18n="products.maint.l1">定期巡檢與健康檢查</li>
+          <li data-i18n="products.maint.l2">系統備援與災難復原建議</li>
+          <li data-i18n="products.maint.l3">技術升級建議</li>
+          <li data-i18n="products.maint.l4">故障排除與維修服務</li>
+        </ul>
+        <a class="btn btn-primary" href="contact.html" style="margin-top:20px" data-i18n="products.maint.cta">諮詢維運方案</a>
+      </div>
+      <div class="panel" style="border-top:4px solid #5a4fc7">
+        <h3 data-i18n="products.scenarios">適用情境</h3>
+        <p style="color:var(--muted);font-size:.92rem;margin-top:8px" data-i18n="products.maint.scenariosDesc">已上線環境優化、舊系統替換、維護合約與中長期 IT 規劃。</p>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div><div class="brand-footer">ESI Taiwan</div><p data-i18n="common.footer.tagline">整合通訊、視訊協作、客服中心與企業顧問服務。</p></div>
+    <div><h4 data-i18n="common.footer.quicklinks">快速連結</h4><ul class="footer-links"><li><a href="index.html" data-i18n="common.nav.home">首頁</a></li><li><a href="about.html" data-i18n="common.nav.about">關於我們</a></li><li><a href="products.html" data-i18n="common.nav.products">產品方案</a></li><li><a href="news.html" data-i18n="common.nav.news">最新消息</a></li><li><a href="community.html" data-i18n="common.nav.community">交流天地</a></li><li><a href="support.html" data-i18n="common.nav.support">技術支援</a></li><li><a href="contact.html" data-i18n="common.nav.contact">聯絡我們</a></li></ul></div>
+    <div><h4 data-i18n="common.footer.contactInfo">聯絡資訊</h4><ul class="footer-links"><li data-i18n="common.footer.phone">電話：02-77283528</li><li data-i18n="common.footer.email">Email：sales@esi-asia.com.tw</li><li data-i18n="common.footer.address">地址：新北市242新莊區新北大道三段5號18樓之2</li></ul></div>
+  </div>
+  <hr class="footer-divider">
+  <div class="copyright container">© 2026 Expert System IVR (Asia) Co., Ltd. All Rights Reserved.</div>
+</footer>
+<script>
+  window.ESI_I18N = { en: {
+    'products.meta.title': 'Products & Solutions | ESI Taiwan',
+    'products.meta.desc': "ESI's enterprise unified communications, contact center, meeting room, and operations support solutions.",
+    'products.hero.title': 'Products & Solutions',
+    'products.hero.lead': 'Unified communications, contact center systems, video conferencing equipment, and operations support — comprehensive communication upgrade solutions for enterprises.',
+    'products.scenarios': 'Use Cases',
+    'products.specPdf': '📄 Datasheet PDF',
+
+    'products.uc.tag': 'Core Solution',
+    'products.uc.desc': 'Integrating enterprise phones, extensions, video conferencing, and collaboration tools so employees enjoy a consistent communication experience at the office, at home, or on the go. Supports Microsoft Teams Phone, Zoom Phone, and Deltapath FreSIP.',
+    'products.uc.featuresTitle': 'Key Features',
+    'products.uc.f1': 'Supports On-Prem and Hybrid architectures',
+    'products.uc.f2': 'Integrates with existing PBX, SIP trunks, and gateways',
+    'products.uc.f3': 'Supports mobile extensions, remote work, and multi-site communication',
+    'products.uc.f4': 'Multiple deployment options including Direct Routing and Cloud PBX',
+
+    'products.recording.tag': 'Popular Solution',
+    'products.recording.desc': 'A complete call recording solution supporting analog, digital, and IP recording modes, ensuring calls are fully preserved and helping enterprises meet compliance, internal audit, and service quality requirements.',
+    'products.recording.qms': 'QMS (Quality Management System)',
+    'products.recording.modesTitle': 'Recording Modes',
+    'products.recording.m1': 'Analog / Digital / IP Recording',
+    'products.recording.m2': 'Real-time recording, auditing, and playback',
+    'products.recording.m3': 'Recording backup and after-the-fact retrieval',
+    'products.recording.m4': 'QMS quality management and scoring system',
+    'products.recording.industries': 'Financial securities, telecom operators, contact centers, government agencies, healthcare institutions, and multinational enterprises.',
+
+    'products.cc.tag': 'Contact Center Solution',
+    'products.cc.desc': 'Building an efficient, manageable, and integrable modern enterprise contact center platform that combines voice workflows with intelligent routing to deliver a consistent, professional customer service experience.',
+    'products.cc.l1': 'EICC — Enterprise Contact Center Solution',
+    'products.cc.l2': 'IVR call flows and call routing',
+    'products.cc.l3': 'ACD intelligent routing and skill-based assignment',
+    'products.cc.l4': 'Agent / Supervisor management interface',
+    'products.cc.l5': 'Recording, monitoring, whisper, and barge-in functions',
+    'products.cc.l6': 'Real-time and historical reporting analytics',
+    'products.cc.l7': 'CRM / Ticketing / API integration',
+    'products.cc.coreTitle': 'EICC Core Features',
+    'products.cc.c1': 'Incoming call → IVR → Queue / ACD intelligent routing',
+    'products.cc.c2': 'Agent seat and Supervisor management interface',
+    'products.cc.c3': 'Call recording system integration',
+    'products.cc.c4': 'CRM / Ticketing system / Reporting center',
+    'products.cc.c5': 'Email / Web / API multi-channel integration',
+    'products.cc.scenariosDesc': 'Enterprise customer service hotlines, after-sales service centers, order taking, financial and healthcare service desks, and e-commerce customer service platforms.',
+
+    'products.meeting.tag': 'Meeting Room Solution',
+    'products.meeting.desc': 'Comprehensive meeting room integration including USB video conferencing devices, MTR, wireless screen sharing, and the ESI-TIK Booking System, supporting hybrid meeting scenarios.',
+    'products.meeting.scaleTitle': 'Scale-Based Solutions',
+    'products.meeting.s1': 'Small (up to 8 people): Logitech MeetUp, Poly Studio, Jabra PanaCast, AudioCodes RXVCam50',
+    'products.meeting.s2': 'Medium (8–15 people): Logitech Rally Camera, Jabra PanaCast 50, AudioCodes RXVCam50',
+    'products.meeting.s3': 'Large (15+ people): Logitech Rally / Rally Plus, Logitech Rally Bar',
+    'products.meeting.s4': 'Personal one-touch join: AudioCodes RXV200, RXV81-B10, Logitech BRIO',
+    'products.meeting.s5': 'Headsets & conference phones: Jabra, Poly, AudioCodes RX10/RX50',
+    'products.meeting.scenariosDesc': 'Boardrooms, presentation spaces, cross-site hybrid meetings, and training venues.',
+    'products.meeting.tabAll': 'Overview',
+    'products.meeting.tab8p': 'Small (≤8 people)',
+    'products.meeting.tab15p': 'Medium (8–15 people)',
+    'products.meeting.tab15pUp': 'Large (15+ people)',
+    'products.meeting.tabOnetouch': 'One-Touch Join Devices',
+    'products.meeting.tabHeadset': 'Headsets & Conference Phones',
+
+    'products.gateway.tag': 'Hardware Solution',
+    'products.gateway.desc': 'Enterprise-grade voice gateways and Session Border Controllers (SBC) ensuring secure SIP trunk interoperability, protocol conversion, and call quality management, using leading brands AudioCodes and Ribbon.',
+    'products.gateway.ovocTitle': 'AudioCodes OVOC Monitoring & Management',
+    'products.gateway.o1': 'Centralized device management and monitoring',
+    'products.gateway.o2': 'Network and call quality analysis (MOS)',
+    'products.gateway.o3': 'Alerts, reporting, and event tracking',
+    'products.gateway.o4': 'Centralized configuration and operations management',
+    'products.gateway.scenariosDesc': 'SIP trunk connectivity, PSTN connections, Teams Direct Routing, and multi-vendor system interoperability.',
+    'products.gateway.virtualized': 'Virtualized Software Edition',
+
+    'products.ipphone.tag': 'Hardware Solution',
+    'products.ipphone.desc': 'Desktop IP phones and Teams-certified phones supporting high-fidelity calling, conferencing, and unified communication environments, featuring AudioCodes and Snom handsets.',
+    'products.ipphone.recommendedTitle': 'Recommended Models',
+    'products.ipphone.r1': 'AudioCodes C450 / C470 — Native Teams Phone',
+    'products.ipphone.r2': 'AudioCodes C405 / C425 / C445 — Standard SIP Phones',
+    'products.ipphone.r3': 'Snom D Series — Microsoft Teams Certified Phones',
+    'products.ipphone.r4': 'Snom Series — High-Fidelity SIP Phones',
+    'products.ipphone.scenariosDesc': 'Office desk phone deployments, Teams Phone environments, and reception or meeting room handsets.',
+    'products.ipphone.seriesC': 'C Series',
+    'products.ipphone.seriesD': 'D Series',
+    'products.ipphone.withExpansion': 'Includes Expansion Module',
+    'products.ipphone.expansionModule': 'Expansion Module',
+
+    'products.maint.tag': 'Operations Support',
+    'products.maint.title': 'Maintenance & Technical Consulting',
+    'products.maint.desc': 'Providing post-deployment maintenance, regular inspections, upgrade planning, and troubleshooting to ensure stable system operation and reduce enterprise IT operations costs.',
+    'products.maint.l1': 'Regular inspections and health checks',
+    'products.maint.l2': 'System redundancy and disaster recovery recommendations',
+    'products.maint.l3': 'Technology upgrade recommendations',
+    'products.maint.l4': 'Troubleshooting and repair services',
+    'products.maint.cta': 'Consult on Operations Plans',
+    'products.maint.scenariosDesc': 'Optimization of live environments, legacy system replacement, maintenance contracts, and mid-to-long-term IT planning.'
+  }};
+</script>
+<script src="i18n.js"></script>
+<script src="site.js"></script>
+</body>
+</html>
