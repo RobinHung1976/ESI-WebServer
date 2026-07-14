@@ -468,19 +468,6 @@
 <script src="i18n.js"></script>
 <script src="site.js"></script>
 
-<div id="msgModal" class="msg-modal-overlay" style="display:none">
-  <div class="msg-modal">
-    <div class="msg-modal-header">
-      <h3 id="msgModalTitle" data-i18n="repair.msg.title">對話記錄</h3>
-      <button class="msg-modal-close" onclick="closeMsgModal()">✕</button>
-    </div>
-    <div class="msg-thread" id="msgThread"></div>
-    <div class="msg-input-area">
-      <textarea id="msgInput" placeholder="輸入回覆訊息…" data-i18n-placeholder="repair.msg.inputPh"></textarea>
-      <button class="msg-send-btn" onclick="sendUserMsg()" data-i18n="repair.msg.send">發送回覆</button>
-    </div>
-  </div>
-</div>
 <script>
 (function(){
   const API = '/api/repair';
@@ -490,9 +477,14 @@
 
   /* ── restore session ── */
   const saved = sessionStorage.getItem('esi_repair_user');
-  if (saved) {
+  const savedToken = sessionStorage.getItem('esi_repair_token');
+  if (saved && savedToken) {
     currentUser = JSON.parse(saved);
     showLoggedIn();
+  } else if (saved || savedToken) {
+    // 資料不完整（例如舊版殘留），清乾淨強制重新登入
+    sessionStorage.removeItem('esi_repair_user');
+    sessionStorage.removeItem('esi_repair_token');
   }
 
   /* ── tab switch ── */
@@ -521,12 +513,35 @@
     document.getElementById('panelLoggedIn').style.display= '';
     document.getElementById('userNameDisplay').textContent    = currentUser.name;
     document.getElementById('userCompanyDisplay').textContent = currentUser.company;
-    loadTickets();
+  }
+
+  /* ── auth header 輔助函式：所有需要登入的 API 呼叫都要帶 token ── */
+  function authHeaders(extra) {
+    const token = sessionStorage.getItem('esi_repair_token');
+    return Object.assign({ 'x-repair-token': token || '' }, extra || {});
+  }
+  // token 失效（401/403）時，強制回到登入畫面
+  function handleAuthError(status) {
+    if (status === 401) {
+      sessionStorage.removeItem('esi_repair_user');
+      sessionStorage.removeItem('esi_repair_token');
+      currentUser = null;
+      document.getElementById('tabBar').style.display       = '';
+      document.getElementById('panelLoggedIn').style.display= 'none';
+      document.getElementById('panelLogin').style.display   = '';
+      return true;
+    }
+    return false;
   }
 
   /* ── logout ── */
   window.logout = function() {
+    const token = sessionStorage.getItem('esi_repair_token');
+    if (token) {
+      fetch(API + '/logout', { method:'POST', headers: authHeaders() }).catch(()=>{});
+    }
     sessionStorage.removeItem('esi_repair_user');
+    sessionStorage.removeItem('esi_repair_token');
     currentUser = null;
     document.getElementById('tabBar').style.display       = '';
     document.getElementById('panelLoggedIn').style.display= 'none';
@@ -557,6 +572,7 @@
       }
       currentUser = d.user;
       sessionStorage.setItem('esi_repair_user', JSON.stringify(d.user));
+      sessionStorage.setItem('esi_repair_token', d.token);
       showLoggedIn();
     } catch(err) {
       showMsg(msg, 'error', T('repair.errNetwork','網路錯誤，請稍後再試'));
@@ -606,7 +622,7 @@
     btn.disabled = true; btn.textContent = T('repair.ticket.creating','建立中…');
     msg.style.display = 'none';
     // 上傳附件
-    let fileLinks = '';
+    let ticketAttachments = [];
     const ticketFiles = window._ticketFiles || [];
     if (ticketFiles.length > 0) {
       const status = document.getElementById('ticketFileStatus');
@@ -617,7 +633,7 @@
         const ur = await fetch('/api/upload/multi', {method:'POST', body:fd2});
         const ud = await ur.json();
         if (ur.ok) {
-          fileLinks = '\n\n📎 附件：\n' + ud.files.map(function(f){return '<a href="'+f.url+'" target="_blank">'+f.name+'</a>';}).join('\n');
+          ticketAttachments = ud.files.map(function(f){ return {url:f.url, name:f.name}; });
           status.style.color = '#1a7a1a'; status.textContent = T('repair.attachDone','✅ 上傳完成');
         } else {
           status.style.color = '#cc2200'; status.textContent = T('repair.attachFailed','❌ 上傳失敗') + (ud.error ? ' ' + ud.error : '');
@@ -631,16 +647,17 @@
     try {
       const r = await fetch(API + '/tickets', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: authHeaders({ 'Content-Type': 'application/json' }),
         body: JSON.stringify({
-          user_id:      currentUser.id,
           product_type: this.product_type.value,
-          description:  this.description.value.trim() + fileLinks,
-          priority:     currentPriority
+          description:  this.description.value.trim(),
+          priority:     currentPriority,
+          attachments:  ticketAttachments
         })
       });
       const d = await r.json();
       if (!r.ok) {
+        if (handleAuthError(r.status)) return;
         showMsg(msg, 'error', d.error);
         btn.disabled = false; btn.textContent = T('repair.ticket.submit','建立報修案件');
         return;
@@ -648,66 +665,15 @@
       showMsg(msg, 'success', T('repair.ticket.created','✅ 案件已建立！案件編號：') + d.ticket.ticket_no);
       this.reset();
       selectPriority('normal');
+      window._ticketFiles = [];
+      if (typeof renderTicketFileList === 'function') renderTicketFileList();
       btn.disabled = false; btn.textContent = T('repair.ticket.submit','建立報修案件');
-      loadTickets();
     } catch(err) {
       showMsg(msg, 'error', T('repair.errNetwork','網路錯誤，請稍後再試'));
       btn.disabled = false; btn.textContent = T('repair.ticket.submit','建立報修案件');
     }
   });
 
-
-  /* msg modal */
-  let _currentTicketId = null;
-  var _tl = document.getElementById('ticketList');
-  if(_tl) _tl.addEventListener('click', function(e){
-    const btn = e.target.closest('.msg-open-btn');
-    if(btn) openMsgModal(parseInt(btn.dataset.id), btn.dataset.no);
-  });
-
-  window.openMsgModal = async function(ticketId, ticketNo){
-    _currentTicketId = ticketId;
-    document.getElementById('msgModalTitle').textContent = T('repair.msg.title','對話記錄') + '　' + ticketNo;
-    document.getElementById('msgModal').style.display = 'flex';
-    document.getElementById('msgInput').value = '';
-    await refreshMsgThread();
-  };
-  window.closeMsgModal = function(){
-    document.getElementById('msgModal').style.display = 'none';
-    _currentTicketId = null;
-  };
-  async function refreshMsgThread(){
-    const thread = document.getElementById('msgThread');
-    thread.innerHTML = '<p style="color:#8899aa;text-align:center">'+T('repair.msg.loading','載入中…')+'</p>';
-    try {
-      const r = await fetch(API+'/tickets/'+_currentTicketId+'/messages?user_id='+currentUser.id);
-      const msgs = await r.json();
-      if(!msgs.length){ thread.innerHTML='<p style="color:#8899aa;text-align:center;padding:20px">'+T('repair.msg.none','尚無對話記錄')+'</p>'; return; }
-      thread.innerHTML = msgs.map(m=>{
-        const dt = new Date(m.created_at).toLocaleString('zh-TW',{timeZone:'Asia/Taipei',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
-        return '<div class="msg-bubble '+m.sender_type+'"><div class="msg-meta">'+esc(m.sender_name)+' ・ '+dt+'</div><div style="white-space:pre-wrap">'+esc(m.message)+'</div></div>';
-      }).join('');
-      thread.scrollTop = thread.scrollHeight;
-    } catch(e){ thread.innerHTML='<p style="color:#cc2200;text-align:center">'+T('repair.msg.loadFailed','載入失敗')+'</p>'; }
-  }
-  window.sendUserMsg = async function(){
-    const msg = document.getElementById('msgInput').value.trim();
-    if(!msg){ alert(T('repair.msg.emptyInput','請輸入回覆內容')); return; }
-    const btn = document.querySelector('.msg-send-btn');
-    btn.disabled=true; btn.textContent=T('repair.msg.sending','發送中…');
-    try {
-      const r = await fetch(API+'/tickets/'+_currentTicketId+'/messages',{
-        method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({user_id:currentUser.id, message:msg})
-      });
-      const d = await r.json();
-      if(!r.ok){ alert(T('repair.msg.sendFailed','發送失敗：')+(d.error||T('repair.msg.unknownErr','未知錯誤'))); return; }
-      document.getElementById('msgInput').value='';
-      await refreshMsgThread();
-    } catch(e){ alert(T('repair.msg.connFailed','連線失敗')); }
-    finally{ btn.disabled=false; btn.textContent=T('repair.msg.send','發送回覆'); }
-  };
-  document.getElementById('msgModal').addEventListener('click',function(e){ if(e.target===this) closeMsgModal(); });
 
 
   window.showRepairForgot = function(e, show=true){
@@ -732,39 +698,6 @@
     }
     btn.disabled=false; btn.textContent=T('repair.forgot.send','發送重置連結');
   };
-  /* ── LOAD TICKETS ── */
-  async function loadTickets() {
-    const list = document.getElementById('ticketList');
-    try {
-      const r = await fetch(API + '/tickets/' + currentUser.id);
-      const rows = await r.json();
-      if (!rows.length) {
-        list.innerHTML = '<p style="color:var(--muted);text-align:center;padding:20px 0">'+T('repair.noTickets','目前沒有報修記錄')+'</p>';
-        return;
-      }
-      const statusMap = { open:T('repair.status.open','處理中'), progress:T('repair.status.progress','進行中'), closed:T('repair.status.closed','已結案') };
-      const priorityMap = { low:T('repair.priority.low','輕微'), normal:T('repair.priority.normal','中等'), urgent:T('repair.priority.urgent','緊急') };
-      list.innerHTML = rows.map(t => {
-        const dt = new Date(t.created_at).toLocaleDateString('zh-TW') + ' ' +
-                   new Date(t.created_at).toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'});
-        const sClass = t.status === 'closed' ? 'closed' : t.status === 'progress' ? 'progress' : 'open';
-        const pClass = t.priority;
-        return `<div class="ticket-item">
-          <div class="ticket-no">${esc(t.ticket_no)}</div>
-          <div class="ticket-meta">
-            ${dt} ·
-            <span class="t-badge ${pClass}">${priorityMap[t.priority]||t.priority}</span>
-            <span class="t-badge ${sClass}" style="margin-left:4px">${statusMap[t.status]||t.status}</span>
-            · ${esc(t.product_type)}
-          </div>
-          <div class="ticket-desc">${esc(t.description)}</div>
-          <button class="msg-open-btn" data-id="${t.id}" data-no="${esc(t.ticket_no)}" style="margin-top:10px;padding:6px 16px;background:#f0f4ff;color:#0052cc;border:1.5px solid #c8d8f0;border-radius:8px;font-size:.82rem;cursor:pointer">${T('repair.dialogHistory','💬 對話記錄')}</button>
-        </div>`;
-      }).join('');
-    } catch(e) {
-      list.innerHTML = '<p style="color:var(--muted);text-align:center">'+T('repair.loadFailed','載入失敗')+'</p>';
-    }
-  }
 
   /* ── helpers ── */
   function showMsg(el, type, txt) {

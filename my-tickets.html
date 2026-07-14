@@ -114,15 +114,28 @@
 
   function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-  // 檢查登入
+  // 檢查登入（同時要求 token 存在，缺一都導回登入頁；真正的存取控制仍由後端 API 依 token 驗證）
   const saved = sessionStorage.getItem('esi_repair_user');
-  if (!saved) { location.href='repair.html'; return; }
+  const savedToken = sessionStorage.getItem('esi_repair_token');
+  if (!saved || !savedToken) { location.href='repair.html'; return; }
   currentUser = JSON.parse(saved);
   document.getElementById('userNameDisplay').textContent    = currentUser.name;
   document.getElementById('userCompanyDisplay').textContent = currentUser.company;
 
+  function authHeaders(extra){
+    const token = sessionStorage.getItem('esi_repair_token');
+    return Object.assign({ 'x-repair-token': token || '' }, extra || {});
+  }
+  // token 失效（401）時，清除本地資料並導回登入頁
+  function handleAuthError(status){
+    if (status === 401) { sessionStorage.removeItem('esi_repair_user'); sessionStorage.removeItem('esi_repair_token'); location.href='repair.html'; return true; }
+    return false;
+  }
+
   function logout(){
+    fetch(API+'/logout', { method:'POST', headers: authHeaders() }).catch(()=>{});
     sessionStorage.removeItem('esi_repair_user');
+    sessionStorage.removeItem('esi_repair_token');
     location.href = 'repair.html';
   }
   window.logout = logout;
@@ -131,7 +144,8 @@
   async function loadTickets(){
     const list = document.getElementById('ticketList');
     try {
-      const r = await fetch(API+'/tickets/'+currentUser.id);
+      const r = await fetch(API+'/tickets/'+currentUser.id, { headers: authHeaders() });
+      if (!r.ok) { if (handleAuthError(r.status)) return; }
       const rows = await r.json();
       if(!rows.length){
         list.innerHTML='<p style="color:var(--muted);text-align:center;padding:20px 0">'+T('repair.noTickets','目前沒有報修記錄')+'</p>';
@@ -143,13 +157,15 @@
         const dt = new Date(t.created_at).toLocaleDateString('zh-TW')+' '+
                    new Date(t.created_at).toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'});
         const sClass = t.status==='closed'?'closed':t.status==='progress'?'progress':'open';
+        const attachHtml = (t.attachments||[]).map(a=>'<div><a href="'+esc(a.url)+'" target="_blank" rel="noopener noreferrer">📎 '+esc(a.name)+'</a></div>').join('');
         return '<div class="ticket-item">'
           +'<div class="ticket-no">'+esc(t.ticket_no)+'</div>'
           +'<div class="ticket-meta">'+dt+' · '
           +'<span class="t-badge '+t.priority+'">'+(priorityMap[t.priority]||t.priority)+'</span> '
           +'<span class="t-badge '+sClass+'">'+(statusMap[t.status]||t.status)+'</span>'
           +' · '+esc(t.product_type)+'</div>'
-          +'<div class="ticket-desc">'+(t.description.includes('/assets/uploads/') ? t.description.replace(/\n/g,'<br>') : esc(t.description))+'</div>'
+          +'<div class="ticket-desc">'+esc(t.description)+'</div>'
+          +attachHtml
           +'<button class="msg-open-btn" data-id="'+t.id+'" data-no="'+esc(t.ticket_no)+'" '
           +'style="margin-top:10px;padding:6px 16px;background:#f0f4ff;color:#0052cc;border:1.5px solid #c8d8f0;border-radius:8px;font-size:.82rem;cursor:pointer">'+T('repair.dialogHistory','💬 對話記錄')+'</button>'
           +'</div>';
@@ -183,12 +199,14 @@
     const thread = document.getElementById('msgThread');
     thread.innerHTML = '<p style="color:#8899aa;text-align:center">'+T('repair.msg.loading','載入中…')+'</p>';
     try {
-      const r = await fetch(API+'/tickets/'+_currentTicketId+'/messages?user_id='+currentUser.id);
+      const r = await fetch(API+'/tickets/'+_currentTicketId+'/messages', { headers: authHeaders() });
+      if (!r.ok) { if (handleAuthError(r.status)) return; }
       const msgs = await r.json();
       if(!msgs.length){ thread.innerHTML='<p style="color:#8899aa;text-align:center;padding:20px">'+T('repair.msg.none','尚無對話記錄')+'</p>'; return; }
       thread.innerHTML = msgs.map(m=>{
         const dt = new Date(m.created_at).toLocaleString('zh-TW',{timeZone:'Asia/Taipei',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
-        return '<div class="msg-bubble '+m.sender_type+'"><div class="msg-meta">'+esc(m.sender_name)+' ・ '+dt+'</div><div style="white-space:pre-wrap">'+(m.message.includes('/assets/uploads/') ? m.message.replace(/\n/g,'<br>') : esc(m.message))+'</div></div>';
+        const attachHtml = (m.attachments||[]).map(a=>'<div><a href="'+esc(a.url)+'" target="_blank" rel="noopener noreferrer">📎 '+esc(a.name)+'</a></div>').join('');
+        return '<div class="msg-bubble '+m.sender_type+'"><div class="msg-meta">'+esc(m.sender_name)+' ・ '+dt+'</div><div style="white-space:pre-wrap">'+esc(m.message)+'</div>'+attachHtml+'</div>';
       }).join('');
       thread.scrollTop = thread.scrollHeight;
     } catch(e){ thread.innerHTML='<p style="color:#cc2200;text-align:center">'+T('repair.msg.loadFailed','載入失敗')+'</p>'; }
@@ -199,7 +217,7 @@
     if(!msg && !msgFiles.length){ alert(T('repair.msg.emptyInput','請輸入訊息或選擇附件')); return; }
     const btn = document.querySelector('.msg-send-btn');
     btn.disabled=true; btn.textContent=T('repair.msg.sending','發送中…');
-    let fileLinks = '';
+    let msgAttachments = [];
     if (msgFiles.length > 0) {
       const totalSize = msgFiles.reduce(function(s,f){return s+f.size;}, 0);
       if (totalSize > 100*1024*1024) {
@@ -213,7 +231,7 @@
         const ur = await fetch('/api/upload/multi', {method:'POST', body:fd2});
         const ud = await ur.json();
         if (ur.ok) {
-          fileLinks = '\n\n📎 附件：\n' + ud.files.map(function(f){return '<a href="'+f.url+'" target="_blank">'+f.name+'</a>';}).join('\n');
+          msgAttachments = ud.files.map(function(f){ return {url:f.url, name:f.name}; });
         } else {
           alert(T('tickets.uploadFailed','❌ 上傳失敗：')+(ud.error||T('repair.msg.unknownErr','未知錯誤')));
           btn.disabled=false; btn.textContent=T('repair.msg.send','發送回覆');
@@ -227,11 +245,11 @@
     }
     try {
       const r = await fetch(API+'/tickets/'+_currentTicketId+'/messages',{
-        method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({user_id:currentUser.id, message:msg+fileLinks})
+        method:'POST', headers: authHeaders({ 'Content-Type':'application/json' }),
+        body: JSON.stringify({message:msg, attachments:msgAttachments})
       });
       const d = await r.json();
-      if(!r.ok){ alert(T('repair.msg.sendFailed','發送失敗：')+(d.error||T('repair.msg.unknownErr','未知錯誤'))); return; }
+      if(!r.ok){ if (handleAuthError(r.status)) return; alert(T('repair.msg.sendFailed','發送失敗：')+(d.error||T('repair.msg.unknownErr','未知錯誤'))); return; }
       document.getElementById('msgInput').value='';
       window._msgFiles=[];
       if(document.getElementById('msgFileList')) document.getElementById('msgFileList').innerHTML='';
