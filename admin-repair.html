@@ -546,7 +546,7 @@
     const sel = document.getElementById('assign_'+id);
     const admin_id = sel ? sel.value : null;
     if(!admin_id){ alert('請先選擇負責人'); return; }
-    if(!confirm('確定指派此案件？指派後將寄信通知客戶。')) return;
+    if(!confirm('確定指派此案件？指派後將同時寄信通知客戶與被指派的工程師。')) return;
     try{
       const r = await fetch('/api/repair/admin/tickets/'+id+'/assign',{
         method:'PATCH',
@@ -555,7 +555,7 @@
       });
       const d = await r.json();
       if(!r.ok){ alert('指派失敗：'+(d.error||'未知錯誤')); return; }
-      alert('✅ 已指派給 '+d.assigned_to+'，客戶通知信已寄出');
+      alert('✅ 已指派給 '+d.assigned_to+'，客戶與工程師通知信皆已寄出');
       loadAdminList().then(()=>loadTickets());
     }catch(e){ alert('連線失敗'); }
   };
